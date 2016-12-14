@@ -69,5 +69,5 @@ theme: cyanstyle
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/mutoe/mutoe.git
-  branch: gh-pages
+  repo: https://github.com/mutoe/mutoe.github.io.git
+  branch: master
