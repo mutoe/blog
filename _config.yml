@@ -7,7 +7,7 @@ title: 木头的博客
 subtitle: 一个来自新疆的coder
 description:
 author: mutoe
-language: zh-CN
+language: zh-Hans
 timezone: Asia/Shanghai
 
 # URL
@@ -63,7 +63,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: cyanstyle
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

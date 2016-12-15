@@ -1,3 +1,6 @@
 [submodule "themes/cyanstyle"]
 	path = themes/cyanstyle
 	url = ../../wizardforcel/hexo-theme-cyanstyle.git
+[submodule "themes/next"]
+	path = themes/next
+	url = https://github.com/iissnan/hexo-theme-next
