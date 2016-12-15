@@ -1,5 +1,8 @@
 ---
 title: 使用 github pages 和 hexo 搭建自己的静态博客
+tags:
+ - github pages
+ - hexo
 ---
 
 ## 1 准备工作
