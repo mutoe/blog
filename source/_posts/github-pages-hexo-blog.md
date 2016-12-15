@@ -142,3 +142,4 @@ $ hexo deploy # 这条命令的缩写是 'hexo d'
 ## 拓展阅读
 
 * [Hexo 官方文档 ( 简体中文 ) ](https://hexo.io/zh-cn/docs/index.html)
+* {% post_link github-pages-custom-domain '将 GitHub Pages 绑定到自己的域名' %}
