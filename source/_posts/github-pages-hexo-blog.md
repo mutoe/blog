@@ -1,5 +1,6 @@
 ---
 title: 使用 github pages 和 hexo 搭建自己的静态博客
+date: 2016-12-14 21:41:22
 tags:
  - github pages
  - hexo
