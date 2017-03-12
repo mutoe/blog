@@ -26,6 +26,8 @@ return [
 ];
 ```
 
+<!-- more -->
+
 首先想到的办法是将配置文件中 'database' 部分移入另外一个文件, 比如 `database.php`, 然后将这个 `database.php` 加入到 `.gitignore` 的列表中.
 
 这样导致的问题就是如果使用 `.gitignore` 将 `config.php` 加入到忽略列表中, 然后我们在文档中添加一段说明, 让其他开发者将这段代码放在 'config.php' 同级目录下的 'database.php' 中 ( 请注意, 加入到 `.gitignore` 中的文件是不接受版本控制的, 也就是说其他开发者下载后是没有 `database.php` 这个文件的 ).

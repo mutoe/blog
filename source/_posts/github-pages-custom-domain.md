@@ -22,6 +22,8 @@ tags:
 
 > 如果您打算直接用 `www.xxx.com` 或 `xxx.com` 作为您的博客地址, 那么就分别创建主机记录为 www 和 @ 的记录指向到你的 GitHub Pages 上.
 
+<!-- more -->
+
 ### 2 配置 GitHub Pages 项目
 
 在你项目的 "Setting" 页面中找到 "GitHub Pages" 子栏目, 在 "Custom domain" 中填上你刚才设置好的解析地址.

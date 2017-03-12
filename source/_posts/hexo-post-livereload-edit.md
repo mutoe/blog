@@ -15,6 +15,8 @@ tags:
 
 片子, 根本没有自动更新( 可能是我姿势不对? ).
 
+<!-- more -->
+
 期间根据知乎 [_@leeon_](https://www.zhihu.com/question/27384681/answer/87037317) 同学的建议, 在 sublime text 和 Chrome 上安装 livereload 插件, 配合 `hexo s -g` 命令来实时编辑, 思路很棒, 也有用户实验成功, 但我怎么试都不成功, 可能是 hexo 版本的问题.
 
 在网上一番寻找之后, 发现了一个插件: [hexo-browsersync](https://github.com/hexojs/hexo-browsersync/), 这是一个移植插件, 项目主页上基本没有过多的介绍. 下面写一些我自己使用的心得吧.
