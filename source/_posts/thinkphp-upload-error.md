@@ -1,6 +1,7 @@
 ---
 title: 使用 thinkphp 上传文件失败的原因
 date: 2016-12-27 13:55:37
+categories: 心得
 tags:
  - thinkphp
 ---

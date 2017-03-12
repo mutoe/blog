@@ -1,6 +1,7 @@
 ---
 title: 将 GitHub Pages 绑定到自己的域名
 date: 2016-12-15 20:28:49
+categories: 教程
 tags:
  - GitHub Pages
 ---

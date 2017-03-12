@@ -1,6 +1,7 @@
 ---
 title: 在 Hexo 中方便的使用插图
 date: 2016-12-16 20:11:57
+categories: 教程
 tags:
  - Hexo
 ---
