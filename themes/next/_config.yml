@@ -131,9 +131,9 @@ font:
 # Key is the link label showing to end users.
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
 social:
+  Email: http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=NltDQllTdlBZTltXX1oYVVlb
   GitHub: https://github.com/mutoe/
   Weibo: http://weibo.com/ibcde/
-
 
 # Social Links Icons
 # Icon Mapping:
@@ -145,7 +145,7 @@ social_icons:
   # Icon Mappings.
   # KeyMapsToSocalItemKey: NameOfTheIconFromFontAwesome
   GitHub: github
-  Twitter: twitter
+  Email: envelope-o
   Weibo: weibo
 
 
