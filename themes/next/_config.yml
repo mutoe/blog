@@ -263,8 +263,8 @@ mathjax:
 # Baidu Analytics ID
 baidu_analytics: 067fba005caba4a32cb00214569ba729
 
-# Duoshuo ShortName
-duoshuo_shortname: mutoe
+# 网易云跟帖
+gentie_productKey: 8909eee243164aa69baf6cabec4ee1fa
 
 # Disqus
 #disqus_shortname:
@@ -284,9 +284,6 @@ duoshuo_shortname: mutoe
 # Warning: JiaThis does not support https.
 #add_this_id:
 
-# Share
-#duoshuo_share: true
-
 # Google Webmaster tools verification setting
 # See: https://www.google.com/webmasters/
 #google_site_verification:
@@ -301,16 +298,6 @@ duoshuo_shortname: mutoe
 # Application Insights
 # See https://azure.microsoft.com/en-us/services/application-insights/
 # application_insights:
-
-# Make duoshuo show UA
-# user_id must NOT be null when admin_enable is true!
-# you can visit http://dev.duoshuo.com get duoshuo user id.
-duoshuo_info:
-  ua_enable: true
-  admin_enable: true
-  user_id: 9595129
-  admin_nickname: 博主
-
 
 # Facebook SDK Support.
 # https://github.com/iissnan/hexo-theme-next/pull/410
