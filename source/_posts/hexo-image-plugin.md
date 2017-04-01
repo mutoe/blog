@@ -1,6 +1,7 @@
 ---
 title: 在 Hexo 中方便的使用插图
 date: 2016-12-16 20:11:57
+update: 2017-04-01 20:43:18
 categories: 教程
 tags:
  - Hexo
@@ -38,10 +39,14 @@ tags:
 
 ### 办法3 使用 Hexo-asset-image 插件
 
+__2017年4月1日 在这个插件更新前 (当前版本 v0.0.3) , 不推荐使用这个插件.
+原因是使用该插件后导致编译出的 html 文件中文字符会被转化为 unicode 编码, 不利于站内搜索和 SEO 优化.
+你可以直接跳到办法4__
+
 ``` bash
 npm install hexo-asset-image --save
 ```
-_不明白为什么这个插件没有收录在 Hexo 官方插件列表中, 但是可以直接安装._
+_非官方插件, 该插件由 CodeFalling 维护, 底部有项目地址_
 
 安装该插件后在您项目根目录的 `./_config.yml` 中寻找到下面这一行, 将 `post_asset_folder` 的值设置为 `true`.
 
@@ -54,6 +59,33 @@ post_asset_folder: true
 {% asset_img example.png example %}
 ```
 
+### 办法4 使用官方提供的办法
+
+2017年4月1日更新
+
+该方法类似办法3, 只是使用图片的方法由原生的 `![]()` 改为 Hexo 标签插件.
+
+首先在您项目根目录的 `./_config.yml` 中寻找到下面这一行, 将 `post_asset_folder` 的值设置为 `true`. 原因办法3中已经介绍, 这里不再阐述.
+
+然后在需要引用图片的地方写入以下代码即可
+
+``` swig
+{% asset_img example.jpg this is title %}
+```
+
+如果你之前使用了 `hexo-asset-image` 插件的办法, 你可以使用我写的正则表达式一键替换.
+
+查找
+``` markdown
+!\[([\S ]+)\]\((\S+)\)
+```
+替换为
+``` swig
+{% asset_img $2 $1 %}
+```
+
+配合我的另一篇文章 [实时预览](http://blog.mutoe.com/2016/hexo-post-livereload-edit/) , 写文章简直美滋滋.
+
 ### 小结
 
 三种解决办法各有优劣, 博主做个简单的小结.
@@ -62,7 +94,8 @@ post_asset_folder: true
 | ----- | ---- | ---- |
 | 1 直接使用 Markdown 引用方法 | 图片资源统一存放, 便于管理 | 实时预览时排版效果不好 |
 | 2 使用在线图片存储服务 | 方便移植, 不占用本地空间 | 使用不稳定, 不便于管理 |
-| 3 使用 Hexo-asset-image 插件 | 文件结构更有条理 | 会在 `./source/_post/` 下生成较多文件夹 |
+| 3 使用 Hexo-asset-image 插件 | 文件结构更有条理 | 对中文支持不友好 |
+| 4 使用官方提供的办法 | 官方支持 | 不适用原生 md 语法 |
 
 您可以根据自己的实际情况来进行选择, 不能说哪个办法是最好的, 但肯定有一个最适合您的.
 
@@ -70,3 +103,5 @@ post_asset_folder: true
 
 * [在 Hexo 中无痛使用本地图片](http://codefalling.com/2015/12/19/no-pains-with-hexo-local-image/) -- codefalling ( 原文似乎挂了 [推酷快照](http://www.tuicool.com/articles/umEBVfI) )
 * https://github.com/CodeFalling/hexo-asset-image
+* [CodeFalling/hexo-asset-image#12 中文编码问题](https://github.com/CodeFalling/hexo-asset-image/issues/12)
+* [资源文件夹 | hexo.io](https://hexo.io/zh-cn/docs/asset-folders.html)
