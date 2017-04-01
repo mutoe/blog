@@ -17,7 +17,7 @@ tags:
 在 `./source/images/` 目录下放置图片, 在 Markdown 中这样写
 
 ``` md
-![example](/images/example.png)
+{% asset_img /images/example.png example %}
 ```
 这种方法很方便, 配合 livereload 或 browsersync 插件无论是在本地还是在线上都能看到效果, 但是如果您是用的 Markdown 编辑器, 这似乎就有些难受了, 因为在 Markdown 编辑器中是无法识别这样的图片路径的.
 
@@ -51,7 +51,7 @@ post_asset_folder: true
 该设置会在您使用 `hexo new "new post"` 时在文章所在目录下生成一个同名文件夹, 您只需将图片放入该文件夹, 然后在需要放置图片的位置写入以下代码即可解决 办法1 出现的问题.
 
 ``` md
-![example](example.png)
+{% asset_img example.png example %}
 ```
 
 ### 小结

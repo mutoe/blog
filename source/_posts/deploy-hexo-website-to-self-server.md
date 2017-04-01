@@ -153,11 +153,11 @@ nohup node deploy.js > deploy.log &
 
 进入你的项目地址, 点击 Setting 标签, 在左侧选择 Webhooks, 然后点击右上角 `Add webhook` 按钮.
 
-![setting](setting.png)
+{% asset_img setting.png setting %}
 
 然后在这个表单中的 Payload URL 字段填入你博客的域名 ( 或 IP 地址 ) 加上你之前在监听脚本中设置的端口号; __将 Content type 修改为 json 格式 ( 重要!! github-webhook-handler 插件只支持该格式 );__ Secret 字段填入你之前设置的, 保存即可.
 
-![webhook](webhook.png)
+{% asset_img webhook.png webhook %}
 
 ## 小结
 

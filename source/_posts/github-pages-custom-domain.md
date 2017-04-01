@@ -15,11 +15,11 @@ tags:
 
 登录到你购买域名的服务商, 找到解析入口, 这里我以万网提供的解析为例
 
-![analysis](analysis.png)
+{% asset_img analysis.png analysis %}
 
 添加一条 CNAME 记录, 将您的 www 或自己定义的子域名解析到您的 GitHub Pages 上.
 
-![cname](cname.png)
+{% asset_img cname.png cname %}
 
 > 如果您打算直接用 `www.xxx.com` 或 `xxx.com` 作为您的博客地址, 那么就分别创建主机记录为 www 和 @ 的记录指向到你的 GitHub Pages 上.
 
@@ -29,7 +29,7 @@ tags:
 
 在你项目的 "Setting" 页面中找到 "GitHub Pages" 子栏目, 在 "Custom domain" 中填上你刚才设置好的解析地址.
 
-![custom domain](custom-domain.png)
+{% asset_img custom-domain.png custom domain %}
 
 稍等片刻, 你就可以访问这个域名了.
 但是接下来还有一步要做的工作, 就是在这个项目下创建一个 CNAME 文件, 来保证以后生成的静态页面下都含有该文件, 避免出现无法解析的情况.
@@ -38,7 +38,7 @@ tags:
 
 打开你本地保存项目的目录, 找到 `./source/` , 在该目录下创建一个文件, 文件名为 `CNAME`, 注意没有后缀, 文件内容就是你的域名.
 
-![cname file](cname-file.png)
+{% asset_img cname-file.png cname file %}
 
 保存后使用 hexo 生成并发布就可以啦.
 
