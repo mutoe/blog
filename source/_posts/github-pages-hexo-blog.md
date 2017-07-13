@@ -22,7 +22,7 @@ tags:
 
 注意项目名要填 `用户名.github.io` , 比如我的github用户名是mutoe, 那我的项目名就必须填 `mutoe.github.io` , 如果不这样做的话你的主页就会变成类似 `http://mutoe.github.io/project-name` 这样的子目录了.
 
-{% asset_img github-pages-project.jpg github-pages-project %}
+![github-pages-project](//static.mutoe.com/2016/github-pages-hexo-blog/github-pages-project.jpg)
 
 填完项目名直接确认就好, 其它不用设置.
 

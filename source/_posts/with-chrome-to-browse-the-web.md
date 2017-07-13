@@ -6,7 +6,7 @@ tags:
  - Browser
 ---
 
-{% asset_img fuck-ie.jpg fuck-ie %}
+![fuck-ie](//static.mutoe.com/2017/with-chrome-to-browse-the-web/fuck-ie.jpg)
 
 你是不是经常浏览网页时遇到以上类似的画面, 叫你换个浏览器, 本开开开心心的浏览网页非要换浏览器, 让人特别不爽.
 
@@ -28,7 +28,7 @@ tags:
 
 ### 第一次接触 chrome 小插曲
 
-{% asset_img chrome.png chrome %}
+![chrome](//static.mutoe.com/2017/with-chrome-to-browse-the-web/chrome.png)
 
 第一次叫我安装 chrome 的时候, 我是拒绝的, 我是拒绝的!!! 他居然无声无息的安装在了不知道我电脑的哪个角落里 ( 用过 chrome 的应该都知道它的静默安装 ), 后来查找发现居然安装在我的 C 盘了, 这种情况怎么能忍?!
 
@@ -50,7 +50,7 @@ tags:
 
 同年 10 月, 万维网联盟宣布发布 HTML5 标准规范, 第一次听说 HTML5 是 QQ 空间发布的新版 QQ 空间, 支持 HTML5 技术, 记不太清是什么时候了, 那时候我还不是一个程序猿, 应该是在此之前, 第一次进入新版 QQ 空间的时候眼前一亮
 
-{% asset_img qzone.jpg qzone %}
+![qzone](//static.mutoe.com/2017/with-chrome-to-browse-the-web/qzone.jpg)
 
 有一种焕然一新的感觉, 感觉很清爽, 回想到第一次接触 chrome 浏览器, 那些所谓不适应没有菜单栏, 状态栏的, 菜单栏的按钮占地这么大, 平时又点过几次呢? 状态栏除了在网页卡住的时候会看一下, 又有什么时候会去关注呢? 真是讽刺.
 

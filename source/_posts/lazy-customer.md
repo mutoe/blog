@@ -10,7 +10,7 @@ categories: 随笔
 
 第二天我问她的时候, 她也没有上去选, 我说那我直接帮你做了吧, 她说好, 并且她本也是这么打算的. 最后我就按她之前选得风格, 添加了一些我觉得比较好看的元素, 做好后就给她了, 最后她也很满意.
 
-{% asset_img logo-avatar.png logo-avatar %}
+![logo-avatar](//static.mutoe.com/2017/lazy-customer/logo-avatar.png)
 _图: 我帮她设计的公众号头像_
 
 ----

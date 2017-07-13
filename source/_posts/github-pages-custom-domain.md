@@ -15,11 +15,11 @@ tags:
 
 登录到你购买域名的服务商, 找到解析入口, 这里我以万网提供的解析为例
 
-{% asset_img analysis.png analysis %}
+![analysis](//static.mutoe.com/2016/github-pages-custom-domain/analysis.png)
 
 添加一条 CNAME 记录, 将您的 www 或自己定义的子域名解析到您的 GitHub Pages 上.
 
-{% asset_img cname.png cname %}
+![cname](//static.mutoe.com/2016/github-pages-custom-domain/cname.png)
 
 > 如果您打算直接用 `www.xxx.com` 或 `xxx.com` 作为您的博客地址, 那么就分别创建主机记录为 www 和 @ 的记录指向到你的 GitHub Pages 上.
 

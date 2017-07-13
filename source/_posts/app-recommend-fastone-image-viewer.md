@@ -17,7 +17,8 @@ __写在前面:__
 
 ## FastStone Image Viewer
 
-{% asset_img faststone.jpg faststone %}
+![faststone](//static.mutoe.com/2017/app-recommend-fastone-image-viewer/faststone.jpg)
+
 
 http://www.faststone.org/ (需翻墙)
 
@@ -41,15 +42,15 @@ _以下内容均在虚拟机中运行并演示._
 
 作为一个图像管理器, 图片浏览应该是最基本的功能了. FastStone 的主界面虽然不是那么美观, 但中规中矩, 基本功能应有尽有.
 
-{% asset_img viewer.jpg 图片浏览 %}
+![图片浏览](//static.mutoe.com/2017/app-recommend-fastone-image-viewer/viewer.jpg)
 
 在全屏浏览模式下, 鼠标移至屏幕顶部可显示当前文件夹下的图片概览, 底部可显示导航及一些小工具快捷方式.
 
-{% asset_img view-top-down.jpg 顶部和底部小工具 %}
+![顶部和底部小工具](//static.mutoe.com/2017/app-recommend-fastone-image-viewer/view-top-down.jpg)
 
 左侧显示比较全面的对图片的调整操作, 而右侧则能看到当前图像的一些元数据及直方图等数据.
 
-{% asset_img view-left-right.jpg 左边和右边小工具 %}
+![左边和右边小工具](//static.mutoe.com/2017/app-recommend-fastone-image-viewer/view-left-right.jpg)
 
 ### 图片编辑
 
@@ -60,7 +61,7 @@ _以下内容均在虚拟机中运行并演示._
 这项功能的强大也是我在众多图像浏览软件里选择这款软件的原因之一, 压缩效率可谓之高.
 一个 1080P 大小 PNG 格式的截图大约在 1M 左右 (这取决于画面复杂程度), 经过软件转换格式压缩后, 能基本 "无损" 压缩至一半大小, 在一些情况下还会有惊喜 !
 
-{% asset_img compression.png 图像压缩 %}
+![图像压缩](//static.mutoe.com/2017/app-recommend-fastone-image-viewer/compression.png)
 
 软件也支持批量操作, 对于一类的图片能非常方便的进行图片编辑中的__所有操作__ !
 
@@ -72,19 +73,19 @@ _以下内容均在虚拟机中运行并演示._
 
 我在虚拟机中安装完毕后双击图片打开居然还是用的原来的图片浏览器, 原来软件默认没有注册打开方式. 我们进入设置页面, 文件关联选项卡下面点击全选即可.
 
-{% asset_img link.png 默认打开方式 %}
+![默认打开方式](//static.mutoe.com/2017/app-recommend-fastone-image-viewer/link.png)
 
 ### 退出软件时取消确认提示
 
 默认情况下按 ESC 退出程序时会弹出一个小对话框, 勾选 '不再显示次对话框' 即可.
 
-{% asset_img quit.png 退出确认 %}
+![退出确认](//static.mutoe.com/2017/app-recommend-fastone-image-viewer/quit.png)
 
 ### 强大的自定义功能
 
 软件的设置页面提供了非常多的选项, 每个人可以根据自己的使用习惯进行调整, 不要被这么多文字及选项吓到了, 磨刀不误砍柴工, 花 10 分钟来了解这个软件可为日后的使用节约大把的时间.
 
-{% asset_img setting.png 设置页面 %}
+![设置页面](//static.mutoe.com/2017/app-recommend-fastone-image-viewer/setting.png)
 
 无论你是一个电脑小白, 还是一个资深极客, 你都__不应该错过每款软件的设置页面__, 别不相信, 一些 "微不足道" 的细节足以改变一款软件的使用寿命.
 
