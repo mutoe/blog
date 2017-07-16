@@ -1,0 +1,3 @@
+[submodule "themes/mutoe"]
+	path = themes/mutoe
+	url = ../hexo-theme-mutoe.git
