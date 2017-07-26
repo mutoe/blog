@@ -6,7 +6,6 @@
     "version": "3.3.7"
   },
   "dependencies": {
-    "gulp": "^3.9.1",
     "hexo": "^3.2.0",
     "hexo-browsersync": "^0.2.0",
     "hexo-deployer-git": "^0.2.0",
@@ -22,5 +21,11 @@
     "hexo-renderer-marked": "^0.2.10",
     "hexo-renderer-stylus": "^0.3.1",
     "hexo-server": "^0.2.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-csso": "^3.0.0",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-jsmin": "^0.1.5"
   }
 }
