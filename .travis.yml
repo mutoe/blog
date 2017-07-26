@@ -10,5 +10,6 @@ node_js:
 
 before_script:
   - npm install
+  - npm install -g gulp-cli
  
 script: gulp release
