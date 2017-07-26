@@ -3,6 +3,12 @@ env:
     - GIT_PAGRE_REF: github.com/mutoe/mutoe.github.io.git
     - secure: "QuwQ2mxqK1dT3B0exnRZRcUVeG5D+4uCCAABdv8BLQq3P5W8FP7LNpSRqD43fg6XrBUliV7AyB42lGqK1NqvQg/lf9omaNzwUrtypi38DwCSeoe2dQdrmXF+wMGDC3/JhDz7mInJbq7KTyj8Bj2svy2Gh/hbC69AQm9VGmP1ROyVWHnb0a4MJqrgadhGzXnOn0Y0k7CgveJiC6r4RIVZLs1Z2D1RvADbNZrCfMFeKDH5Q1wm28oV8jHhGNIaToLQivlDhILXNHptX2mXA9D04emWQ+vv9qB6oNJQxLlovH2A6CsgP7PhNxLs5Z6OIZtyYuq1mQj4KRvvDfwWNdYttKOR8iSqvu/nsgW5Ss7PP6oy5wH9p0C4LCIaVdG7C5hs0ojJipLBc2D91ZFJNoWiTPxm5v/zfzv1skFZv7YXdv56rpwEXIRdh57SBpzvHSWjhgA39vl66KgjQ+lrzC0NzO53ukTNpNZT6QDXZc2NoUuWAvwOVFeutXq8POKmhydbL4WqnQMvJFBX73NXe3ascgMHH6tX0d4efFgpvMgvJptrhSx6rD72PoIrJO2CeYQSk3h75MPFNxMwm8kHOQVNpRUMDwHHOm2KXbpbHaFmnYALrb0+e+JJNnRo1KwGOvrV7TfrNY1sDxyXHKKIgTYKxFOJau6L6cVI1B8lwUon/yU="
 
+language: node_js
+
+node_js:
+  - "6"
+
 before_script:
-  - npm install -g gulp-cli
+  - npm install
+ 
 script: gulp release
