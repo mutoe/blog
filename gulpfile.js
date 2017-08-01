@@ -55,5 +55,3 @@ gulp.task("release", ["build","htmlmin","jsmin","cssmin"],function(cb) {
 gulp.task('minify', ["htmlmin","jsmin","cssmin"]);
 
 gulp.task("default",["minify"]);
-gulp.task("release",["build"]);
-
