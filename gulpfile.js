@@ -14,20 +14,7 @@ var datas = {
 
 gulp.task("htmlmin", ["build"], function() {
 	return gulp.src(datas.html)
-	.pipe(htmlmin({collapseWhitespace:true,minifyJS:true,minifyCSS:true,removeComments:true}))
-	.pipe(gulp.dest(buildDir));
-});
-
-gulp.task("jsmin", ["build"],function(){
-	return gulp.src(datas.js)
-	.pipe(jsmin())
-	.pipe(gulp.dest(buildDir));
-});
-
-// css压缩
-gulp.task("cssmin", ["build"],function(){
-	return gulp.src(datas.css)
-	.pipe(csso())
+	.pipe(htmlmin({collapseWhitespace:true,removeComments:true}))
 	.pipe(gulp.dest(buildDir));
 });
 
@@ -45,13 +32,13 @@ gulp.task("build", ["clean"], function(cb) {
 	});
 });
 
-gulp.task("release", ["build","htmlmin","jsmin","cssmin"],function(cb) {
+gulp.task("release", ["build","htmlmin"],function(cb) {
 	exec("hexo d", function(err) {
 		if (err) return cb(err);
 		cb();
 	});
 });
 
-gulp.task('minify', ["htmlmin","jsmin","cssmin"]);
+gulp.task('minify', ["htmlmin"]);
 
 gulp.task("default",["minify"]);
