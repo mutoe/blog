@@ -43,3 +43,12 @@ Vim 是 Vi 的升级版本，比 Vi 多了语法高亮等更多特性。就版�
 
 利用 Linux 作业机制，按下 `ctrl + z` 将当前程序放在后台执行。然后使用 `fg` 命令重新回到 Vim 编辑器。
 详情参考[Unix或Linux中&、jobs、fg、bg等命令的使用方法](http://blog.sina.com.cn/s/blog_673ee2b50100iywr.html)
+
+# 搜索
+
+## 取消搜索高亮显示
+
+| 命令 | 作用 |
+| ---  | :--- |
+| `:nohighlight` | 取消搜索高亮显示 |
+| `:nohl` | 取消搜索高亮显示 (alias) |
