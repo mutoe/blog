@@ -1,40 +1,60 @@
-<div class="external-link">
-  <a href="/sponsor">拥抱开源</a>
-</div>
-
-<div class="copyright" >
-  {% set current = date(Date.now(), "YYYY") %}
-  &copy; {% if theme.since and theme.since != current %} {{ theme.since }} - {% endif %}
-  <span itemprop="copyrightYear">{{ current }}</span>
+<div class="copyright">{#
+#}{% set current = date(Date.now(), "YYYY") %}{#
+#}&copy; {% if theme.footer.since and theme.footer.since != current %}{{ theme.footer.since }} &mdash; {% endif %}{#
+#}<span itemprop="copyrightYear">{{ current }}</span>
   <span class="with-love">
-    <i class="fa fa-{{ theme.authoricon }}"></i>
+    <i class="fa fa-{{ theme.footer.icon }}"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">{{ config.author }}</span>
-  {% if theme.copyright %}
-  <span class="inline-block">
-    {{ __('footer.powered', '<a class="theme-link" href="https://hexo.io">Hexo</a>') }}
+  <span class="author" itemprop="copyrightHolder">{{ theme.footer.copyright || config.author }}</span>
 
-    <span class="theme-info">
-      {{ __('footer.theme') }} -
-      <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-        NexT.{{ theme.scheme }}
-      </a>
+  {% if config.symbols_count_time.total_symbols %}
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
     </span>
-  </span>
+    {% if theme.symbols_count_time.item_text_total %}
+      <span class="post-meta-item-text">{{ __('post.totalcount') }}&#58;</span>
+    {% endif %}
+    <span title="{{ __('post.totalcount') }}">{#
+    #}{{ symbolsCountTotal(site) }}{#
+  #}</span>
+  {% endif %}
 
-  <script>
-  (function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-    } else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-  })();
-  </script>
-
+  {% if config.symbols_count_time.total_time %}
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    {% if theme.symbols_count_time.item_text_total %}
+      <span class="post-meta-item-text">{{ __('post.totaltime') }}&#58;</span>
+    {% endif %}
+    <span title="{{ __('post.totaltime') }}">{#
+    #}{{ symbolsTimeTotal(site, theme.symbols_count_time.awl, theme.symbols_count_time.wpm) }}{#
+  #}</span>
   {% endif %}
 </div>
+
+{% if theme.footer.powered %}
+  <div class="powered-by">{#
+  #}{{ __('footer.powered', '<a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a>') }}{#
+#}</div>
+{% endif %}
+
+{% if theme.footer.powered and theme.footer.theme.enable %}
+  <span class="post-meta-divider">|</span>
+{% endif %}
+
+{% if theme.footer.theme.enable %}
+  <div class="theme-info">{#
+  #}{{ __('footer.theme') }} &mdash; {#
+  #}<a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">{#
+    #}NexT.{{ theme.scheme }}{#
+  #}</a>{% if theme.footer.theme.version %} v{{ theme.version }}{% endif %}{#
+#}</div>
+{% endif %}
+
+{% if theme.footer.custom_text %}
+  <div class="footer-custom">{#
+  #}{{ theme.footer.custom_text }}{#
+#}</div>
+{% endif %}
