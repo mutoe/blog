@@ -1,11 +1,12 @@
 ---
 title: linux 学习笔记
 date: 2017-08-01 12:30:09
-update: 2018-03-24 07:23:21
+update: 2018-03-23 21:23:21
 categories: 笔记
 tags:
- - Linux
+  - Linux
 ---
+
 
 # 前言
 
