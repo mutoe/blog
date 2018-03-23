@@ -17,51 +17,42 @@ tags:
 
 下面列出该项目的技术选型, 以及原因 (按重要程度排序)
 
-- ## Vue (v2.5)
+- ### Vue (v2.5) `单文件组件` `响应式`
 
-选 Vue 作为前端框架是因为他的单文件组件做模块化开发很方便, 还有现成的脚手架工具 `vue-cli`, 以及对 [@尤大](https://github.com/yyx990803) 的 __信仰__
+  以及 `vue-router` `vuex` `axios`
 
-以及 `vue-router` `vuex` `axios`
+  选 Vue 作为前端框架是因为他的单文件组件做模块化开发很方便, 还有现成的脚手架工具 `vue-cli`, 以及对 [@尤大](https://github.com/yyx990803) 的 __信仰__
 
-`单文件组件` `响应式`
 
-- ## Webpack (v3.6)
+- ### Webpack (v3.6) `模块化` `按需引入第三方库` <span class="explain" title="Hot Module Replacement, 模块热替换. 用于开发时页面的无刷新重载">`HMR`</span>
 
-选用 Webpack 作为自动化工具是因为 Gulp 和 Fis 了解一些, 想了解一下 Webpack 的工作方式. 另外 `vue-cli` 也默认使用它进行模块化开发.
+  选用 Webpack 作为自动化工具是因为 Gulp 和 Fis 了解一些, 想了解一下 Webpack 的工作方式. 另外 `vue-cli` 也默认使用它进行模块化开发.
 
-`模块化` `按需引入第三方库` <span class="explain" title="Hot Module Replacement, 模块热替换. 用于开发时页面的无刷新重载">`HMR`</span>
+- ### Koa (v2.5) `中间件`
 
-- ## Koa (v2.5)
+  以及 `koa-router` `koa-jwt` 
 
-选用 Koa 而非 Express 也是因为 Express 了解过一些, 想换个口味试试. Express 也确实感受过回调地狱的痛, Koa 的洋葱模型似乎很不错!
+  选用 Koa 而非 Express 也是因为 Express 了解过一些, 想换个口味试试. Express 也确实感受过回调地狱的痛, Koa 的洋葱模型似乎很不错!
 
-后端只用来提供 API 接口不做 <span class="explain" title="Server-Side Render, 服务端渲染.">SSR</span>.
+  后端只用来提供 API 接口不做 <span class="explain" title="Server-Side Render, 服务端渲染.">SSR</span>.
 
-以及 `koa-router` `koa-jwt` 
+- ### MongoDB (v3.6) `NoSQL Database`
 
-`中间件`
+  就想学习下 NoSQL 数据库, MongoDB 语法最像 js, 就它了.
 
-- ## MongoDB (v3.6)
+- ### Eslint `语法检查` `防傻瓜`
 
-就想学习下 NoSQL 数据库, MongoDB 语法最像 js, 就它了.
+  Eslint 进行代码风格检查和防傻瓜还是非常方便的, 尤其是配合其自带的 `--fix` 功能自动进行代码格式化. 避免在 coding 的过程中出现一些傻瓜式的语法错误带来的不必要的时间浪费.
 
-- ## Eslint
-
-Eslint 进行代码风格检查和防傻瓜还是非常方便的, 尤其是配合其自带的 `--fix` 功能自动进行代码格式化. 避免在 coding 的过程中出现一些傻瓜式的语法错误带来的不必要的时间浪费.
-
-`语法检查` `防傻瓜`
-
-- ## ES6, Stylus, Pug
+- ### ES6, Stylus, Pug `语法糖` `预处理`
  
-__语法糖!__ 提高 coding 效率. 但是 <span class="explain" title="一个类似 Less \ Sass 的 CSS 预处理器">Stylus</span> 和 <span class="explain" title="一个 HTML 模版引擎, 前身是 Jade.">Pug</span> 比较小众, 可能会降低代码可读性, 但无所谓啦, 这个单人项目又有谁会来读我的代码呢.
+  __语法糖!__ 提高 coding 效率. 但是 <span class="explain" title="一个类似 Less \ Sass 的 CSS 预处理器">Stylus</span> 和 <span class="explain" title="一个 HTML 模版引擎, 前身是 Jade.">Pug</span> 比较小众, 可能会降低代码可读性, 但无所谓啦, 这个单人项目又有谁会来读我的代码呢.
 
-`语法糖` `预处理`
+- ### Yarn `依赖安装`
 
-- ## Yarn
+  用 Yarn 就是因为快! 比 npm 快了不是一丁半点!
 
-用 Yarn 就是因为快! 比 npm 快了不是一丁半点!
-
-`依赖安装`
+<!-- more -->
 
 # 安装步骤
 
@@ -73,4 +64,13 @@ vue init webpack pic
 cd pic
 ```
 
-构建时选择了 eslint standard, Jest unit test, e2e
+构建时选择了 eslint standard, Jest unit test, e2e. 使用新版本的 `vue-cli` 时会让你选择使用 npm 包管理器还是 yarn. 这里我选的 yarn, 然后就自动开始安装依赖了.
+
+## 2. 部署服务端目录
+
+``` bash
+yarn add koa
+mkdir server
+```
+
+然后在项目根目录创建一个 `server.js` 作为服务端的入口
