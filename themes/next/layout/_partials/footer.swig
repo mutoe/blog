@@ -1,3 +1,7 @@
+<div class="external-link">
+  <a href="/sponsor">拥抱开源</a>
+</div>
+
 <div class="copyright">{#
 #}{% set current = date(Date.now(), "YYYY") %}{#
 #}&copy; {% if theme.footer.since and theme.footer.since != current %}{{ theme.footer.since }} &mdash; {% endif %}{#
