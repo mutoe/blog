@@ -23,7 +23,7 @@ tags:
 
 进入设置页面，找到 `搜索引擎` 一栏，将默认搜索引擎切换为百度即可
 
-![switch-search-engine](http://static.mutoe.com/2017/chrome-uses-tips/switch-search-engine.png)
+![switch-search-engine](//static.mutoe.com/2017/chrome-uses-tips/switch-search-engine.png)
 
 ### 快捷切换搜索引擎
 
@@ -35,19 +35,19 @@ tags:
 
 <!-- more -->
 
-![wiki-search](http://static.mutoe.com/2017/chrome-uses-tips/wiki-search.png)
+![wiki-search](//static.mutoe.com/2017/chrome-uses-tips/wiki-search.png)
 
 然后直接输入你要搜索的关键词如 `博客`，然后按下回车就能直接跳到 wikipedia 的搜索结果页啦。
 
-![quick-switch](http://static.mutoe.com/2017/chrome-uses-tips/quick-switch.png)
+![quick-switch](//static.mutoe.com/2017/chrome-uses-tips/quick-switch.png)
 
 > __为什么我按下 `tab` 键地址栏没有变成你那样呢？__
 
 > 这是因为你的 chrome 没有检测到这个网站的搜索引擎，你也可以手动添加。
 > 在 `搜索引擎` 设置一览，找到 `管理搜索引擎`，然后在 `其他搜索引擎` 标签的右侧找到 `添加` 按钮。
-> ![add-custom-search-engine](http://static.mutoe.com/2017/chrome-uses-tips/add-custom-search-engine.png)
+> ![add-custom-search-engine](//static.mutoe.com/2017/chrome-uses-tips/add-custom-search-engine.png)
 > 然后在弹出的窗口中输入你想添加的搜索引擎
-> ![add-custom-dialog](http://static.mutoe.com/2017/chrome-uses-tips/add-custom-dialog.png)
+> ![add-custom-dialog](//static.mutoe.com/2017/chrome-uses-tips/add-custom-dialog.png)
 
 只要你想，只要那个网站支持，什么都可以直接搜。更爽的是，只要你用过某个网站的搜索功能，他就会自动的收录在 `其他搜索引擎` 的列表中而不用你去一个个手动添加。
 
@@ -85,4 +85,4 @@ tags:
 
 ### 写在最后
 
-如果你有其他的小技巧或插件，也可以 [联系我](http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=NltDQllTdlBZTltXX1oYVVlb) 或去 [这个文章的 github](https://github.com/mutoe/mutoe.github.io/blob/source/source/_posts/chrome-users-tips.md) 点击右上角的编辑, 提交 `pull request` 来参与编辑这篇文章，我会将补充上的内容注明你的名字，共同分享学习。
+如果你有其他的小技巧或插件，也可以 [联系我](mailto:mutoe@foxmail.com) 或去 [这个文章的 github](https://github.com/mutoe/mutoe.github.io/blob/source/source/_posts/chrome-users-tips.md) 点击右上角的编辑, 提交 `pull request` 来参与编辑这篇文章，我会将补充上的内容注明你的名字，共同分享学习。

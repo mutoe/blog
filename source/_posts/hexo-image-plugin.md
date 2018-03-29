@@ -84,7 +84,7 @@ post_asset_folder: true
 {% asset_img $2 $1 %}
 ```
 
-配合我的另一篇文章 [实时预览](http://blog.mutoe.com/2016/hexo-post-livereload-edit/) , 写文章简直美滋滋.
+配合我的另一篇文章 [实时预览](//blog.mutoe.com/2016/hexo-post-livereload-edit/) , 写文章简直美滋滋.
 
 ### 小结
 
