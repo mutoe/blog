@@ -1,5 +1,7 @@
 ---
 title: 记使用 yum 升级 nodejs 遇到的坑
+keywords: [yum, nodejs, centos, 升级失败, 缓存]
+
 date: 2018-07-11 22:36:41
 categories: 心得
 tags:
@@ -7,7 +9,7 @@ tags:
   - yum
 ---
 
-> tips: 如需干货，请使用右侧导航直接跳转到 [解决办法](#解决办法)
+> tips: 解决办法在文章底部，请使用右侧导航直接跳转到 **解决办法**
 
 ## 问题描述
 
@@ -33,13 +35,11 @@ Transaction Summary
 ====================================================================================================================
 ```
 
-咦？难道是需要将 node 先卸载了吗？于是 `yum remove nodejs` 然后 `yum install nodejs`。。。然后是你猜到的结果，
-还还还还是 6.x 版本。。。
+咦？难道是需要将 node 先卸载了吗？于是 `yum remove nodejs` 然后 `yum install nodejs`。。。然后是你猜到的结果，还还还还是 6.x 版本。。。
 
 <!-- more -->
 
-随后猜测可能是之前安装的 nodejs 6.x 版本的 nodesource 源，于是在网上查找了资料想办法删除之前的旧版 nodesource 源，
-执行以下命令
+随后猜测可能是之前安装的 nodejs 6.x 版本的 nodesource 源，于是在网上查找了资料想办法删除之前的旧版 nodesource 源，执行以下命令
 
 ``` bash
 cd /etc/yum.repos.d/
@@ -53,8 +53,7 @@ yum install nodejs
 然后重新安装 nodejs，依旧不行。问题出在哪里呢？甚至开始怀疑是机器的问题。。
 
 过了几天回到这个问题，又查找了不少资料, 根据
-[nodesource/distributions#340](https://github.com/nodesource/distributions/issues/340#issuecomment-251417163)
-_(真是为难我这个英语渣了)_ 中的一个回答，发现 `yum clean all` 时，可能并不会清除 repo 不存在的缓存文件，并提供了一行代码来手动清除 yum 缓存
+[nodesource/distributions#340](https://github.com/nodesource/distributions/issues/340#issuecomment-251417163) _(真是为难我这个英语渣了)_ 中的一个回答，发现 `yum clean all` 时，可能并不会清除 repo 不存在的缓存文件，并提供了一行代码来手动清除 yum 缓存
 
 ``` bash
 rm -rf /var/cache/yum/*

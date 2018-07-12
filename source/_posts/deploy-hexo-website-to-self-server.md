@@ -1,5 +1,7 @@
 ---
 title: 将 Hexo 博客发布到自己的服务器上
+keywords: [hexo, 博客, 发布, blog]
+
 date: 2017-03-13 20:16:44
 categories: 心得
 tags:

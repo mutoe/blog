@@ -1,6 +1,6 @@
 ---
 title: Chrome 浏览器的一些使用小技巧
-keywords: [chrome, 谷歌, 谷哥, google, 浏览器, 使用技巧, 小技巧, 技巧, 插件, 搜索引擎,默认搜索引擎,开发者工具,快速切换]
+keywords: [chrome, 谷歌浏览器, 浏览器, 技巧, 插件, 默认搜索引擎]
 
 date: 2017-07-18 14:16:01
 categories: 心得

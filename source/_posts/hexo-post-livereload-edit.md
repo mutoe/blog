@@ -1,5 +1,7 @@
 ---
 title: Hexo 实现实时预览编辑
+keywords: [hexo, 技巧, 实时预览]
+
 date: 2016-12-16 00:43:39
 categories: 心得
 tags:

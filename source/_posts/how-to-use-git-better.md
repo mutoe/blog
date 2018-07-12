@@ -1,5 +1,7 @@
 ---
 title: 如何用好 git
+keywords: [git, 技巧, tips]
+
 date: 2017-07-12 23:52:35
 categories: 心得
 tags:

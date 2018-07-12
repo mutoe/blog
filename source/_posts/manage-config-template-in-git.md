@@ -1,5 +1,7 @@
 ---
 title: 在 Git 中使用模版来管理配置文件
+keywords: [git, 模版, 配置文件]
+
 date: 2016-12-23 22:39:39
 update: 2016-12-23 23:54:50
 categories: 心得

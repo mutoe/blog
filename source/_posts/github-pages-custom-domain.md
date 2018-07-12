@@ -1,5 +1,7 @@
 ---
 title: 将 GitHub Pages 绑定到自己的域名
+keywords: [github pages, 绑定, 域名, domain]
+
 date: 2016-12-15 20:28:49
 categories: 教程
 tags:

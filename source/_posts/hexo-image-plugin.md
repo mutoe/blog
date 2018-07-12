@@ -1,5 +1,7 @@
 ---
 title: 在 Hexo 中方便的使用插图
+keywords: [hexo, 图片, 插图]
+
 date: 2016-12-16 20:11:57
 update: 2017-04-01 20:43:18
 categories: 教程
