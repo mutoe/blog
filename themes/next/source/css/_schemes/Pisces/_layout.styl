@@ -1,8 +1,14 @@
 .header {
   position: relative;
   margin: 0 auto;
-  width: $main-desktop;
+  width: $content-desktop;
 
+  +desktop-large() {
+    width: $content-desktop-large;
+  }
+  +desktop-largest() {
+    width: $content-desktop-largest;
+  }
   +tablet() {
     width: auto;
   }
@@ -16,13 +22,13 @@
   top: 0;
   overflow: hidden;
   padding: 0;
-  width: 240px;
+  width: $sidebar-desktop;
   background: white;
   box-shadow: $box-shadow-inner;
   border-radius: $border-radius-inner;
 
   +desktop-large() {
-    .container & { width: 240px; }
+    .container & { width: $sidebar-desktop; }
   }
   +tablet() {
     position: relative;
@@ -47,7 +53,6 @@
 }
 
 .container .main-inner {
-  width: $main-desktop;
 
   +tablet() {
     width: auto;
@@ -61,7 +66,7 @@
   float: right;
   box-sizing: border-box;
   padding: $content-desktop-padding;
-  width: $content-desktop;
+  width: $content-wrap;
   background: white;
   min-height: 700px;
   box-shadow: $box-shadow-inner;
@@ -98,9 +103,7 @@
 
 .sidebar-toggle { display: none; }
 
-
 .footer-inner {
-  width: $main-desktop;
   padding-left: 260px;
 
   +tablet() {
@@ -114,8 +117,6 @@
     padding-right: 0 !important;
   }
 }
-
-
 
 .sidebar-position-right {
   .header-inner { right: 0; }

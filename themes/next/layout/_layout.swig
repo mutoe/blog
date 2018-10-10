@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 
+{# NexT version #}
+{% set version = next_env('version') %}
+
+{# Language & Config #}
+{% set title = __('title') !== 'title' && __('title') || config.title %}
+{% set subtitle = __('subtitle') !== 'subtitle' && __('subtitle') || config.subtitle %}
+{% set author = __('author') !== 'author' && __('author') || config.author %}
+{% set description = __('description') !== 'description' && __('description') || config.description %}
+
 {% set html_class = 'theme-next ' + theme.scheme %}
 {% if theme.motion.enable %}
   {% set html_class = html_class + ' use-motion' %}
@@ -7,9 +16,11 @@
 
 <html class="{{ html_class | lower }}" lang="{{ config.language }}">
 <head>
-  {{ partial('_partials/head.swig', {}, {cache: theme.cache.enable}) }}
+  {{ partial('_partials/head/head.swig', {}, {cache: theme.cache.enable}) }}
+  {% include '_partials/head/head-unique.swig' %}
   <title>{% block title %}{% endblock %}</title>
   {% include '_third-party/analytics/index.swig' %}
+  {{ partial('_scripts/noscript.swig', {}, {cache: theme.cache.enable}) }}
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="{{ page.lang || page.language || config.language }}">
@@ -23,16 +34,20 @@
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"> {{ partial('_partials/header.swig', {}, {cache: theme.cache.enable}) }} </div>
+      <div class="header-inner">{% include '_partials/header/index.swig' %}</div>
     </header>
+
+    {{ partial('_third-party/github-banner.swig', {}, {cache: theme.cache.enable}) }}
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          {% if theme.scheme === 'Pisces' || theme.scheme === 'Gemini' %}
+            {% include '_partials/header/sub-menu.swig' %}
+          {% endif %}
           <div id="content" class="content">
             {% block content %}{% endblock %}
           </div>
-          {% include '_third-party/duoshuo-hot-articles.swig' %}
           {% include '_partials/comments.swig' %}
         </div>
         {% if theme.sidebar.display !== 'remove' %}
@@ -65,7 +80,18 @@
         </span>
       </div>
     {% endif %}
+	
+    {% if theme.baidushare and theme.baidushare.type === "slide" %}
+      <div>
+        {% include '_partials/share/baidushare.swig' %}
+      </div>
+    {% endif %}
 
+    {% if theme.add_this_id %}
+      <div>
+        {% include '_partials/share/add-this.swig' %}
+      </div>
+    {% endif %}
   </div>
 
   {% include '_scripts/vendors.swig' %}
@@ -83,10 +109,13 @@
   {% include '_third-party/analytics/lean-analytics.swig' %}
   {% include '_third-party/analytics/firestore.swig' %}
   {% include '_third-party/seo/baidu-push.swig' %}
+  {% include '_third-party/math/index.swig' %}
   {% include '_third-party/needsharebutton.swig' %}
   {% include '_third-party/rating.swig' %}
-  {% include '_third-party/mathjax.swig' %}
+  {% include '_third-party/pangu.swig' %}
   {% include '_third-party/scroll-cookie.swig' %}
   {% include '_third-party/exturl.swig' %}
+  {% include '_third-party/bookmark.swig' %}
+  {% include '_third-party/copy-code.swig' %}
 </body>
 </html>
