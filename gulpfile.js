@@ -40,4 +40,4 @@ gulp.task('release', ['build', 'htmlmin'], function(cb) {
   })
 })
 
-gulp.task('default', ['minify'])
+gulp.task('default', ['release'])
