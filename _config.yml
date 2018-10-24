@@ -42,6 +42,17 @@ highlight:
   line_number: true
   auto_detect: false
   tab_replace:
+marked:
+  gfm: true
+  pedantic: false
+  sanitize: false
+  tables: true
+  breaks: true
+  smartLists: true
+  smartypants: true
+  modifyAnchors: ''
+  anchorAlias: true
+  autolink: true
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')

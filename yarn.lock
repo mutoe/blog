@@ -1884,10 +1884,9 @@ hexo-renderer-ejs@^0.3.0:
     ejs "^2.3.4"
     object-assign "^4.0.1"
 
-hexo-renderer-marked@^0.3.0:
+"hexo-renderer-marked@https://github.com/mutoe/hexo-renderer-marked":
   version "0.3.2"
-  resolved "https://registry.yarnpkg.com/hexo-renderer-marked/-/hexo-renderer-marked-0.3.2.tgz#d6a37af9ff195e30f9ef6ede1a06ea1fe4322966"
-  integrity sha512-joSLeHB0YRkuViIPQlRz4A+zfJKPNHT+rABFgPHiT1zL9eeTUPxoLL4h7kcgOwRLAontVScaxP2Sie15mNitFg==
+  resolved "https://github.com/mutoe/hexo-renderer-marked#f11a4f37a1527f618347be7443b6f91792661e3f"
   dependencies:
     hexo-util "^0.6.2"
     marked "^0.3.9"

@@ -2,23 +2,38 @@
 
 // 让表格列宽度根据内容自适应
 table
-	table-layout auto
+  table-layout auto
 
 .inline-block
-	display inline-block
+  display inline-block
 
 .main
-	padding-bottom 217px
+  padding-bottom 217px
 
 #footer
-	margin-top 56px
-	border-top 1px solid #eee
+  margin-top 56px
+  border-top 1px solid #eee
 
 .author
-	margin-right 8px
+  margin-right 8px
 
 .theme-info
-	margin-left 8px
+  margin-left 8px
 
 .external-link
-	margin 28px
+  margin 28px
+
+// 锚点
+.post-body
+  h1, h2, h3, h4, h5, h6
+    padding-top 1em
+    margin-top -1em
+
+    > a
+      border-bottom none
+
+      &:hover
+        &::before
+          content '#'
+          position absolute
+          margin-left -0.8em
