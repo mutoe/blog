@@ -6,7 +6,12 @@ categories: 心得
 tags:
   - Vue
   - Koa
+  - pm2
+  - ESLint
+  - 
 ---
+
+> _使用 Vue + Koa 打造全栈应用《时光·印象》图片分享应用_ 系列教程
 
 # 前言
 
@@ -32,9 +37,9 @@ tags:
 
   后端只用来提供 API 接口不做 <span class="explain" title="Server-Side Render, 服务端渲染.">SSR</span>.
 
-- ### MongoDB (v4.0) `NoSQL Database`
+- ### MySQL (v8.0) `SQL Database`
 
-  就想学习下 NoSQL 数据库, MongoDB 语法最像 js, 就它了.
+  常规的关系型数据库，深入学习一下 MySQL，为全栈发展打好坚实的基础
 
 - ### Eslint `语法检查` `防傻瓜`
 

@@ -12,10 +12,10 @@ keywords:
 ---
 
 
-| 项目                  | 日期        | 金额        |
-| ----                  | ----        | ---:        |
-| [top-think / think](https://github.com/top-think/think) | 2017-08-07  | ￥ 10.00    |
-| [vuejs / vue](https://github.com/vuejs/vue) | 2017-10-23  | ￥ 29.99    |
+| 项目 | 日期 | 金额 |
+| ---- | ---- | ---: |
+| [top-think / think](https://github.com/top-think/think) | 2017-08-07 | ￥ 10.00 |
+| [vuejs / vue](https://github.com/vuejs/vue) | 2017-10-23 | ￥ 29.99 |
 
 ----
 
