@@ -225,12 +225,45 @@ fixture `fixtureName`
 | `fixtureName` | string | 测试组的名称 |
 
 它返回一个测试组对象，可以接测试组方法，有关这些方法，请参考下方相关 API。
-
 > 请注意，测试方法 `test` 必须放在测试组声明后面。
 
-### 测试用例 Tests (no)
+### 测试用例 Tests
 
-> 暂未更新
+你可以使用 `test` 方法声明一个测试用例。
+
+``` js
+test( testName, fn(t) )
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `testName` | string | 测试用例的名称 |
+| `fn` | Function | 包含测试代码的异步函数 |
+| `t` | Object | 测试用例的上下文对象, 也叫[测试控制器](#) |
+
+``` js
+fixture('MyFixture')
+
+test('Test1', async t => {
+  /* Test 1 Code */
+})
+
+test('Test2', async t => {
+  /* Test 2 Code */
+})
+```
+
+TestCafe 测试在服务器端执行。
+你可以使用[测试动作](#动作)来操纵测试的网页。
+要确定页面元素的状态或从客户端获取任何其他数据，请使用[选择器](#选择器-selector)和客户端方法。
+
+要检查页面状态是否与预期页面状态匹配，请使用[断言](#断言)。
+
+#### 测试控制器 Test Controller
+
+如果要使用[测试动作](#动作)、[断言](#断言)、或者[等待](#等待), 必须挂在在测试控制器上.
+
+
 
 ### 指定起始页面 (no)
 
@@ -248,9 +281,84 @@ fixture `fixtureName`
 
 > 暂未更新
 
-## 页面元素选择 (no)
+## 页面元素选择
 
-### 选择器 (no)
+### 选择器 selector
+
+选择器是标识测试中的网页元素的方法。选择器 API 提供了选择页面上的元素并获取其状态的方法和属性。
+
+要从 `testcafe` 模块导入 `Selector` 构造函数，调用此构造函数并将 CSS 选择器字符串作为参数传递。
+
+``` js
+import { Selector } from 'testcafe';
+
+const article = Selector('.article-content');
+```
+
+`Selector` 参数语法类似于 jQuery 选择器语法。
+在上面的例子中，我们选择了一个 class 为 `atricle-content` 的元素。
+然后我们就可以使用这个选择器对对元素进行操作了。
+
+``` js
+await t.click(article)
+```
+
+或者在断言方法中使用它
+
+``` js
+await t.expect(article.scrollHeight).eql(1800)
+```
+
+甚至还可以编写一个匹配多个页面元素的选择器，然后按文本、属性等对它们进行过滤。
+下面这两个例子首先选择了一个 class 为 `radio-button` 的元素，并且其中的文本为 "Windows"，第二个是含有属性为 `selected` 的元素。
+
+``` js
+const windowsRadioButton  = Selector('.radio-button').withText('Windows');
+const selectedRadioButton = Selector('.radio-button').withAttribute('selected');
+```
+
+如果需要在 DOM 树中查找特定元素，可以使用选择器 API 的[搜索方法]()查找它。
+
+``` js
+const buttonWrapper = Selector('.article-content').find('#share-button').parent();
+```
+
+#### 创建选择器 (no)
+
+``` js
+Selector( init [, options] )
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `init` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | 标识要选择的 DOM 节点 |
+| `options` _(可选的)_ | Object | 选项, 有关[选择器选项]() |
+
+``` js
+import { Selector } from 'testcafe';
+
+const usernameInput = Selector('#username');
+```
+
+> 未完
+
+#### 使用选择器 (no)
+
+> 暂未更新
+
+#### 选择器查找 (no)
+
+> 暂未更新
+
+#### 选择器选项 (no)
+
+> 暂未更新
+
+#### 选择器拓展 (no)
+
+> 暂未更新
+
+#### 边缘情况 (no)
 
 > 暂未更新
 
@@ -278,8 +386,8 @@ t.click( selector [, options] )
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器]() |
-| `options` _(可选的)_ | Object | 选项, 有关[鼠标动作的选项]() |
+| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器](#选择器-selector) |
+| `options` _(可选的)_ | Object | 选项, 有关[点击动作选项](#点击动作选项-click-action) |
 
 下面用一个例子来展示如何使用 `t.click` 动作来选择一个复选框元素。
 
@@ -300,7 +408,7 @@ test('Click Input', async t => {
   await t
     .typeText(nameInput, 'Peter Parker')
     .click(nameInput, { caretPos: 5 })
-    .keyPress('backspace')
+    .pressKey('backspace')
     .expect(nameInput.value).eql('Pete Parker');
 });
 ```
@@ -315,8 +423,8 @@ t.doubleClick( selector [, options] )
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器]() |
-| `options` _(可选的)_ | Object | 选项, 有关[鼠标动作的选项]() |
+| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器](#选择器-selector) |
+| `options` _(可选的)_ | Object | 选项, 有关[点击动作选项](#点击动作选项-click-action) |
 
 ### 右击 rightClick
 
@@ -328,8 +436,8 @@ t.rightClick( selector [, options] )
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器]() |
-| `options` _(可选的)_ | Object | 选项, 有关[鼠标动作的选项]() |
+| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器](#选择器-selector) |
+| `options` _(可选的)_ | Object | 选项, 有关[点击动作选项](#点击动作选项-click-action) |
 
 
 ### 拖拽 drag
@@ -342,10 +450,10 @@ t.drag( selector, dragOffsetX, dragOffsetY [, options] )
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器]() |
+| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器](#选择器-selector) |
 | `dragOffsetX` | Number | 鼠标在 x 轴上需要拖拽的距离 |
 | `dragOffsetY` | Number | 鼠标在 y 轴上需要拖拽的距离 |
-| `options` _(可选的)_ | Object | 选项, 有关[鼠标动作的选项]() |
+| `options` _(可选的)_ | Object | 选项, 有关[鼠标动作选项](#鼠标动作选项-mouse-action) |
 
 下面一个例子来演示如何使用 `t.drag` 动作来拖拽元素
 
@@ -368,9 +476,9 @@ t.dragToElement( selector, destinationSelector [, options] )
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器]() |
-| `destinationSelector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器, 拖拽目标元素，有关[选择器]() |
-| `options` _(可选的)_ | Object | 选项, 有关[拖拽到元素动作的选项]() |
+| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器](#选择器-selector) |
+| `destinationSelector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器, 拖拽目标元素，有关[选择器](#选择器-selector) |
+| `options` _(可选的)_ | Object | 选项, 有关[拖拽到元素动作选项](#拖拽到元素动作选项-dragToElement-action) |
 
 下面这个例子演示了如何使用 `t.dragToElement` 将元素拖放到特定区域
 
@@ -393,8 +501,8 @@ t.hover( selector [, options] )
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器]() |
-| `options` _(可选的)_ | Object | 选项, 有关[鼠标动作的选项]() |
+| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器](#选择器-selector) |
+| `options` _(可选的)_ | Object | 选项, 有关[鼠标动作选项](#鼠标动作选项-mouse-action) |
 
 使用此操作可以调用弹出元素，例如悬停在其他元素上时出现的提示窗口、弹出菜单或下拉列表。
 
@@ -420,18 +528,92 @@ t.selectText( selector [, startPos] [, endPos] [, options] )
 
 | 参数 | 类型 | 描述 | 默认值 |
 | --- | --- | --- | --- |
-| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择目标元素]() | |
+| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器](#选择器-selector) | |
 | `startPos` _(可选的)_ | Number | 选择的起始位置，从 0 开始的整数 | 0 |
 | `endPos` _(可选的)_ | Number | 选择的结束位置，从 0 开始的整数 | 可见文本的长度 |
-| `options` _(可选的)_ | Object | 选项, 有关[通用选项]() | |  
+| `options` _(可选的)_ | Object | 选项, 有关[基本动作选项](#基本动作选项-basic-action) | |
 
-#### 在 textarea 元素中 (no)
+``` js
+const developerNameInput = Selector('#developer-name');
 
-> 暂未更新
+const getElementSelectionStart = ClientFunction(selector => selector().selectionStart);
+const getElementSelectionEnd = ClientFunction(selector => selector().selectionEnd);
 
-#### 在 contentEditable 元素中 (no)
+test('Select text within input', async t => {
+  await t
+    .typeText(developerNameInput, 'Test Cafe', { caretPos: 0 })
+    .selectText(developerNameInput, 7, 1);
 
-> 暂未更新
+  await t
+    .expect(await getElementSelectionStart(developerNameInput)).eql(1)
+    .expect(await getElementSelectionEnd(developerNameInput)).eql(7);
+});
+```
+
+> 如果 `startPos` 的值大于 `endPos` 的值，则动作将执行向前选择。
+
+#### 在 textarea 元素中
+
+``` js
+t.selectTextAreaContent( selector [, startLine] [, startPos] [, endLine] [, endPos] [, options] )
+```
+
+| 参数 | 类型 | 描述 | 默认值 |
+| --- | --- | --- | --- |
+| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器](#选择器-selector) | |
+| `startLine` _(可选的)_ | Number | 选择开始的行号，从 0 开始的整数 | 0 |
+| `startPos` _(可选的)_ | Number | 选择的起始位置，从 0 开始的整数 | 0 |
+| `endLine` _(可选的)_ | Number | 选择结束的行号，从 0 开始的整数 | 最后一行的索引 |
+| `endPos` _(可选的)_ | Number | 选择的结束位置(基于 `endline`)，从 0 开始的整数 | `endLine` 的最后一个字符 |
+| `options` _(可选的)_ | Object | 选项, 有关[基本动作选项](#基本动作选项-basic-action) | |
+
+``` js
+const commentTextArea = Selector('#comments');
+
+const getElementSelectionStart = ClientFunction(selector => selector().selectionStart);
+const getElementSelectionEnd   = ClientFunction(selector => selector().selectionEnd);
+
+test('Select text within textarea', async t => {
+  await t
+    .click('#tried-test-cafe')
+    .typeText(commentTextArea, [
+      'Lorem ipsum dolor sit amet',
+      'consectetur adipiscing elit',
+      'sed do eiusmod tempor'
+    ].join(',\n'))
+    .selectTextAreaContent(commentTextArea, 0, 5, 2, 10);
+
+  await t
+    .expect(await getElementSelectionStart(commentTextArea)).eql(5)
+    .expect(await getElementSelectionEnd(commentTextArea)).eql(67);
+});
+```
+
+> 如果 `startLine` 比 `endLine` 的值大，则执行向前选择。
+
+#### 在 contentEditable 元素中
+
+``` js
+t.selectEditableContent( startSelector, endSelector [, options] )
+```
+
+| 参数 | 类型 | 描述 | 默认值 |
+| --- | --- | --- | --- |
+| `startSelector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | 标识开始选择的元素 selector 选择器，有关[选择器](#选择器-selector) | |
+| `endSelector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | 标识结束选择的元素 selector 选择器，有关[选择器](#选择器-selector) | |
+| `options` _(可选的)_ | Object | 选项, 有关[基本动作选项](#基本动作选项-basic-action) | |
+
+此方法适用于启用了 `contentEditable` 属性的 HTML 元素。
+
+``` js
+test('Delete text within a contentEditable element', async t => {
+  await t
+    .selectEditableContent('#foreword', '#chapter-3')
+    .pressKey('delete')
+    .expect(Selector('#chapter-2').exists).notOk()
+    .expect(Selector('#chapter-4').exists).ok();
+});
+```
 
 ### 键入文本 typeText
 
@@ -441,9 +623,9 @@ t.typeText( selector, text [, options] )
 
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
-| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择目标元素]() |
+| `selector` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | selector 选择器，有关[选择器](#选择器-selector) |
 | `text` | string | 要在指定元素中输入的文本 |
-| `options` _(可选的)_ | Object | 选项, 有关[输入动作选项]() | 
+| `options` _(可选的)_ | Object | 选项, 有关[输入动作选项](#输入动作选项-typing-action) | 
 
 > 如果要删除文本，请使用 [`t.selectText`](#选择文本-selectText) 和 [`t.pressKey`](#按键-pressKey) 来实现
 
@@ -483,7 +665,7 @@ t.pressKey( keys [, options] )
 | 参数 | 类型 | 描述 |
 | --- | --- | --- |
 | `keys` | string | 要在指定元素中输入的文本 |
-| `options` _(可选的)_ | Object | 选项, 有关[通用选项]() | 
+| `options` _(可选的)_ | Object | 选项, 有关[基本动作选项](#基本动作选项-basic-action) | 
 
 下表显示了如何指定不同类型，键序列和组合的键。
 
@@ -616,9 +798,191 @@ test('Take a screenshot of my new avatar', async t => {
 
 > 暂未更新
 
-### 动作选项 (no)
+### 动作选项 options
 
-> 暂未更新
+#### 基本动作选项 basic action
+
+``` js
+{
+  speed: Number
+}
+```
+
+| 参数 | 类型 | 描述 | 默认值 |
+| --- | --- | --- | --- |
+| `speed` | number | 动作的速度，在 `1`(最大速度) 和 `0.01`(最小速度) 之间 | `1` |
+
+基本动作选项用于 `t.pressKey`，`t.selectText`，`t.selectTextAreaContent` 和 `t.selectEditableContent` 动作。
+
+``` js
+test('My Test', async t => {
+  const nameInput = Selector('#developer-name');
+  await t
+    .typeText(nameInput, 'Peter')
+    .typeText(nameInput, ' Parker', { speed: 0.1 });
+});
+```
+
+#### 鼠标动作选项 mouse action
+
+``` js
+{
+  modifiers: {
+    ctrl: Boolean,
+    alt: Boolean,
+    shift: Boolean,
+    meta: Boolean
+  },
+
+  offsetX: Number,
+  offsetY: Number,
+  speed: Number
+}
+```
+
+| 参数 | 类型 | 描述 | 默认值 |
+| --- | --- | --- | --- |
+| `ctrl` `alt` `shift` `meta` | boolean | 在鼠标操作期间要按下的修饰键 | `false` |
+| `offsetX` `offsetY` | number | 鼠标指针坐标，正整数从左上角计算，负整数从右下角计算 | 目标元素的中心 |
+| `speed` | number | 动作的速度，在 `1`(最大速度) 和 `0.01`(最小速度) 之间 | `1` |
+
+
+鼠标动作选项用于 `t.drag` 和 `t.hover` 动作。
+
+``` js
+test('My Test', async t => {
+  await t
+    .drag(sliderHandle, 360, 0, {
+      offsetX: 10,
+      offsetY: 10,
+      modifiers: {
+        shift: true
+      }
+    });
+});
+```
+
+#### 拖拽到元素动作选项 dragToElement action
+
+``` js
+{
+  modifiers: {
+    ctrl: Boolean,
+    alt: Boolean,
+    shift: Boolean,
+    meta: Boolean
+  },
+
+  offsetX: Number,
+  offsetY: Number,
+  destinationOffsetX: Number,
+  destinationOffsetY: Number,
+  speed: Number
+}
+```
+
+| 参数 | 类型 | 描述 | 默认值 |
+| --- | --- | --- | --- |
+| `ctrl` `alt` `shift` `meta` | boolean | 在鼠标操作期间要按下的修饰键 | `false` |
+| `offsetX` `offsetY` | number | 鼠标指针坐标，正整数从左上角计算，负整数从右下角计算 | 目标元素的中心 |
+| `destinationOffsetX` `destinationOffsetY` | number | 鼠标拖拽完成时的指针坐标，正整数从左上角计算，负整数从右下角计算 | 目标元素的中心 |
+| `speed` | number | 动作的速度，在 `1`(最大速度) 和 `0.01`(最小速度) 之间 | `1` |
+
+拖拽到元素动作选项用于 `t.dragToElement` 动作。
+
+``` js
+test('My Test', async t => {
+  const fileIcon      = Selector('.file-icon');
+  const directoryPane = Selector('.directory');
+
+  await t
+    .dragToElement(fileIcon, directoryPane, {
+      offsetX: 10,
+      offsetY: 10,
+      destinationOffsetX: 100,
+      destinationOffsetY: 50,
+      modifiers: {
+        shift: true
+      }
+    });
+});
+```
+
+#### 点击动作选项 click action
+
+``` js
+{
+  modifiers: {
+    ctrl: Boolean,
+    alt: Boolean,
+    shift: Boolean,
+    meta: Boolean
+  },
+
+  offsetX: Number,
+  offsetY: Number,
+  caretPos: Number,
+  speed: Number
+}
+```
+
+| 参数 | 类型 | 描述 | 默认值 |
+| --- | --- | --- | --- |
+| `ctrl` `alt` `shift` `meta` | boolean | 在鼠标操作期间要按下的修饰键 | `false` |
+| `offsetX` `offsetY` | number | 鼠标指针坐标，正整数从左上角计算，负整数从右下角计算 | 目标元素的中心 |
+| `caretPos` | number | 如果在输入元素上执行动作，则为初始插入符号位置，从零开始的整数。 | 文本长度 |
+| `speed` | number | 动作的速度，在 `1`(最大速度) 和 `0.01`(最小速度) 之间 | `1` |
+
+点击操作选项用于 `t.click`，`t.doubleClick` 和 `t.rightClick` 动作。
+
+``` js
+test('My Test', async t => {
+  const nameInput = Selector('#developer-name');
+  await t
+    .typeText(nameInput, 'Pete Parker')
+    .click(nameInput, { caretPos: 4 })
+    .pressKey('r');
+});
+```
+
+#### 输入动作选项 typing action
+
+``` js
+{
+  modifiers: {
+    ctrl: Boolean,
+    alt: Boolean,
+    shift: Boolean,
+    meta: Boolean
+  },
+
+  offsetX: Number,
+  offsetY: Number,
+  caretPos: Number,
+  replace: Boolean,
+  paste: Boolean,
+  speed: Number
+}
+```
+
+| 参数 | 类型 | 描述 | 默认值 |
+| --- | --- | --- | --- |
+| `ctrl` `alt` `shift` `meta` | boolean | 在鼠标操作期间要按下的修饰键 | `false` |
+| `offsetX` `offsetY` | number | 鼠标指针坐标，正整数从左上角计算，负整数从右下角计算 | 目标元素的中心 |
+| `caretPos` | number | 如果在输入元素上执行动作，则为初始插入符号位置，从零开始的整数。 | 文本长度 |
+| `replace` | boolean | 是否替换原有文本 | `false` |
+| `paste` | boolean | 是否使用粘贴的方式一次性键入文本 | `false` |
+| `speed` | number | 动作的速度，在 `1`(最大速度) 和 `0.01`(最小速度) 之间 | `1` |
+
+输入动作选项用于 `t.typeText` 动作。
+
+``` js
+test('My Test', async t => {
+  await t
+    .typeText(nameInput, 'Peter')
+    .typeText(nameInput, 'Parker', { replace: true });
+});
+```
 
 ## 断言
 
@@ -651,12 +1015,12 @@ await t.expect( actual ).eql( expected [, message] [, options ])
 | `actual` | Any | 比较值，如果是一个 promise 对象，TestCafe 会自动等待值的变化 |
 | `expected` | Any | 期望值 |
 | `message` _(optional)_ | string | 如果测试失败，需要在测试报告中输出的字符串 |
-| `options` _(optional)_ | Object | 参见[断言选项]() |
+| `options` _(optional)_ | Object | 参见[断言选项](#断言选项) |
 
 ``` js
 await t
-  .expect({ a: 'bar' }).eql({ a: 'bar' }, 'this assertion will pass')
-  .expect({ a: 'bar' }).eql({ a: 'foo' }, 'this assertion will fail');
+  .expect({ a: 'bar' }).eql({ a: 'bar' }, '这个断言将会通过')
+  .expect({ a: 'bar' }).eql({ a: 'foo' }, '这个断言将会失败，并且这句话会被打印出来');
 ```
 
 ``` js
@@ -667,42 +1031,333 @@ test('My test', async t => {
 
 #### 不等于 notEql
 
+``` js
+await t.expect( actual ).notEql( unexpected [, message] [, options ])
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `actual` | Any | 比较值，如果是一个 promise 对象，TestCafe 会自动等待值的变化 |
+| `unexpected` | Any | 不期望的值 |
+| `message` _(optional)_ | string | 如果测试失败，需要在测试报告中输出的字符串 |
+| `options` _(optional)_ | Object | 参见[断言选项](#断言选项) |
+
+``` js
+await t
+  .expect({ a: 'bar' }).notEql({ a: 'bar' }, '这个断言将会失败，并且这句话会被打印出来')
+  .expect({ a: 'bar' }).notEql({ a: 'foo' }, '这个断言将会通过');
+```
+
+``` js
+test('My test', async t => {
+  await t.expect(Selector('.className').count).notEql(2);
+});
+```
+
 #### 真值 ok
+
+``` js
+await t.expect( actual ).ok( [ message ] [, options ])
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `actual` | Any | 比较值，如果是一个 promise 对象，TestCafe 会自动等待值的变化 |
+| `message` _(optional)_ | string | 如果测试失败，需要在测试报告中输出的字符串 |
+| `options` _(optional)_ | Object | 参见[断言选项](#断言选项) |
+
+``` js
+await t
+  .expect('ok').ok('这个断言将会通过')
+  .expect(false).ok('这个断言将会失败，并且这句话会被打印出来');
+```
+
+``` js
+test('My test', async t => {
+  await t.expect(Selector('#element').exists).ok();
+});
+```
 
 #### 假值 notOk
 
+``` js
+await t.expect( actual ).notOk( [ message ] [, options ])
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `actual` | Any | 比较值，如果是一个 promise 对象，TestCafe 会自动等待值的变化 |
+| `message` _(optional)_ | string | 如果测试失败，需要在测试报告中输出的字符串 |
+| `options` _(optional)_ | Object | 参见[断言选项](#断言选项) |
+
+``` js
+await t
+  .expect('ok').notOk('这个断言将会失败，并且这句话会被打印出来')
+  .expect(false).notOk('这个断言将会通过');
+```
+
+``` js
+test('My test', async t => {
+  await t.expect(Selector('#element').exists).notOk();
+});
+```
+
 #### 包含 contains
+
+``` js
+await t.expect( actual ).contains( expected [, message ] [, options ])
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `actual` | Any | 比较值，如果是一个 promise 对象，TestCafe 会自动等待值的变化 |
+| `expected` | Any | 期望值 |
+| `message` _(optional)_ | string | 如果测试失败，需要在测试报告中输出的字符串 |
+| `options` _(optional)_ | Object | 参见[断言选项](#断言选项) |
+
+``` js
+await t
+  .expect('foo bar').contains('bar', '用例未通过：字符串 "foo bar" 里面不含有期望的 "bar" 子串')
+  .expect([1, 2, 3]).contains(2, '用例未通过：数组中不含有期望的值')
+  .expect({ foo: 'bar', hello: 'universe' }).contains({ foo: 'bar' }, '用例未通过：对象中不含有期望的属性')
+```
+
+``` js
+test('My test', async t => {
+  const getLocation = ClientFunction(() => document.location.href.toString())
+  await t.expect(getLocation()).contains('example.com', '用例未通过：网址不包含期望的值');
+});
+```
 
 #### 不包含 notContains
 
+``` js
+await t.expect( actual ).notContains( unexpected [, message ] [, options ])
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `actual` | Any | 比较值，如果是一个 promise 对象，TestCafe 会自动等待值的变化 |
+| `unexpected` | Any | 不期望的值 |
+| `message` _(optional)_ | string | 如果测试失败，需要在测试报告中输出的字符串 |
+| `options` _(optional)_ | Object | 参见[断言选项](#断言选项) |
+
+``` js
+await t
+  .expect('foo bar').notContains('bar', '用例未通过：字符串中含有不期望的子串')
+  .expect([1, 2, 3]).notContains(2, '用例未通过：数组中含有不期望的值')
+  .expect({ foo: 'bar', hello: 'universe' }).notContains({ buzz: 'abc' }, '用例未通过：对象中含有不期望的属性')
+```
+
+``` js
+test('My test', async t => {
+  const getLocation = ClientFunction(() => document.location.href.toString())
+  await t.expect(getLocation()).notContains('example.com', '用例未通过：网址包含了不被期望的值');
+});
+```
+
 #### 类型等于 tyoeOf
+
+``` js
+await t.expect( actual ).typeOf( typeName [, message ] [, options ])
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `actual` | Any | 比较值，如果是一个 promise 对象，TestCafe 会自动等待值的变化 |
+| `typeName` | string | 期望的 `actual` 的类型 |
+| `message` _(optional)_ | string | 如果测试失败，需要在测试报告中输出的字符串 |
+| `options` _(optional)_ | Object | 参见[断言选项](#断言选项) |
+
+``` js
+await t
+  .expect({ a: 'bar' }).typeOf('object', '用例未通过：比较值不是对象')
+  .expect(/bar/).typeOf('regexp', '用例未通过：比较值不是正则表达式')
+  .expect(null).typeOf('null', '用例未通过：比较值不为null')
+```
+
+``` js
+test('My test', async t => {
+  await t.expect(Selector('#element').getAttribute('attr')).typeOf('string');
+});
+```
 
 #### 类型不等于 notTypeOf
 
+``` js
+await t.expect( actual ).notTypeOf( typeName [, message ] [, options ])
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `actual` | Any | 比较值，如果是一个 promise 对象，TestCafe 会自动等待值的变化 |
+| `typeName` | string | 不期望的 `actual` 的类型 |
+| `message` _(optional)_ | string | 如果测试失败，需要在测试报告中输出的字符串 |
+| `options` _(optional)_ | Object | 参见[断言选项](#断言选项) |
+
+``` js
+await t
+  .expect('bar').notTypeOf('number', '用例未通过：比较值不是数字类型')
+```
+
+``` js
+test('My test', async t => {
+  await t.expect(Selector('#element').getAttribute('attr')).notTypeOf('null');
+});
+```
+
 #### 大于 gt
+
+``` js
+await t.expect( actual ).gt( expected [, message ] [, options ])
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `actual` | Any | 比较值，如果是一个 promise 对象，TestCafe 会自动等待值的变化 |
+| `expected` | Any | 期望的值 |
+| `message` _(optional)_ | string | 如果测试失败，需要在测试报告中输出的字符串 |
+| `options` _(optional)_ | Object | 参见[断言选项](#断言选项) |
+
+``` js
+await t.expect(5).gt(2, '用例未通过：比较值应该比 2 大')
+```
+
+``` js
+test('My test', async t => {
+  await t.expect(Selector('#element').clientWidth).gt(300);
+});
+```
 
 #### 大于等于 gte
 
+``` js
+await t.expect( actual ).gte( expected [, message ] [, options ])
+```
+
+用法同 [`gt`](#大于-gt)
+
 #### 小于 lt
+
+``` js
+await t.expect( actual ).lt( expected [, message ] [, options ])
+```
+
+用法同 [`gt`](#大于-gt)
 
 #### 小于等于 lte
 
+``` js
+await t.expect( actual ).lte( expected [, message ] [, options ])
+```
+
+用法同 [`gt`](#大于-gt)
+
 #### 在某个范围 within
+
+``` js
+await t.expect( actual ).within( start, finish [, message ] [, options ])
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `actual` | number | 比较值，如果是一个 promise 对象，TestCafe 会自动等待值的变化 |
+| `start` | number | 范围下限（包含） |
+| `finish` | number | 范围上限（包含） |
+| `message` _(optional)_ | string | 如果测试失败，需要在测试报告中输出的字符串 |
+| `options` _(optional)_ | Object | 参见[断言选项](#断言选项) |
+
+``` js
+await t.expect(5).within(3, 10, '这个断言将会通过');
+```
+
+``` js
+test('My test', async t => {
+  await t.expect(Selector('#element').scrollTop).within(300, 400);
+});
+```
 
 #### 不在某个范围 notWithin
 
+``` js
+await t.expect( actual ).notWithin( start, finish [, message ] [, options ])
+```
+
+用法同 [`within`](#在某个范围-within)
+
 #### 正则匹配 match
+
+``` js
+await t.expect( actual ).match( regexp [, message ] [, options ])
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `actual` | string | 比较值，如果是一个 promise 对象，TestCafe 会自动等待值的变化 |
+| `regexp` | RegExp | 用来匹配 `actual` 的正则表达式 |
+| `message` _(optional)_ | string | 如果测试失败，需要在测试报告中输出的字符串 |
+| `options` _(optional)_ | Object | 参见[断言选项](#断言选项) |
+
+``` js
+await t.expect('foobar').match(/^f/, '这个断言将会通过');
+```
+
+``` js
+test('My test', async t => {
+  const getLocation = ClientFunction(() => document.location.href.toString());
+  await t.expect(getLocation()).match(/\.com/);
+});
+```
 
 #### 非正则匹配 notMatch
 
+``` js
+await t.expect( actual ).notMatch( regexp [, message ] [, options ])
+```
+
+用法同 [`match`](#正则匹配-match)
+
 ### 断言选项
 
+``` js
+{
+  timeout: Number,
+  allowUnawaitedPromise: Boolean
+}
+```
 
+| 参数 | 类型 | 描述 | 默认值 |
+| --- | --- | --- | --- |
+| `timeout` | number | 如果在断言中使用了属性选择器或客户端函数，可等待的最大时间 (单位：ms) |
+| `allowUnawaitedPromise` | boolean | 如果你要断言一个常规的 promise 方法，请将该选项设置为 `true` |
 
-## 侦测数据变化 (no)
+``` js
+await t.expect(Selector('#elementId').innerText).eql('text', '在 500ms 内检查元素的文本', { timeout: 500 });
+```
+
+``` js
+await t.expect(doSomethingAsync()).ok('检查异步函数是否含回了 promise 对象', { allowUnawaitedPromise: true });
+```
+
+## 客户端方法 (no)
 
 > 暂未更新
 
-## 等待 (no)
+## 等待
 
-> 暂未更新
+无论出于什么原因，让测试暂停一小会
+
+``` js
+t.wait( timeout )
+```
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `timeout` | number | 暂停的持续时间，单位 ms |
+
+``` js
+await t
+  .click('#play-1-sec-animation')
+  .wait(1000)
+  .expect(header.getStyleProperty('opacity')).eql(0);
+```
