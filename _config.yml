@@ -61,7 +61,7 @@ marked:
 index_generator:
   path: ''
   per_page: 10
-  order_by: -updated
+  order_by: -date
 
 # Category & Tag
 default_category: uncategorized

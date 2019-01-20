@@ -35,6 +35,8 @@ yarn add benchmark mockjs lodash
 
 最后运行 `benchmark`，比较结果得出结论
 
+<!-- more -->
+
 # 测试代码
 
 ``` js
