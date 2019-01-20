@@ -336,7 +336,7 @@ post_copyright:
 # Dependencies: https://github.com/hexojs/hexo-deployer-git
 post_edit:
   enable: true
-  url: https://github.com/mutoe/mutoe.github.io/tree/source/source/_posts/ # Link for view source.
+  url: https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/ # Link for view source.
 # url: https://github.com/theme-next/theme-next.org/_posts/edit/master/ # Link for fork & edit.
 
 
