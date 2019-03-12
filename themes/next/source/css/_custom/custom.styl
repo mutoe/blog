@@ -23,6 +23,23 @@ table
 .external-link
   margin 28px
 
+.highlight-wrap[data-rel]
+  position relative
+
+  &::before
+    content attr(data-rel)
+    position absolute
+    font-family consolas, Menlo, "PingFang SC", "Microsoft YaHei", monospace
+    top 10px
+    right 20px
+    line-height 1.6
+    font-size 14px
+    transition color .4s
+    color $grey
+
+  &:hover::before
+    color $grey-dark
+
 // 锚点
 .post-body
   h1, h2, h3, h4, h5, h6
