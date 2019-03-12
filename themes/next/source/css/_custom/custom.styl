@@ -34,3 +34,17 @@ table
           content '#'
           position absolute
           margin-left -0.8em
+
+// 列表样式
+.posts-expand .post-body ul
+  li
+    list-style unset
+
+  > li
+    list-style circle
+
+    > ul > li
+      list-style square
+
+    > ol > li
+      list-style lower-roman
