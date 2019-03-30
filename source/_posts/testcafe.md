@@ -111,12 +111,12 @@ testcafe chrome myFirstTestcase.js
   });
 ```
 
-t 是我们的测试用例的上下文对象，它又很多方法，在上面的例子中，我们调用了它的 `typeText` 和 `click` 两个方法，其中
+t 是我们的测试用例的控制器，它又很多方法，在上面的例子中，我们调用了它的 `typeText` 和 `click` 两个方法，其中
 
 - `typeText` 方法用来键入文本，它接受两个参数：第一个参数是 selector 选择器（它的语法类似 jQuery 选择器的语法）；第二个参数是你要键入的文本；
 - `click` 方法用来模拟鼠标点击，它接受一个参数，是一个 selector 选择器
 
-> 有关这个上下文对象的更多方法，请先参考 [TestCafe 官方 API 手册](https://devexpress.github.io/testcafe/documentation/test-api/actions/) (它是一个英文文档，稍后我会整理出这个文档的中文手册在本页下方)
+> 有关这个控制器的更多方法，请先参考 [TestCafe 官方 API 手册](https://devexpress.github.io/testcafe/documentation/test-api/actions/) (它是一个英文文档，稍后我会整理出这个文档的中文手册在本页下方)
 
 这段代码的作用是：
 1. 首先找到 id 为 `developer-name` 的标签，输入值 'John Smith'
@@ -152,7 +152,7 @@ t 是我们的测试用例的上下文对象，它又很多方法，在上面的
 我们拿到需要判断的值后，就可以对测试用例进行断言了。  
 它到底能否正确执行测试用例并输出我们期望的结果？
 
-我们使用测试用例上下文对象 `t.expect()` 方法来进行断言,  
+我们使用测试用例控制器的 `t.expect()` 方法来进行断言,  
 将测试脚本改写为以下内容
 
 ``` diff
@@ -239,7 +239,7 @@ test( testName, fn(t) )
 | --- | --- | --- |
 | `testName` | string | 测试用例的名称 |
 | `fn` | Function | 包含测试代码的异步函数 |
-| `t` | Object | 测试用例的上下文对象, 也叫[测试控制器](#) |
+| `t` | Object | 测试用例的[测试控制器](#) |
 
 ``` js
 fixture('MyFixture')
@@ -265,21 +265,202 @@ TestCafe 测试在服务器端执行。
 
 
 
-### 指定起始页面 (no)
+### 指定起始页面
 
-> 暂未更新
+您可以指定 fixture 中所有测试启动时的 web 页面。
 
-### 测试元数据 (no)
+``` js
+fixture.page( url )
+fixture.page `url`
+```
 
-> 暂未更新
+类似的，你也可以为特定的测试用例置顶一个起始的 web 页面。
 
-### 钩子 (no)
+``` js
+test.page( url )
+test.page `url`
+```
 
-> 暂未更新
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `url` | string | 指定起始页面的 URL |
 
-### 跳过测试 (no)
+``` js
+fixture('MyFixture')
+  .page('http://devexpress.github.io/testcafe/example')
 
-> 暂未更新
+test('Test1', async t => {
+  // Starts at http://devexpress.github.io/testcafe/example
+})
+
+test.page('http://devexpress.github.io/testcafe/blog/')
+  ('Test2', async t => {
+      // Starts at http://devexpress.github.io/testcafe/blog/
+  })
+```
+
+如果没有指定起始页面，则打开 `about:blank` 页面。
+
+你也可以使用 `file://` 协议或相对路径
+
+``` js
+fixture('MyFixture')
+  .page('file:///user/my-website/index.html')
+```
+
+``` js
+fixture('MyFixture')
+  .page('../my-project/index.html')
+```
+
+### 测试元数据
+
+你可以使用键值对的方式为测试指定元数据，并在测试报告中展示这些元数据。
+
+要定义元数据，请使用 `meta` 方法。
+
+``` js
+fixture
+  .meta('fixtureID', 'f-0001')
+  .meta({ author: 'John', creationDate: '05/03/2018' })
+  
+test
+  .meta('testID', 't-0001')
+  .meta({ severity: 'critical', testedAPIVersion: '1.0' })
+  ('MyTest', async t => { /* ... */})
+```
+
+你可以使用 [custom reporter](https://devexpress.github.io/testcafe/documentation/extending-testcafe/reporter-plugin/) 来访问测试元数据。
+
+报告器的 `reportFixtureStart` 和 `reportTestDone` 方法来访问测试元数据
+
+### 钩子
+
+#### 测试组钩子
+
+在每个测试组开始前、结束后，都可以执行特定的方法，它叫做钩子。如果一个测试在多个浏览器中运行，则在每个浏览器中都会执行指定钩子。
+
+你可以指定测试组开始前、结束后执行的钩子
+
+``` js
+fixture `My fixture`
+  .page `http://example.com`
+  .before( async ctx => {
+    /* fixture initialization code */
+  })
+  .after( async ctx => {
+    /* fixture finalization code */
+  });
+```
+
+#### 测试用例钩子
+
+在每次测试的开始前、结束后，也有相应的钩子。
+
+
+``` js
+fixture.beforeEach( fn(t) )
+fixture.afterEach( fn(t) )
+
+test.before( fn(t) )
+test.after( fn(t) )
+```
+
+> 如果指定了 `test.before()` 或 `test.after()`， 那么它会覆盖 `fixture.beforeEach()` 或 `fixture.afterEach()` 的钩子。 
+
+``` js
+fixture `My fixture`
+  .page `http://example.com`
+  .beforeEach( async t => {
+      /* test initialization code */
+  })
+  .afterEach( async t => {
+      /* test finalization code */
+  });
+
+test
+  .before( async t => {
+      /* test initialization code */
+  })
+  ('MyTest', async t => { /* ... */ })
+  .after( async t => {
+      /* test finalization code */
+  });
+```
+
+#### 在钩子和测试代码之间共享变量
+
+通过使用测试的上下文对象，来共享在钩子和测试代码之间的变量。
+
+测试的上下文对象为 `t.ctx`，使用它来代替全局变量。
+
+``` js
+fixture `Fixture1`
+  .beforeEach(async t  => {
+    t.ctx.someProp = 123;
+  });
+
+test
+  ('Test1', async t => {
+    console.log(t.ctx.someProp); // > 123
+  })
+  .after(async t => {
+    console.log(t.ctx.someProp); // > 123
+  });
+```
+
+> 需要注意的是，每个测试都有自己的测试上下文对象。每次测试开始时，`t.ctx` 都是一个空的对象。
+
+在测试组的钩子中，回调函数的参数为 `ctx`，即为测试的上下文对象，在测试代码中可以使用 `t.fixtureCtx` 来访问它
+
+``` js
+fixture `Fixture1`
+  .before(async ctx  => {
+    ctx.someProp = 123;
+  })
+  .after(async ctx  => {
+    console.log(ctx.newProp); // > abc
+  });
+
+test('Test1', async t => {
+  console.log(t.fixtureCtx.someProp); // > 123
+});
+
+test('Test2', async t => {
+  t.fixtureCtx.newProp = 'abc';
+});
+```
+
+### 跳过测试
+
+你在写测试用例时，可以跳过某个测试用例或者只执行某个测试用例
+
+``` js
+fixture.skip `Fixture1`; // 所有该测试组的用例都会被跳过
+
+test('Fixture1Test1', () => {});
+test('Fixture1Test2', () => {});
+
+fixture `Fixture2`;
+
+test('Fixture2Test1', () => {});
+test.skip('Fixture2Test2', () => {}); // 这个测试用例会被跳过
+test('Fixture2Test3', () => {});
+```
+
+``` js
+fixture.only `Fixture1`;
+test('Fixture1Test1', () => {});
+test('Fixture1Test2', () => {});
+
+fixture `Fixture2`;
+
+test('Fixture2Test1', () => {});
+test.only('Fixture2Test2', () => {});
+test('Fixture2Test3', () => {});
+
+// 只有 `Fixture1` 测试组和 `Fixture2Test2` 测试用例会被执行
+```
 
 ## 页面元素选择
 
@@ -295,7 +476,7 @@ import { Selector } from 'testcafe';
 const article = Selector('.article-content');
 ```
 
-`Selector` 参数语法类似于 jQuery 选择器语法。
+`Selector` 参数语法类似于 jQuery 选择器语法，他们都是使用的 [CSS选择器](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors) 语法。
 在上面的例子中，我们选择了一个 class 为 `atricle-content` 的元素。
 然后我们就可以使用这个选择器对对元素进行操作了。
 
@@ -334,17 +515,88 @@ Selector( init [, options] )
 | `init` | Function &vert; string &vert; Selector &vert; Snapshot &vert; Promise | 标识要选择的 DOM 节点 |
 | `options` _(可选的)_ | Object | 选项, 有关[选择器选项]() |
 
+- 使用一个 CSS 选择器
+
+  ``` js
+  import { Selector } from 'testcafe';
+
+  const usernameInput = Selector('#username');
+  ```
+  
+- 使用一个在客户端执行的函数，必须返回一个 `DOM node`，一组 `DOM nodes`， `NodeList`, `HTMLCollection`, `null` 或者 `undefined`，或者 Promise.resolve() 为以上内容的方法
+
+  请注意，它不能使用一些外部变量，因为该方法是在浏览器中运行的
+
+  ``` js
+  import { Selector } from 'testcafe';
+
+  const element = Selector(() => {
+      const storedElementId = window.localStorage.storedElementId;
+      return document.querySelector(storedElementId);
+  });
+  ```
+  
+- 一个 `Selector` 构造器
+
+  ``` js
+  import { Selector } from 'testcafe';
+  
+  const ctaButton = Selector('.cta-button');
+  Selector(ctaButton, { visibilityCheck: true });
+  ```
+
+#### 使用选择器
+
+本主题描述如何标识DOM元素并使用选择器获取关于它们的信息。
+
+##### 检查元素是否存在
+
+选择器可能返回一个、多个或者不存在匹配的元素。您可以使用一下属性来检查元素是否存在，或者确定匹配元素的数量。
+
+| 属性 | 类型 | 描述 |
+| --- | --- | --- |
+| `exists` | boolean | 如果匹配到元素则返回 `true` |
+| `count` | number | 选择器匹配的节点数量 |
+
 ``` js
 import { Selector } from 'testcafe';
 
-const usernameInput = Selector('#username');
+fixture `Example page`
+  .page `http://devexpress.github.io/testcafe/example/`;
+
+test('My test', async t => {
+  const osCount            = Selector('.column.col-2 label').count;
+  const submitButtonExists = Selector('#submit-button').exists;
+
+  await t
+    .expect(osCount).eql(3)
+    .expect(submitButtonExists).ok();
+});
 ```
 
-> 未完
+> 注意，选择器的 getter 是异步的
 
-#### 使用选择器 (no)
+##### 获取元素的状态
 
-> 暂未更新
+你也可以获取选择器匹配元素的状态（size、position、classes 等）。有关[元素的状态](#)
+
+``` js
+import { Selector } from 'testcafe';
+
+fixture `My fixture`
+  .page('http://devexpress.github.io/testcafe/example/');
+
+const windowsInput = Selector('#windows');
+
+test('Obtain Element State', async t => {
+  await t.click(windowsInput);
+  const windowsInputChecked = await windowsInput.checked; // returns true
+});
+```
+
+##### DOM 节点快照
+
+如果你需要获取一个 DOM 元素实例的状态，需要使用 `await` 来匹配
 
 #### 选择器查找 (no)
 
