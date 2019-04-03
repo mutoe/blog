@@ -1,4 +1,12 @@
 {% if page.comments %}
+  <script src="https://utteranc.es/client.js"
+          repo="mutoe/blog"
+          issue-term="title"
+          label="comment"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
 
   {% if theme.facebook_sdk.enable and theme.facebook_comments_plugin.enable %}
     <div class="comments" id="comments">
