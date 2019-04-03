@@ -6,7 +6,7 @@ tags:
   - nodejs
   - testcafe
 date: 2018-10-21 21:50:35
-update: 2018-10-25 13:02:31
+update: 2019-04-03 11:30:18
 ---
 
 # 简介
@@ -504,7 +504,7 @@ const selectedRadioButton = Selector('.radio-button').withAttribute('selected');
 const buttonWrapper = Selector('.article-content').find('#share-button').parent();
 ```
 
-#### 创建选择器 (no)
+#### 创建选择器
 
 ``` js
 Selector( init [, options] )
@@ -594,13 +594,266 @@ test('Obtain Element State', async t => {
 });
 ```
 
-##### DOM 节点快照
+###### DOM 节点快照
 
-如果你需要获取一个 DOM 元素实例的状态，需要使用 `await` 来匹配
+如果你需要获取整个 DOM 元素实例的状态，需要使用 `await` 来匹配
 
-#### 选择器查找 (no)
+``` js
+import { Selector } from 'testcafe';
 
-> 暂未更新
+fixture `My fixture`
+  .page `http://devexpress.github.io/testcafe/example/`;
+
+test('DOM Node Snapshot', async t => {
+  const sliderHandle = Selector('#slider').child('span');
+  const sliderHandleSnapshot = await sliderHandle();
+
+  console.log(sliderHandleSnapshot.hasClass('ui-slider-handle'));    // => true
+  console.log(sliderHandleSnapshot.childElementCount);               // => 0
+});
+```
+
+##### 定义动作的目标
+
+你还可以将选择器的返回值作为测试控制器操作的目标。DOM 节点快照同样可以。
+
+``` js
+import { Selector } from 'testcafe';
+
+fixture `My fixture`
+    .page `http://devexpress.github.io/testcafe/example/`;
+
+const label = Selector('#tried-section').child('label');
+
+test('My Test', async t => {
+  const labelSnapshot = await label();
+
+  await t.click(labelSnapshot);
+});
+```
+
+如果匹配到多个目标元素，那么只有匹配到的第一个元素将会被操作。
+
+##### 定义断言的目标
+
+你可以将选择器的返回值作为断言的目标。
+
+``` js
+import { Selector } from 'testcafe';
+
+fixture `My fixture`
+  .page `http://devexpress.github.io/testcafe/example/`;
+
+test('Assertion with Selector', async t => {
+  const developerNameInput = Selector('#developer-name');
+
+  await t
+    .expect(developerNameInput.value).eql('')
+    .typeText(developerNameInput, 'Peter')
+    .expect(developerNameInput.value).eql('Peter');
+});
+```
+
+##### 选择器超时
+
+在测试期间，testcafe 会一次又一次的检查，等待目标元素变得可见，如果超时还不可见则不会通过测试用例。
+
+**如何设置超时**
+
+- 你可以在选择器构造函数的[选项](#)中指定超时时间。
+- 如果使用 API 进行测试，则需要在 [`runner.run`](#) 方法中指定。
+- 如果使用命令行启动，则需要指定[选择器超时](#) 选项。
+
+##### 调试选择器
+
+Testcafe 会输出有关于测试报告运行失败时的详细信息。
+
+如果你尝试使用不匹配任何DOM元素的选择器时，测试失败并抛出一个错误。错误消息指示哪个选择器失败。
+
+![failed selector report](//static.mutoe.com/2018/testcafe/failed-selector-report.png)
+
+#### 选择器的方法
+
+##### 过滤 DOM 节点
+
+如果选择器返回多个DOM节点，你可以对它们进行筛选，以选择一个最终将由选择器返回的节点。选择器提供了根据索引、文本、属性等过滤DOM节点的方法。
+
+###### 根据索引 (nth)
+
+| 参数 | 返回值类型 | 描述 |
+| --- | --- | --- |
+| `nth(index)` | Selector | 根据匹配集中的索引查找元素。`index` 参数为从 `0` 开始的索引，如果指定为负数，则从末尾开始计算索引。 |
+
+``` js
+// 返回第三个 ul 元素
+Selector('ul').nth(2)
+
+// 返回最后一个 div 元素
+Selector('div').nth(-1)
+```
+
+##### 根据文本 (withText / withExactText)
+
+| 参数 | 返回值类型 | 描述 |
+| --- | --- | --- |
+| `withText(text)` | Selector | 创建一个选择器，该选择器过滤指定**文本**的匹配项，选择包含此文本的元素。`text` 参数区分大小写。 |
+| `withExactText(text)` | Selector | 创建一个选择器，该选择器过滤指定**文本**的匹配项，将会严格匹配等于该文本的元素。`text` 参数区分大小写。 |
+| `withText(regexp)` | Selector | 创建一个选择器，该选择器过滤指定**正则表达式**的匹配项。 |
+
+``` js
+// 返回内容含有 'foo' 的 label 元素
+// 不会返回含有 'foobar' 或 'Foo' 的元素
+Selector('label').withText('foo')
+
+// 返回匹配 /a[b-e]/ 文本的 div 元素。
+// 会匹配 'ab', 'ac'。 不会匹配 'bb', 'aa'
+Selector('div').withText(/a[b-e]/)
+```
+
+需要注意， `withText` 不仅会留下立即包含指定文本的元素，还会留下它的祖先元素。比如
+
+``` html
+<div class="container">
+  <div class="child">some text</div>
+</div>
+```
+
+``` js
+// 这个选择器会匹配 '.container' 和 '.child'
+Selector('div').withText('some text')
+```
+
+##### 根据属性 (withAttribute)
+
+| 参数 | 返回值类型 | 描述 |
+| --- | --- | --- |
+| `withAttribute(attrName [, attrValue])` | Selector | 创建一个选择器，选择包含指定属性(或属性值)的元素。 |
+
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `attrName` | string &vert; RegExp | 属性名，区分大小写。 |
+| `attrValue` _(可选的)_ | string &vert; RegExp | 属性值，区分大小写。你可以省略它来匹配任何值。 |
+
+``` js
+// 匹配任何含有 href 属性的 a 标签
+Selector('a').withAttribute('href')
+
+// 匹配 title 属性为‘图片’的 img 元素
+Selector('img').withAttribute('title', '图片')
+
+// 匹配任何 src 属性以 'https://static.mutoe.com' 开头的 img 元素
+Selector('img').withAttribute('src', /^https?:\/\/static\.mutoe\.com/)
+```
+
+##### 根据可见性 (filterVisible / filterHidden)
+
+| 参数 | 返回值类型 | 描述 |
+| --- | --- | --- |
+| `filterVisible()` | Selector | 创建一个选择器，只留下可见的元素。这些元素**没有** `display: none;`, `visibility: hidden;`, `width: 0;` 或 `height: 0;` 这些属性 |
+| `filterHidden()` | Selector | 创建一个选择器，只留下不可见的元素。这些元素**含有** `display: none;`, `visibility: hidden;`, `width: 0;` 或 `height: 0;` 这些属性 |
+
+``` js
+// 选择所有可见的 div 元素
+Selector('div').filterVisible()
+
+// 选择所有隐藏的 input 元素
+Selector('input').filterHidden()
+```
+
+##### 根据过滤器 (filter)
+
+| 参数 | 返回值类型 | 描述 |
+| --- | --- | --- |
+| `filter(cssSelector)` | Selector | 创建一个选择器，根据 css 选择器的语法过滤。 |
+| `filter(filterFn(node, idx), dependencies)` | Selector | 创建一个选择器，根据节点的状态过滤。 |
+
+| 参数 | 类型 | 描述 |
+| --- | --- | --- |
+| `cssSelector` | string | css 选择器 |
+| `filterFn(node, idx)` | Function | 该方法将会在浏览器环境中执行 |
+| `dependencies` | Function | 需要传递到客户端的方法，否则调用时不会出现在浏览器上下文环境中 |
+| `node` | Element | 当前元素的 DOM node |
+| `idx` | number | 当前 DOM node 所处的索引 |
+
+``` js
+// 从所有 li 标签中挑选含有 'active' class 的元素
+Selector('li').filter('.active')
+```
+
+``` js
+import { Selector } from 'testcafe'
+
+fixture `Example page`
+  .page `http://devexpress.github.io/testcafe/example/`
+
+test('My test', async t => {
+  const secondCheckBox = Selector('input')
+    .withAttribute('type', 'checkbox')
+    .nth(1)
+
+  const checkedInputs = Selector('input')
+    .withAttribute('type', 'checkbox')
+    .filter(node => node.checked)
+
+  const windowsLabel = Selector('label')
+    .withText('Windows')
+
+  await t
+    .click(secondCheckBox)
+    .expect(checkedInputs.count).eql(1)
+    .click(windowsLabel)
+})
+```
+
+如果所有的 DOM 都被过滤掉，`filter()` 选择器会返回 `null`
+
+##### 根据关系 (find / parent / child / sibling)
+
+| 参数 | 返回值类型 | 描述 |
+| --- | --- | --- |
+| `find(cssSelector)` | Selector | 返回当前元素匹配的所有子节点，并通过 css 选择器筛选它们。 |
+| `find(filterFn, dependencies)` | Selector | 返回当前元素匹配的所有子节点，根据节点的状态过滤。 |
+| `parent()` | Selector | 返回当前元素匹配的父节点。（第一个元素将会是最近的父元素） |
+| `parent(index)` | Selector | 返回当前元素匹配的父节点，并通过索引筛选它们。`0` 是最近的父元素，负数将会从根结点开始计算。 |
+| `parent(cssSelector)` | Selector | 返回当前元素匹配的父节点，并通过 css 选择器筛选。 |
+| `parent(filterFn, dependencies)` | Selector | 返回当前元素匹配的父节点，根据节点的状态过滤。 |
+| `child()` | Selector | 返回当前元素匹配的子节点。（第一个元素将会是最近的子元素） |
+| `child(index)` | Selector | 返回当前元素匹配的子节点，并通过索引筛选它们。`0` 是最近的子元素，负数将会从根结点开始计算。 |
+| `child(cssSelector)` | Selector | 返回当前元素匹配的子节点，并通过 css 选择器筛选。 |
+| `child(filterFn, dependencies)` | Selector | 返回当前元素匹配的子节点，根据节点的状态过滤。 |
+| `sibling()` | Selector | 返回当前元素匹配的兄弟元素。（第一个元素将会是最近的兄弟元素） |
+| `sibling(index)` | Selector | 返回当前元素匹配的兄弟元素，并通过索引筛选它们。以 `0` 开始，负数将会从末尾开始计算。 |
+| `sibling(cssSelector)` | Selector | 返回当前元素匹配的兄弟元素，并通过 css 选择器筛选。 |
+| `sibling(filterFn, dependencies)` | Selector | 返回当前元素匹配的兄弟元素，根据节点的状态过滤。 |
+| `nextSibling()` | Selector | 返回当前元素之后匹配的兄弟元素。（第一个元素将会是之后最近的兄弟元素） |
+| `nextSibling(index)` | Selector | 返回当前元素之后匹配的兄弟元素，并通过索引筛选它们。以 `0` 开始，负数将会从末尾开始计算。 |
+| `nextSibling(cssSelector)` | Selector | 返回当前元素之后匹配的兄弟元素，并通过 css 选择器筛选。 |
+| `nextSibling(filterFn, dependencies)` | Selector | 返回当前元素之后匹配的兄弟元素，根据节点的状态过滤。 |
+| `prevSibling()` | Selector | 返回当前元素之前匹配的兄弟元素。（第一个元素将会是之前最近的兄弟元素） |
+| `prevSibling(index)` | Selector | 返回当前元素之前匹配的兄弟元素，并通过索引筛选它们。以 `0` 开始，负数将会从末尾开始计算。 |
+| `prevSibling(cssSelector)` | Selector | 返回当前元素之前匹配的兄弟元素，并通过 css 选择器筛选。 |
+| `prevSibling(filterFn, dependencies)` | Selector | 返回当前元素之前匹配的兄弟元素，根据节点的状态过滤。 |
+
+**例子**
+
+``` js
+Selector('ul').find('label').parent('div.someClass')
+```
+
+找到页面上的所有ul元素。然后，在每个已找到的ul元素中找到label元素。然后，为每个label元素找到一个匹配div.someClass选择器的父元素。
+
+```js
+Selector('.container').parent(1).nth(0).find('.content').withText('yo!').child('span')
+```
+
+这个例子做了以下事情：
+
+- 找到 `.container` 元素的第二个父元素（父元素的父元素）
+- 选择匹配集中的第 1 个元素
+- 在该元素中，查找与 `.content` 选择器匹配的元素
+- 找到文本包含 'yo!' 的元素
+- 在每个已过滤的元素中，搜索标记名为 `span` 的子项。
 
 #### 选择器选项 (no)
 
@@ -614,7 +867,7 @@ test('Obtain Element State', async t => {
 
 > 暂未更新
 
-### DOM 节点状态 (no)
+### DOM 节点状态
 
 > 暂未更新
 
