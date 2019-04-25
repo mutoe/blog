@@ -70,3 +70,22 @@ table
 .utterances
   margin 24px 0 0
   max-width none
+
+// details
+details
+  summary
+    cursor zoom-in
+
+    &::before
+      display inline-block
+      content '▶'
+      margin-right 4px
+      color #999
+      transition transform .2s
+
+  &[open]
+    summary
+      cursor zoom-out
+
+      &::before
+        transform rotateZ(90deg)
