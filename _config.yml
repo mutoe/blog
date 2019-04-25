@@ -47,7 +47,7 @@ marked:
   pedantic: false
   sanitize: false
   tables: true
-  breaks: true
+  breaks: false
   smartLists: true
   smartypants: true
   modifyAnchors: ''
