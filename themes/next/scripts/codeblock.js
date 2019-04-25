@@ -1,5 +1,6 @@
 var languageMap = {
   js: 'javascript',
+  ts: 'typescritp',
 }
 
 hexo.extend.filter.register('after_post_render', function (data) {
