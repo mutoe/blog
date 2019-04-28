@@ -10,34 +10,38 @@ var datas = {
   css: [root + '/**/*.css'],
 }
 
-gulp.task('clean', function(cb) {
+const cleanTask = function(cb) {
   exec('hexo clean', function(err) {
     if (err) return cb(err)
     cb()
   })
-})
+}
 
-gulp.task('build', ['clean'], function(cb) {
+const buildTask = function(cb) {
   exec('hexo g', function(err) {
     if (err) return cb(err)
     cb()
   })
-})
+}
 
-gulp.task('htmlmin', ['build'], function() {
+const htmlminTask = function() {
   return gulp
     .src(datas.html)
     .pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
     .pipe(gulp.dest(buildDir))
-})
+}
 
-gulp.task('minify', ['htmlmin'])
-
-gulp.task('release', ['build', 'htmlmin'], function(cb) {
+const releaseTask = function(cb) {
   exec('hexo d', function(err) {
     if (err) return cb(err)
     cb()
   })
-})
+}
 
-gulp.task('default', ['release'])
+gulp.task('build', gulp.series(cleanTask, buildTask))
+
+gulp.task('minify', gulp.parallel(htmlminTask))
+
+gulp.task('release', gulp.series('build', 'minify', releaseTask))
+
+gulp.task('default', gulp.series('release'))
