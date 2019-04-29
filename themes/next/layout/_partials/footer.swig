@@ -1,5 +1,6 @@
 <div class="external-link">
   <a href="/sponsor">拥抱开源</a>
+  <a href="/quick">学习资料导航</a>
 </div>
 
 <div class="copyright">{#
