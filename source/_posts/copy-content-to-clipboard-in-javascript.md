@@ -3,7 +3,7 @@ title: 用 Javascript 将内容复制到剪贴板
 date: 2019-03-25 15:00:11
 categories: 心得
 tags:
- - javascript
+ - JavaScript
 ---
 
 在 js 中，将内容复制到剪贴板的原理是利用 `document.execCommand()` 方法进行操作.

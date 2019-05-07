@@ -4,6 +4,7 @@ date: 2019-05-06 12:29:34
 categories: 笔记
 tags:
 	- RegExp
+	- JavaScript
 ---
 
 # 正则表达式是什么
@@ -110,6 +111,12 @@ new RegExp('\\w+')
 - `(?:x)` 非捕获括号. 匹配 `x` 但不捕获, 用于分组.
 - `(?<name>x)` _(*ES2018)_ 具名分组. 匹配 `x` 并将捕获到的组可以 `name` 属性访问. [参考这里](http://es6.ruanyifeng.com/#docs/regex#%E5%85%B7%E5%90%8D%E7%BB%84%E5%8C%B9%E9%85%8D)
 
+例子
+
+``` js
+
+```
+
 ## 量词 Quantifiers
 
 - `x{n}` n 为正整数, 匹配 `x` 连续出现 n 次
@@ -165,7 +172,10 @@ new RegExp('\\w+')
 /^https?:\/\/(?:[\w-]+\.)+[\w-]+(?:/[\w-./?#%&=]*)?$/
 ```
 
+好了, javascript 中的正则表达式差不多就到这里了, 如果有兴趣的话, 不妨来挑战一下?[ (可能需要科学上网)](http://callumacrae.github.io/regex-tuesday/)
+
 # 参考资料
 
 - [RegExp - MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp)
 - [正则的扩展 - 阮一峰·ECMAScript6](http://es6.ruanyifeng.com/#docs/regex)
+- [精读《正则 ES2018》 - GitHub·dt-fe/weekly](https://github.com/dt-fe/weekly/blob/master/91.%E7%B2%BE%E8%AF%BB%E3%80%8A%E6%AD%A3%E5%88%99%20ES2018%E3%80%8B.md)

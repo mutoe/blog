@@ -3,7 +3,7 @@ title: 比较 javascript 中 filter 和 splice 删除数组的性能
 date: 2019-01-18 14:53:20
 categories: 心得
 tags:
- - javascript
+ - JavaScript
  - benchmark
  - mockjs
  - lodash
