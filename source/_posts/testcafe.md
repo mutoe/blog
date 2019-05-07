@@ -87,7 +87,7 @@ testcafe chrome myFirstTestcase.js
 > - `chrome` 是我们的测试平台，安装在本机的浏览器，也可以是 `safari` `firefox` 等
 > - `myFirstTestcase.js` 是我们编写的测试脚本
 
-稍等片刻，我们的浏览器就会被自动打开然后运行测试脚本，最后浏览器被自动关闭，在终端上留下了测试结果。
+稍等片刻，我们的浏览器就会被自动打开然后运行测试脚本，最后浏览器被自动关闭，在终端上留下了测试结果。
 
 ![test report](//static.mutoe.com/2018/testcafe/test-report.png)
 

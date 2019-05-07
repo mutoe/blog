@@ -29,9 +29,9 @@ yarn add benchmark mockjs lodash
 首先定义四种方法来测试数据删除操作，他们分别是 `Array.prototype.filter` `Array.prototype.splice` `lodash.reject` `lodash.filter` 
 
 然后使用 `mockjs` 生成两个数组，长度分别是 100 和 1000，用四种方法分别对这两组数据进行测试。  
-需要注意的是，在测试时需要对测试数组进行深拷贝，避免他们之间相互影响(毕竟 `Array.prototype.splice` 会改变原数组)
+需要注意的是，在测试时需要对测试数组进行深拷贝，避免他们之间相互影响(毕竟 `Array.prototype.splice` 会改变原数组)
 
-然后我们对其中一组数据进行测试，来校验我们写的方法是否正确
+然后我们对其中一组数据进行测试，来校验我们写的方法是否正确
 
 最后运行 `benchmark`，比较结果得出结论
 
