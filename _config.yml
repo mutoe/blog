@@ -85,6 +85,30 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: next
 
+# Offline
+## Config passed to sw-precache
+## https://github.com/JLHwung/hexo-offline
+offline:
+  maximumFileSizeToCacheInBytes: 81925760
+  staticFileGlobs:
+    - public/**/*.{js,css,svg,json,xml,ttf,woff,woff2}
+  stripPrefix: public
+  verbose: true
+  runtimeCaching:
+    # CDNs - should be cacheFirst, since they should be used specific versions so should not change
+    - urlPattern: /*
+      handler: cacheFirst
+      options:
+        origin: cdnjs.cloudflare.com
+    - urlPattern: /*
+      handler: cacheFirst
+      options:
+        origin: cdn.jsdelivr.net
+    - urlPattern: /*
+      handler: cacheFirst
+      options:
+        origin: fonts.googleapis.com
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:

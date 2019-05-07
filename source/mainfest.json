@@ -1,0 +1,16 @@
+{
+  "name": "Mutoe blog",
+  "short_name": "MT blog",
+  "theme_color": "#123456",
+  "background_color": "#e3e4e5",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/index.html",
+  "icons": [
+    {
+      "src": "/images/avatar.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    }
+  ]
+}
