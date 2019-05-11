@@ -111,12 +111,6 @@ new RegExp('\\w+')
 - `(?:x)` 非捕获括号. 匹配 `x` 但不捕获, 用于分组.
 - `(?<name>x)` _(*ES2018)_ 具名分组. 匹配 `x` 并将捕获到的组可以 `name` 属性访问. [参考这里](http://es6.ruanyifeng.com/#docs/regex#%E5%85%B7%E5%90%8D%E7%BB%84%E5%8C%B9%E9%85%8D)
 
-例子
-
-``` js
-
-```
-
 ## 量词 Quantifiers
 
 - `x{n}` n 为正整数, 匹配 `x` 连续出现 n 次
@@ -157,22 +151,94 @@ new RegExp('\\w+')
 ## 身份证号码
 
 ``` js
-/^\d{17}[0-9xX]$/
+/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)/
 ```
+
+> 注: 不要依赖正则表达式来校验身份证号码, 正则只用来验证格式, 无法验证校验码
 
 ## Email 地址
 
 ``` js
-/^\d{17}[0-9xX]$/
+/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
 ```
 
 ## HTTP URL
 
 ``` js
-/^https?:\/\/(?:[\w-]+\.)+[\w-]+(?:/[\w-./?#%&=]*)?$/
+/^(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]$/
 ```
 
-好了, javascript 中的正则表达式差不多就到这里了, 如果有兴趣的话, 不妨来挑战一下?[ (可能需要科学上网)](http://callumacrae.github.io/regex-tuesday/)
+# Regex Tuesday 挑战
+
+好了, javascript 中的正则表达式差不多就到这里了, 如果有实战兴趣的话, 不妨来挑战一下?
+
+**[Regex Tuesday](http://callumacrae.github.io/regex-tuesday/)** (可能需要科学上网)
+
+下面是自己做的 regex-tuesday 答案
+
+## Week 1. [Repeated words](http://callumacrae.github.io/regex-tuesday/challenge1.html)
+
+考察点: `反向引用` `边界`
+
+<details>
+<summary>查看答案</summary>
+
+这个比较简单
+
+``` js
+/(\b\S+\b) (\b\1\b)/gi // pattern
+'$1 <strong>$2</strong>' // replacer
+```
+</details>
+
+## Week 2. [Grayscale colours](http://callumacrae.github.io/regex-tuesday/challenge2.html)
+
+考察点: `反向引用` `分组` `量词`
+
+<details>
+<summary>查看答案</summary>
+
+这个可怕的正则表达式
+
+``` js
+/^(?:#([0-9a-f]{1,2})\1\1|rgba?\(((?:0|[1-9]\d?|1\d{2}|2[0-4]\d|25[0-5])(?:\.\d+)?|(?:[1-9]\d?(?:\.\d+)?|100)%), *0*\2 *, *0*\2(?: *, *(?:0(?:\.\d+)?|1|(?:[1-9]\d?(?:\.\d+)?|100)%) *)?\)|hsla?\((?:.+, *0%? *,.+|.+,.+, *(?:0%?|100%))(?: *,.+)?\))$/i // pattern
+```
+
+![regex-tuesday-2-grayscale-colours](//static.mutoe.com/2019/javascript-regexp/regex-tuesday-2-grayscale-colours.png)
+</details>
+
+## Week 3. [Dates](http://callumacrae.github.io/regex-tuesday/challenge3.html)
+
+<details>
+<summary>查看答案</summary>
+
+考察点: `分组`
+
+``` js
+/^(1\d{3}|200\d|201[0-2])\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2]\d|30) ([01]\d|2[0-3]):([0-5]\d)(?::([0-5]\d))?$/
+```
+
+![regex-tuesday-3-dates](//static.mutoe.com/2019/javascript-regexp/regex-tuesday-3-dates.png)
+</details>
+
+## Week 4. [Italic Markdown](http://callumacrae.github.io/regex-tuesday/challenge4.html)
+
+<details>
+<summary>查看答案</summary>
+
+``` js
+// 普通版本
+/(^|[^*])\*((?:[\w .]|\*\*)+)\*/g // pattern
+'$1<em>$2</em>'
+
+// 后行断言版本 (ES2018语法, 并非所有浏览器都支持)
+/(?<!\*)\*((?:[\w .]|\*\*)+)\*/g // pattern
+'<em>$1</em>' // replacer
+
+```
+</details>
+
+
 
 # 参考资料
 
