@@ -1,0 +1,3 @@
+[submodule "themes/silver"]
+	path = themes/silver
+	url = ../hexo-theme-silver.git

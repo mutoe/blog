@@ -63,6 +63,16 @@ index_generator:
   per_page: 10
   order_by: -date
 
+feed:
+  type: atom
+  path: atom.xml
+  limit: 10
+  hub:
+  content:
+  content_limit: 140
+  content_limit_delim: '<!-- more -->'
+  order_by: -date
+
 # Category & Tag
 default_category: uncategorized
 category_map:
@@ -82,32 +92,12 @@ pagination_dir: page
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
+plugins:
+  - hexo-generate-feed
+
 ## Themes: https://hexo.io/themes/
 theme: next
-
-# Offline
-## Config passed to sw-precache
-## https://github.com/JLHwung/hexo-offline
-offline:
-  maximumFileSizeToCacheInBytes: 81925760
-  staticFileGlobs:
-    - public/**/*.{js,css,svg,json,xml,ttf,woff,woff2}
-  stripPrefix: public
-  verbose: true
-  runtimeCaching:
-    # CDNs - should be cacheFirst, since they should be used specific versions so should not change
-    - urlPattern: /*
-      handler: cacheFirst
-      options:
-        origin: cdnjs.cloudflare.com
-    - urlPattern: /*
-      handler: cacheFirst
-      options:
-        origin: cdn.jsdelivr.net
-    - urlPattern: /*
-      handler: cacheFirst
-      options:
-        origin: fonts.googleapis.com
+# theme: silver
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
