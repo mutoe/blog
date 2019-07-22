@@ -65,18 +65,26 @@ table
     text-align left
 
 // 列表样式
-.posts-expand .post-body ul
-  li
-    list-style unset
+.posts-expand
+  .post-meta
+    .post-description
+      margin-top 48px
+      padding 24px
+      background #eee
+      text-align left
 
-  > li
-    list-style circle
+  .post-body ul
+    li
+      list-style unset
 
-    > ul > li
-      list-style square
+    > li
+      list-style circle
 
-    > ol > li
-      list-style lower-roman
+      > ul > li
+        list-style square
+
+      > ol > li
+        list-style lower-roman
 
 // utterances
 .utterances

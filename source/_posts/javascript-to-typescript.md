@@ -125,6 +125,8 @@ module.exports = {
 
 # 改造后常见 TS 错误 (持续更新)
 
+> 如果你想了解一些常见的 TS 错误, 可以参见我的另一篇帖子 -- [《TypeScript 常见错误整理》](/2019/typescript-errors)
+
 <div id="TS2307"></div>
 
 ## TS2307: Cannot find module 'moduleA'.
