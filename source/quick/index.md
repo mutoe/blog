@@ -1,12 +1,24 @@
 ---
 title: 学习资料快速导航
 date: 2019-04-30 11:52:02
-description:
-  一些自用的链接快速导航
+update: 2019-08-16 10:07:24
+description: 一些自用的链接快速导航
 keywords:
- - 导航
- - Electron
+  - 导航
+  - Electron
+  - Flutter
 ---
+
+# Flutter
+
+## 技术资料
+
+- [Flutter中文网](https://flutterchina.club/)
+- [Flutter实战》开源电子书](https://book.flutterchina.club/)
+
+## DevOps 相关
+
+- [ssiddh/jenkinsflutter - DockerHub](https://hub.docker.com/r/ssiddh/jenkinsflutter/)
 
 # Electron
 
