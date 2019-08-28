@@ -55,6 +55,8 @@ flutter doctor
 ...
 ```
 
+<!-- more -->
+
 # 3. Android 环境安装
 
 首先运行我们下载并安装好的 Android Studio
