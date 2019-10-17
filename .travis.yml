@@ -13,6 +13,7 @@ cache:
   - yarn: true
 
 before_install:
+  - mkdir -p ~/.ssh
   - openssl aes-256-cbc -K $encrypted_9c98897b0577_key -iv $encrypted_9c98897b0577_iv
     -in deploy_rsa.enc -out ~\/.ssh/deploy_rsa -d
   - chmod 600 ~/.ssh/deploy_rsa
