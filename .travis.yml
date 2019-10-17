@@ -3,10 +3,12 @@ branches:
     - gh_pages
 
 before_install:
-  - ssh-keyscan -t $TRAVIS_SSH_KEY_TYPES -H "$REMOTE_HOST" 2>&1 | tee -a ${TRAVIS_HOME}/.ssh/known_hosts
   - openssl aes-256-cbc -K $encrypted_9c98897b0577_key -iv $encrypted_9c98897b0577_iv
     -in deploy_rsa.enc -out ~/.ssh/deploy_rsa -d
   - chmod 600 ~/.ssh/deploy_rsa
+
+after_install:
+  - ssh-keyscan -t $TRAVIS_SSH_KEY_TYPES -H "$REMOTE_HOST" 2>&1 | tee -a ${TRAVIS_HOME}/.ssh/known_hosts
 
 after_success:
   - ssh "mutoe@$REMOTE_HOST" -p "$REMOTE_PORT" 'cd /home/mutoe/mutoe.com/blog && git pull'
