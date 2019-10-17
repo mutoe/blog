@@ -7,7 +7,7 @@ node_js:
   - lts/*
 
 addons:
-  ssh_known_hosts: 23.106.130.120
+  ssh_known_hosts: $REMOTE_HOST
 
 cache:
   - yarn: true
@@ -21,7 +21,7 @@ install:
   - yarn
 
 script:
-  - yarn hexo
+  - yarn gulp
 
 after_success:
-  - ssh "$REMOTE_SERVER" 'cd /home/mutoe/mutoe.com/blog && git pull'
+  - ssh "mutoe@$REMOTE_HOST" -p "$REMOTE_PORT" 'cd /home/mutoe/mutoe.com/blog && git pull'
