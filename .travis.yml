@@ -18,5 +18,5 @@ install:
 script:
   - yarn hexo
 
-deploy:
+after_success:
   - ssh "$REMOTE_SERVER" 'cd /home/mutoe/mutoe.com/blog && git pull'
