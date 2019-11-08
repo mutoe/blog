@@ -19,7 +19,7 @@ tags:
 
 ## 1.1 输入单个指令
 
-这里用 `yum install` 来进行演示，虽然该命令可以使用参数 `-y` 来直接确认，但是这是一个大家熟知对命令，可以用来很好的演示效果。
+这里用 `yum install` 来进行演示 （假设不使用 `-y` 参数）
 
 ```bash
 echo "y" | yum install wget
