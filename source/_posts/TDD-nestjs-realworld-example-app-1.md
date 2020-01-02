@@ -85,7 +85,7 @@ nest new nestjs-realworld-example-app
 
 ## 1.3 修改 Lint 工具
 
-我们把 nestjs cli 默认生成的 `prettier` 和 `tslint` 移除，用 `typescript-eslint` 代替
+我们把 nestjs cli 默认生成的 `prettier` 和 `tslint` 移除，用 `typescript-eslint` 和 `standard` 代替
 
 > WHY?
 >
@@ -96,6 +96,12 @@ nest new nestjs-realworld-example-app
 ```bash
 cd nestjs-realworld-example-app
 yarn add -D eslint eslint-plugin-jest @typescript-eslint/parser @typescript-eslint/eslint-plugin
+```
+
+然后安装 standard 相关的依赖
+
+```bash
+yarn add -D eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-plugin-standard
 ```
 
 然后删除 tslint 和 prettier 相关文件
@@ -119,13 +125,7 @@ rm -f .prettierrc tslint.json
     ...
   },
   "devDependencies": {
-    "@nestjs/cli": "^6.9.0",
-    "@nestjs/schematics": "^6.7.0",
-    "@nestjs/testing": "^6.7.1",
-    "@types/express": "^4.17.1",
-    "@types/jest": "^24.0.18",
-    "@types/node": "^12.7.5",
-    "@types/supertest": "^2.0.8",
+    ...
     "jest": "^24.9.0",
 -   "prettier": "^1.18.2",
     "supertest": "^4.0.2",
@@ -139,19 +139,22 @@ rm -f .prettierrc tslint.json
 + "eslintConfig": {
 +   "root": true,
 +   "parser": "@typescript-eslint/parser",
++   "parserOptions": {
++     "project": "./tsconfig.json",
++     "tsconfigRootDir": "./"
++   },
 +   "plugins": [
 +     "@typescript-eslint",
 +     "jest"
 +   ],
 +   "extends": [
-+     "eslint:recommended",
-+     "plugin:@typescript-eslint/eslint-recommended",
 +     "plugin:@typescript-eslint/recommended",
-+     "plugin:jest/recommended"
++     "plugin:jest/recommended",
++     "standard"
 +   ],
 +   "rules": {
 +     "comma-dangle": [
-+       "off",
++       "error",
 +       "always-multiple"
 +     ],
 +     "@typescript-eslint/explicit-function-return-type": "off",
@@ -174,7 +177,7 @@ rm -f .prettierrc tslint.json
 yarn lint --fix
 ```
 
-> 如果你使用的 IDE 是 Intellij 家族的，那么还会自动读取 eslint 配置
+> 如果你使用的 IDE 是 Intellij 家族的，那么还会自动弹出提示框来读取 eslint 配置
 
 到这里，我们的本地开发准备工作就完成啦，你可以运行
 
@@ -377,5 +380,6 @@ jobs:
 
 - [First steps - NestJS Document](https://docs.nestjs.com/first-steps)
 - [TSLint in 2019](https://medium.com/palantir/tslint-in-2019-1a144c2317a9)
+- [Typescript + ESLint and StandardJS ](https://dev.to/itmayziii/typescript-eslint-and-standardjs-5hmd)
 - [把一个 Node.js web 应用程序给 Docker 化](https://nodejs.org/zh-cn/docs/guides/nodejs-docker-webapp/)
 - [Nodejs Docker 镜像体积优化实践](https://juejin.im/post/5cada976f265da035e210bf8)
