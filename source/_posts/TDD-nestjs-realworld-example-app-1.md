@@ -1,6 +1,7 @@
 ---
 title: 手把手带你实践 TDD Nestjs Realworld 项目 - 1. 环境搭建篇
 date: 2019-12-30 13:27:04
+update: 2020-01-03 17:00:27
 categories: 教程
 tags:
   - Nestjs
@@ -43,6 +44,7 @@ Conduit 是什么，这是一个基于 [Realworld](https://github.com/gothinkste
 - Nodejs
 - Yarn
 - Docker
+- Postgres
 - GitHub 仓库
 - 一个趁手的编辑器
 
@@ -366,11 +368,11 @@ jobs:
 
 在 github 中打开我们的项目,然后点击 `Settings`,在左侧选择 `Secrets`, 然后点击 `Add a new secret` 分别添加我们的 docker 账号和密码, secret key 和上面设置的是一样的哦 (`DOCKER_USERNAME` `DOCKER_PASSWORD`)
 
-![github secrets](https://static.mutoe.com/2019/TDD-nestjs-realworld-example-app/github-secrets.png)
+![github secrets](https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/github-secrets.png)
 
 设置完毕后,推代码, 然后进入 github actions 页面观察我们的构建, 最后会是这个样子
 
-![after action triggered](https://static.mutoe.com/2019/TDD-nestjs-realworld-example-app/after-action-triggered.png)
+![after action triggered](https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/after-action-triggered.png)
 
 如果你看到上面这个画面, 恭喜你, 我们的 Pipeline 部署成功啦!
 
