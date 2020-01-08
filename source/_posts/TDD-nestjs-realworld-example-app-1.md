@@ -7,6 +7,7 @@ tags:
   - Nestjs
   - TypeScript
   - Postgres
+  - TypeORM
   - TDD
   - Jest
   - Docker
@@ -373,6 +374,8 @@ jobs:
 设置完毕后,推代码, 然后进入 github actions 页面观察我们的构建, 最后会是这个样子
 
 ![after action triggered](https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/after-action-triggered.png)
+
+<!-- TODO: 增加 Postgres 环境 -->
 
 如果你看到上面这个画面, 恭喜你, 我们的 Pipeline 部署成功啦!
 

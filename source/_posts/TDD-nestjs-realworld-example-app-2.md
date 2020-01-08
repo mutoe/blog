@@ -1,11 +1,12 @@
 ---
 title: 手把手带你实践 TDD Nestjs Realworld 项目 - 2. 数据库连接
-date: 2019-12-30 13:27:04
+date: 2020-01-03 21:37:17
 categories: 教程
 tags:
   - Nestjs
   - TypeScript
   - Postgres
+  - TypeORM
   - TDD
   - Jest
   - Docker
@@ -51,6 +52,8 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 })
 export class AppModule {}
 ```
+
+<!-- more -->
 
 # 3. 创建数据库
 
