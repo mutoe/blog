@@ -10,13 +10,15 @@ tags:
   - JWT
 ---
 
-上一张我们创建了一个用户表, 但是还没有实现真正的注册和登录. 要实现注册登录以及后续的权限校验, 我们还有一些工作要做.
+上一章我们创建了一个用户表, 但是还没有实现真正的注册和登录. 要实现注册登录以及后续的权限校验, 我们还有一些工作要做.
 
 目前有比较多的思路来对用户进行鉴权, 我们选用 Conduit 示例中展示的也是现在比较广泛的做法 JWT 进行认证.
 
+要实现 JWT 鉴权, NestJS 为我们做好了大部分工作.
+
 # 1. 安装依赖
 
-要实现 JWT 鉴权, NestJS 为我们做好了这一切. 安装下面的依赖
+但是在这之前, 我们要先安装下面的依赖
 
 ```bash
 yarn add @nestjs/passport passport passport-local
@@ -30,6 +32,8 @@ Passport 你可以把它看作是一个小型的框架, 因为你可以通过一
 <!-- more -->
 
 # 2. 修改用户表
+
+我们还缺少用户密码存储的地方
 
 我们在 `user.entity.ts` 增加一个密码字段
 
@@ -418,7 +422,7 @@ nestjs 为我们提供了一个非常方便的功能用来检测请求是否由�
 
 利用守卫, 我们可以方便的进行权限校验. 有点麻烦的是, 当用户未登录时, 我们首先应该校验用户访问的路由是否受限, 当没有经过身份验证的用户尝试登录时, 应该启动身份验证步骤.
 
-不用担心, `@nestjs/passport` 为我们提供了一个比较便捷的守卫 `AuthGuard`
+不用担心, `@nestjs/passport` 为我们提供了一个比较便捷的守卫 `AuthGuard`, 结合 local 策略, 我们可以方便的获取用户信息, 验证通过后, 可以在 `request.user` 字段获取到, 其内容就是 local 策略 `validate` 方法返回的内容
 
 由于<ruby>篇幅问题<rt>tōu lǎn<rt></ruby>, 我就省略测试的部分了, 直接亮代码!
 
@@ -441,9 +445,8 @@ export class AppController {
 
   @UseGuards(AuthGuard('local'))
   @Post('/auth/login')
-  async login(@Body() requestBody: { username: string; password: string }) {
-    const { username, password } = requestBody
-    const user = await this.authService.validateUser(username, password)
+  async login(@Request() req) {
+    const { user } = req
     return { user }
   }
 }
@@ -504,19 +507,18 @@ import { NEST_SECRET } from '../config'
 export class AuthModule {}
 ```
 
-修改一下我们的 login 方法, 首先读取到用户信息后, 生成一个 token 给用户. 按照 Conduit 的规则, 我们将 token 注入在 `profile` 对象中
+修改一下我们的 login 方法, 首先读取到用户信息后, 生成一个 token 给用户. 按照 Conduit 的规则, 我们将 token 注入在 `user` 对象中
 
 ```ts app.controller.ts
   // ...
 
   @UseGuards(AuthGuard('local'))
   @Post('/auth/login')
-  async login (@Body() requestBody: { username: string; password: string }) {
-    const { username, password } = requestBody
-    const userProfile = await this.authService.validateUser(username, password)
-    const token = this.authService.generateToken(userProfile.id, username)
+  async login (@Request() req) {
+    const { user } = req
+    const token = this.authService.generateToken(user.id, user.username)
     return {
-      user: { ...userProfile, token },
+      user: { ...user, token },
     }
   }
 ```
@@ -607,7 +609,10 @@ curl http://localhost:3000/user -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsIn
 
 嗯.. 大功告成!
 
+好, 小结一下, 我们一共有两个用户身份验证策略, LocalStrategy 做用户名密码验证的守卫, JwtStrategy 用来做 Token 的验证. 之后如果某个接口需要用户登录, 加一个 JwtStrategy 守卫就好啦
+
 # 参考资料
 
 - [Authentication | NestJS](https://docs.nestjs.com/techniques/authentication)
 - [Guards | NestJS](https://docs.nestjs.com/guards)
+- [Nodejs Passport 系列之一：基础概念](https://www.shangyang.me/2018/03/07/javascript-nodejs-passport-01-basic/)
