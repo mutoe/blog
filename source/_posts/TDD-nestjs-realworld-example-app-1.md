@@ -310,7 +310,7 @@ jobs:
 
 > 其中 “Install dependencies” 部分,我们给 `yarn install` 添加了一些参数，他们是用来在 CI 环境下移除掉一些需要交互的内容。
 
-上面就配置了一个最简单的 workflow，你每次推代码的时候，就会自动出发 github actions，来 lint 和 test 你的代码。
+上面就配置了一个最简单的 workflow，你每次推代码的时候，就会自动触发 github actions，来 lint 和 test 你的代码。
 
 ## 3.2 增加构建缓存
 

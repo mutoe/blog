@@ -307,7 +307,7 @@ describe('Utilities', function() {
 
 ## 5.3 密码散列加密
 
-现在散列加密函数有了, 我们应该在哪里对密码进行加密呢. TypeORM 提供了一组监听器, 当我们对数据进行操作时, 如果设置了监听器, TypeORM 就会出发这个监听器.
+现在散列加密函数有了, 我们应该在哪里对密码进行加密呢. TypeORM 提供了一组监听器, 当我们对数据进行操作时, 如果设置了监听器, TypeORM 就会触发这个监听器.
 
 我们要在用户创建和更新的时候, 对密码进行加密, 所以我们要使用 `BeforeInsert` 和 `BeforeUpdate` 两个监听器
 
@@ -315,7 +315,7 @@ describe('Utilities', function() {
 import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { cryptoPassword } from '../utils'
 
-@Entity('user)
+@Entity('user')
 export class UserEntity {
   //...
 
