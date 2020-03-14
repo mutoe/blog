@@ -1,12 +1,16 @@
 ---
 title: Flutter 学习笔记
 date: 2020-01-21 19:17:19
-updated: 2020-01-22 13:34:24
+updated: 2020-01-26 22:28:54
 categories: 笔记
 tags:
   - Flutter
   - Dart
 ---
+
+这里记录了一些个人学习 Flutter 时遇到的一些问题, 可以作为避免踩坑和速查手册. 如有疑问欢迎留言.
+
+<!-- more -->
 
 # 我该选择什么布局容器?
 
@@ -100,6 +104,71 @@ tags:
 [SliverList][]
 [SliverGrid][]
 
+## 我想显示标签栏 (Material)
+
+[TabBar][]
+[TabBarView][]
+[DefaultTabController][]
+
+TabBar 通常配合 TabBarView 组件使用
+
+<details>
+<summary>如何使用 TabBar</summary>
+
+1. 使用 DefaultTabController
+
+```dart
+class _MyWidgetState extends State<MyWidget> {
+  List<Tab> tabs;
+  List<Widget> pages;
+  // ...
+
+  build(context) {
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('title'),
+          bottom: TabBar(tabs: tabs),
+        ),
+        body: TabBarView(children: pages),
+      ),
+    );
+  }
+}
+```
+
+2. 使用自定义的 controller
+
+> 注意类后面的 `with TickerProviderStateMixin`
+
+```dart
+class _MyWidgetState extends State<MyWidget>
+    with TickerProviderStateMixin {
+  final _tabController;
+  List<Tab> tabs;
+  List<Widget> pages;
+  
+  @override
+  initState(() {
+    _tabController = TabController(length: 3, vsync: this);
+    // ...
+  })
+  
+  build(context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('title'),
+        bottom: TabBar(tabs: tabs, controller: _tabController),
+      ),
+      body: TabBarView(children: pages, controller: _tabController),
+    );
+  }
+}
+```
+
+</details>
+
 # 我该选择什么组件填充内容?
 
 ## 我想显示文本
@@ -144,7 +213,7 @@ tags:
 
 ### 执行 SQL 时提示 no such table
 
-数据表没有创建好, 检查创建数据表的SQL语句是否正确.
+数据表没有创建好, 检查创建数据表的 SQL 语句是否正确.
 
 另外需要注意的是, `sqflite` 在执行 `db.execute()` 时, **不支持一次执行多行命令**, 所以多个语句需要拆成多个命令分别执行.
 
@@ -210,4 +279,7 @@ Future dbImportSql(Database db, List<String> sqlStatements) async {
 [SliverPadding]: https://api.flutter.dev/flutter/widgets/SliverPadding-class.html
 [SliverList]: https://api.flutter.dev/flutter/widgets/SliverList-class.html
 [SliverGrid]: https://api.flutter.dev/flutter/widgets/SliverGrid-class.html
+[TabBar]: https://api.flutter.dev/flutter/material/TabBar-class.html
+[TabBarView]: https://api.flutter.dev/flutter/material/TabBarView-class.html
+[DefaultTabController]: https://api.flutter.dev/flutter/material/DefaultTabController-class.html
 <!-- prettier-ignore-end -->
