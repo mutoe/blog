@@ -12,6 +12,8 @@
     "version": "4.2.0"
   },
   "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-htmlmin": "^5.0.1",
     "hexo": "^4.0.0",
     "hexo-browsersync": "^0.3.0",
     "hexo-deployer-git": "^2.1.0",
