@@ -103,3 +103,9 @@ deploy:
   type: git
   repo: git@github.com:mutoe/blog.git
   branch: gh-pages
+
+# sitemap
+sitemap:
+  path: sitemap.xml
+baidusitemap:
+  path: baidusitemap.xml
