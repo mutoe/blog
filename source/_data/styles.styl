@@ -1,0 +1,143 @@
+// Custom styles.
+
+:root
+  font-size 87.5%
+
+// 让表格列宽度根据内容自适应
+table
+  table-layout auto
+
+.inline-block
+  display inline-block
+
+.header
+  padding-bottom: 70px
+  border-bottom: 4px dashed var(--card-bg-color)
+
+  .brand
+    padding-top: 2px
+    padding-bottom: 2px
+
+#footer
+  margin-top 56px
+  border-top 1px solid #eee
+
+.author
+  margin-right 8px
+
+.theme-info
+  margin-left 8px
+
+.external-link
+  margin 28px
+
+  > a
+    margin 0 .5em
+
+.highlight-wrap[data-rel]
+  position relative
+
+  &::before
+    content attr(data-rel)
+    position absolute
+    font-family consolas, Menlo, "PingFang SC", "Microsoft YaHei", monospace
+    top -10px
+    right 20px
+    line-height 1.6
+    font-size 14px
+    transition color .4s
+    color $blue-bright
+
+  &:hover::before
+    color $blue
+
+// 锚点
+.post-body
+  h1, h2, h3, h4, h5, h6
+    > a
+      border-bottom none
+
+      &:hover
+        &::before
+          content '#'
+          position absolute
+          margin-left -0.8em
+
+  h1
+    margin-top 96px
+
+  h2, h3, h4, h5, h6
+    margin-top 48px
+
+  p
+    text-align left
+
+// 列表样式
+.posts-expand
+  .post-meta
+    .post-description
+      margin-top 48px
+      padding 24px
+      background #eee
+      text-align left
+
+  .post-body ul
+    li
+      list-style unset
+
+    > li
+      list-style circle
+
+      > ul > li
+        list-style square
+
+      > ol > li
+        list-style lower-roman
+
+// utterances
+.utterances
+  margin 24px 0 0
+  max-width none
+
+// stackblitz
+.stackblitz
+  width 100%
+  height auto
+  min-height 400px
+  max-height 800px
+
+// details
+details
+  summary
+    cursor zoom-in
+
+    &::before
+      display inline-block
+      content '▶'
+      margin-right 4px
+      color #999
+      transition transform .2s
+
+    &::-webkit-details-marker
+      display none
+
+  &[open]
+    summary
+      cursor zoom-out
+
+      &::before
+        transform rotateZ(90deg)
+
+ruby
+  rt
+    font-size 80%
+    color #ccc
+
+blockquote
+  position relative
+  padding 21px 15px 1px
+  background-color #f7f7f7
+  margin-bottom 20px
+
+  p
+    color #999
