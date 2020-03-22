@@ -51,6 +51,21 @@ highlight:
   tab_replace: ''
   wrap: true
   hljs: false
+marked:
+  gfm: true
+  pedantic: false
+  breaks: true
+  smartLists: true
+  smartypants: true
+  modifyAnchors: 0
+  autolink: true
+  sanitizeUrl: false
+  headerIds: true
+  prependRoot: false
+  external_link:
+    enable: false
+    exclude: []
+    nofollow: false
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -109,3 +124,16 @@ sitemap:
   path: sitemap.xml
 baidusitemap:
   path: baidusitemap.xml
+
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content:
+  content_limit: 140
+  content_limit_delim: '<!-- more -->'
+  order_by: -date
+  icon: icon.png
+  autodiscovery: true
+  template:
