@@ -115,6 +115,15 @@ bootstrap().catch((err) => console.error(err))
 
 ![swagger param example](https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/swagger-param-example.png)
 
+# 4. 导出接口文档
+
+Swagger 基于 OpenAPI 格式, Nest 为我们提供了导出 json 源码的能力，只需在接口文档入口最后添加 `-json` 即可，如 `http://localhost:3000/docs-json`
+
+然后你就可以拿着这个 json 导入到支持 OpenAPI 的地方啦（比如 Postman）
+
+![swagger postman](https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/swagger-postman.png)
+
 # 参考资料
 
 - [OpenAPI (Swagger) | NestJS](https://docs.nestjs.cn/6/recipes?id=openapi-swagger)
+- [Swagger](https://swagger.io/docs/specification/about/)
