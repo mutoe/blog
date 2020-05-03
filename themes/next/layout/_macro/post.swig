@@ -1,7 +1,7 @@
   {##################}
   {### POST BLOCK ###}
   {##################}
-  <article itemscope itemtype="http://schema.org/Article" class="post-block {% if is_index %}home{% endif %}" lang="{{ post.lang or post.language or config.language }}">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block {% if is_index %}home{% endif %}" lang="{{ post.lang or config.language }}">
     <link itemprop="mainEntityOfPage" href="{{ post.permalink }}">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -16,7 +16,7 @@
 
     {%- if post.header !== false %}
       <header class="post-header">
-        <{%- if theme.seo %}h2{% else %}h1{%- endif %} class="post-title{%- if post.direction and post.direction.toLowerCase() === 'rtl' %} rtl{%- endif %}" itemprop="name headline">
+        <{%- if is_index %}h2{% else %}h1{%- endif %} class="post-title{%- if post.direction and post.direction.toLowerCase() === 'rtl' %} rtl{%- endif %}" itemprop="name headline">
           {# Link posts #}
           {%- if post.link %}
             {%- if post.sticky > 0 %}
@@ -38,7 +38,7 @@
             {{- post.title }}
             {{- post_edit(post.source) }}
           {%- endif %}
-        </{%- if theme.seo %}h2{% else %}h1{%- endif %}>
+        </{%- if is_index %}h2{% else %}h1{%- endif %}>
 
         <div class="post-meta">
 
@@ -216,8 +216,6 @@
     {%- endif %}
 
     {%- if not is_index %}
-      {{- next_inject('postBodyEnd') }}
-
       {%- if post.reward_settings.enable %}
         {{ partial('_partials/post/post-reward.swig') }}
       {%- endif %}
@@ -248,6 +246,9 @@
 
         {{ post_nav(post) }}
       </footer>
+
+      {{- next_inject('postBodyEnd') }}
+
     {% else %}
       <footer class="post-footer">
         <div class="post-eof"></div>

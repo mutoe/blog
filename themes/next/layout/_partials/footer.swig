@@ -1,9 +1,3 @@
-<div class="external-link">
-  <a href="/sponsor">拥抱开源</a>
-  <a href="/quick">学习资料导航</a>
-  <a href="/npm">常用 npm 包</a>
-</div>
-
 {%- if theme.footer.beian.enable %}
   <div class="beian">
     {{- next_url('http://www.beian.miit.gov.cn', theme.footer.beian.icp + ' ') }}
@@ -50,23 +44,11 @@
 
 {%- if theme.footer.powered.enable %}
   <div class="powered-by">
-    {{- __('footer.powered', next_url('https://hexo.io', 'Hexo', {class: 'theme-link'})) }}
-    {%- if theme.footer.powered.version %} v{{ hexo_version }}{%- endif %}
-  </div>
-{%- endif %}
-
-{%- if theme.footer.powered.enable and theme.footer.theme.enable %}
-  <span class="post-meta-divider">|</span>
-{%- endif %}
-
-{%- if theme.footer.theme.enable %}
-  <div class="theme-info">
     {%- set next_site = 'https://theme-next.org' %}
     {%- if theme.scheme !== 'Gemini' %}
       {%- set next_site = 'https://' + theme.scheme | lower + '.theme-next.org' %}
     {%- endif %}
-    {{- __('footer.theme') }} – {{ next_url(next_site, 'NexT.' + theme.scheme, {class: 'theme-link'}) }}
-    {%- if theme.footer.theme.version %} v{{ next_version }}{%- endif %}
+    {{- __('footer.powered', next_url('https://hexo.io', 'Hexo', {class: 'theme-link'}) + ' & ' + next_url(next_site, 'NexT.' + theme.scheme, {class: 'theme-link'})) }}
   </div>
 {%- endif %}
 

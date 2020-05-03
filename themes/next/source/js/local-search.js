@@ -15,22 +15,12 @@ window.addEventListener('DOMContentLoaded', () => {
   const input = document.querySelector('.search-input');
   const resultContent = document.getElementById('search-result');
 
-  // Ref: https://github.com/ForbesLindesay/unescape-html
-  const unescapeHtml = html => {
-    return String(html)
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, '\'')
-      .replace(/&#x3A;/g, ':')
-      // Replace all the other &#x; chars
-      .replace(/&#(\d+);/g, (m, p) => {
-        return String.fromCharCode(p);
-      })
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&amp;/g, '&');
-  };
-
   const getIndexByWord = (word, text, caseSensitive) => {
+    if (CONFIG.localsearch.unescape) {
+      let div = document.createElement('div');
+      div.innerText = word;
+      word = div.innerHTML;
+    }
     let wordLen = word.length;
     if (wordLen === 0) return [];
     let startPosition = 0;
@@ -211,12 +201,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         return resultRight.id - resultLeft.id;
       });
-      let searchResultList = '<ul class="search-result-list">';
-      resultItems.forEach(result => {
-        searchResultList += result.item;
-      });
-      searchResultList += '</ul>';
-      resultContent.innerHTML = searchResultList;
+      resultContent.innerHTML = `<ul class="search-result-list">${resultItems.map(result => result.item).join('')}</ul>`;
       window.pjax && window.pjax.refresh(resultContent);
     }
   };
@@ -238,14 +223,12 @@ window.addEventListener('DOMContentLoaded', () => {
         datas = datas.filter(data => data.title).map(data => {
           data.title = data.title.trim();
           data.content = data.content ? data.content.trim().replace(/<[^>]+>/g, '') : '';
-          if (CONFIG.localsearch.unescape) {
-            data.content = unescapeHtml(data.content);
-          }
           data.url = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
           return data;
         });
         // Remove loading animation
         document.getElementById('no-result').innerHTML = '<i class="fa fa-search fa-5x"></i>';
+        inputEventFunction();
       });
   };
 
@@ -268,7 +251,7 @@ window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.popup-trigger').forEach(element => {
     element.addEventListener('click', () => {
       document.body.style.overflow = 'hidden';
-      document.querySelector('.search-pop-overlay').style.display = 'block';
+      document.querySelector('.search-pop-overlay').classList.add('search-active');
       input.focus();
       if (!isfetched) fetchData();
     });
@@ -277,7 +260,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Monitor main search box
   const onPopupClose = () => {
     document.body.style.overflow = '';
-    document.querySelector('.search-pop-overlay').style.display = '';
+    document.querySelector('.search-pop-overlay').classList.remove('search-active');
   };
 
   document.querySelector('.search-pop-overlay').addEventListener('click', event => {
