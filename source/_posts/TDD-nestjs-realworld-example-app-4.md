@@ -64,7 +64,9 @@ export class AuthController {
 }
 ```
 
-顺便也移动下测试, 这里就不再赘述了.
+顺便也移动下测试代码, 这里就不再赘述了.
+
+<!-- more -->
 
 # 2. 增加 DTO
 
