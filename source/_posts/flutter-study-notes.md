@@ -80,6 +80,12 @@ tags:
 [ListBody][]
 [ListView][]
 
+## 我想让子元素可滚动显示
+
+解决 `BOTTOM OVERFLOWED BY xx PIXELS` 的问题
+
+[SingleChildScrollView][]
+
 ## 我想让子元素使用表格布局
 
 [Table][]
@@ -148,13 +154,13 @@ class _MyWidgetState extends State<MyWidget>
   final _tabController;
   List<Tab> tabs;
   List<Widget> pages;
-  
+
   @override
   initState(() {
     _tabController = TabController(length: 3, vsync: this);
     // ...
   })
-  
+
   build(context) {
     return Scaffold(
       appBar: AppBar(
@@ -197,6 +203,10 @@ class _MyWidgetState extends State<MyWidget>
 
 [RawKeyboardListener][]
 
+## 我想添加渐变
+
+[LinearGradient][]
+
 ## 我想添加动画
 
 [AnimatedContainer][] - 状态变换时使用线性算法
@@ -206,6 +216,33 @@ class _MyWidgetState extends State<MyWidget>
 [AnimatedCrossFade][] - 在两个子组件之间切换
 
 [Hero][] - 在不同屏幕之间保持同一个元素的切换动画
+
+# MacOS APP
+
+编译到 MacOS 运行时的一些问题
+
+## 无法连接网络怎么办？
+
+编译到 macos 后无法发起网络请求、加载网络图片等
+
+在 `macos/Runner/DebugProfile.entitlements` 中设置 `com.apple.security.network.client` 为 `true` ，然后重新编译即可
+
+```xml macos/Runner/DebugProfile.entitlements
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+	<key>com.apple.security.network.server</key>
+	<true/>
+	<key>com.apple.security.network.client</key>
+	<true/>
+</dict>
+</plist>
+```
 
 # 插件篇
 
@@ -255,6 +292,9 @@ Future dbImportSql(Database db, List<String> sqlStatements) async {
 [Flow]: https://api.flutter.dev/flutter/widgets/Flow-class.html
 [Table]: https://api.flutter.dev/flutter/widgets/Table-class.html
 [Wrap]: https://api.flutter.dev/flutter/widgets/Wrap-class.html
+[ListBody]: https://api.flutter.dev/flutter/widgets/ListBody-class.html
+[ListView]: https://api.flutter.dev/flutter/widgets/ListView-class.html
+[SingleChildScrollView]: https://api.flutter.dev/flutter/widgets/SingleChildScrollView-class.html
 [CustomSingleChildLayout]: https://api.flutter.dev/flutter/widgets/CustomSingleChildLayout-class.html
 [CustomMultiChildLayout]: https://api.flutter.dev/flutter/widgets/CustomMultiChildLayout-class.html
 [LayoutBuilder]: https://api.flutter.dev/flutter/widgets/LayoutBuilder-class.html
@@ -266,6 +306,7 @@ Future dbImportSql(Database db, List<String> sqlStatements) async {
 [Form]: https://api.flutter.dev/flutter/widgets/Form-class.html
 [FormField]: https://api.flutter.dev/flutter/widgets/FormField-class.html
 [RawKeyboardListener]: https://api.flutter.dev/flutter/widgets/RawKeyboardListener-class.html
+[LinearGradient]: https://api.flutter.dev/flutter/painting/LinearGradient-class.html
 [AnimatedContainer]: https://api.flutter.dev/flutter/widgets/AnimatedContainer-class.html
 [AnimatedBuilder]: https://api.flutter.dev/flutter/widgets/AnimatedBuilder-class.html
 [AnimatedCrossFade]: https://api.flutter.dev/flutter/widgets/AnimatedCrossFade-class.html
