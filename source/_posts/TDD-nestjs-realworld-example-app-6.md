@@ -322,7 +322,7 @@ describe('/auth/login (POST)', () => {
 
 好，这次注册和登录功能就都完成了，如果你的代码有些出入，请不要在意，这个博客是我后面补的，请参考当时提交的[代码快照](https://github.com/mutoe/nestjs-realworld-example-app/tree/ed381ff24fa886002acda78680436e5c88da9012)
 
-# 5. 持续集成
+# 4. 持续集成
 
 接下来我们创建一个单独的 pipeline 用于集成测试，这条 pipeline 跑在 docker 中，不过我们不用单独写 Dockerfile，我们只需要书写 `.github/workflows` 即可
 
@@ -387,7 +387,7 @@ jobs:
         run: yarn test:e2e
 ```
 
-# 6. 收集测试覆盖率
+# 5. 收集测试覆盖率
 
 说到 Pipeline 我们还可以将单元测试的覆盖率收集起来，检查我们有哪些地方的代码遗漏了
 
