@@ -5,7 +5,6 @@ categories: 教程
 tags:
   - Nestjs
   - TypeScript
-  - TypeORM
   - Swagger
 ---
 
