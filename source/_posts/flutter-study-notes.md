@@ -217,6 +217,31 @@ class _MyWidgetState extends State<MyWidget>
 
 [Hero][] - 在不同屏幕之间保持同一个元素的切换动画
 
+
+# 我想
+
+## 我想调用震动功能
+
+使用 [`vibration`](https://github.com/benjamindean/flutter_vibration) 库，该库支持自定义震动强度和时间，比如具有线性马达的手机可以通过设置较短的持续时间来实现触摸反馈的功能。
+
+```dart
+if (await Vibration.hasVibrator()) {
+  if (await Vibration.hasAmplitudeControl()) {
+    // 震动强度检测
+    print('amplitude');
+    Vibration.vibrate(amplitude: 128);
+  } else if (await Vibration.hasCustomVibrationsSupport()) {
+    // 震动持续时间检测
+    print('custom vibrations');
+    Vibration.vibrate(duration: 1);
+  } else {
+    // 普通震动
+    print('normal');
+    Vibration.vibrate();
+  }
+}
+```
+
 # MacOS APP
 
 编译到 MacOS 运行时的一些问题

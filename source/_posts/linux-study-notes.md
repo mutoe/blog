@@ -220,12 +220,22 @@ chmod 644 authorized_keys
 
 ```bash
 echo "foo" > file.txt
+# or
+cat > file.txt << EOF
+foo
+bar
+EOF
 ```
 
 追加在文件尾部
 
 ```bash
 echo "foo" >> file.txt
+# or
+cat >> file.txt << EOF
+foo
+bar
+EOF
 ```
 
 ### `sed` 非交互式编辑

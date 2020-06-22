@@ -65,7 +65,10 @@ Vim 打开后默认在 normal 模式，要进行文件操作，我们需要进�
 | `Ctrl-y` / `Ctrl-e`  | 向上/下滚一行                                        |
 | `Ctrl-u` / `Ctrl-d`  | 向上/下翻半页 (up)                                   |
 | `Ctrl-b` / `Ctrl-f`  | 向上/下翻一整页 (backward)                           |
-| `gg` `:0` / `G` `:$` | 跳转到文件开始/末尾                                  |
+| `gg` `:0` /  `G` `:$` | 跳转到文件开始/末尾                                  |
+| `\`.`                | 跳转到光标上一次位置                                 |
+| `'.`                 | 跳转到光标上一次位置所处的行                         |
+| `Ctrl-I` / `Ctrl-O`  | 向前/后追溯光标位置                                  |
 
 这些操作之前都可以加上数字来控制接下来的操作执行多少次，例如按下`20j`向下跳转 20 行，`5Ctrl-e`向下滚动 5 行
 
@@ -80,10 +83,11 @@ Vim 打开后默认在 normal 模式，要进行文件操作，我们需要进�
 | `i` / `a` | 在光标位置前面/后面进入编辑模式                                |
 | `I` / `A` | 在软行首/行尾位置进入编辑模式                                  |
 | `o` / `O` | 在下一行/上一行新起一行进入编辑模式                            |
-| `s` / `S` | 删除当前字符/行进入编辑模式                                    |
+| `c`       | 更改当前字符并进入插入模式                                     |
+| `s`       | 删除当前字符进入编辑模式                                       |
+| `C` `ss`  | 删除当前行进入编辑模式                                         |
 | `r` `R`   | 在光标位置进入替换编辑模式，`r` 替换一个字符后自动退出编辑模式 |
 | `x` `X`   | 向后删除字符(delete)/退格(backspace)                           |
-| `c`       | 更改当前字符并进入插入模式                                     |
 | `10x`     | 向后删除 10 个字符 (仅限当前行)                                |
 
 在编辑模式下，按下 <kdb>Esc</kbd> 退出编辑模式回到 normal 模式
@@ -102,28 +106,46 @@ Vim 打开后默认在 normal 模式，要进行文件操作，我们需要进�
 
 > 需要注意的是，剪切时会将移除的内容放入剪贴板。
 
-| 按键        | 作用                 |
-| ----------- | :------------------- |
-| `yy` `Y`    | 复制当前行           |
-| `yG`        | 复制到文件末尾       |
-| `y$`        | 复制到行尾           |
-| `6yy` `y6y` | 复制 6 行            |
-| `p` `P`     | 粘贴在光标后面/前面  |
-| `2p`        | 粘贴 2 次            |
-| `dd`        | 剪切当前行           |
-| `dw`        | 删除到下一个词的开头 |
-| `d$` `D`    | 剪切到行尾           |
-| `dG`        | 剪切到文件末尾       |
-| `d10G`      | 剪切当前行到第 10 行 |
-| `J`         | 合并下一行           |
+| 按键        | 作用                                        |
+| ----------- | :------------------------------------------ |
+| `yy` `Y`    | 复制当前行                                  |
+| `yG`        | 复制到文件末尾                              |
+| `y$`        | 复制到行尾                                  |
+| `6yy` `y6y` | 复制 6 行                                   |
+| `dd`        | 剪切当前行                                  |
+| `dw`        | 删除到下一个词的开头                        |
+| `d$` `D`    | 剪切到行尾                                  |
+| `dG`        | 剪切到文件末尾                              |
+| `d10G`      | 剪切当前行到第 10 行                        |
+| `J`         | 合并下一行                                  |
+| `p` `P`     | 粘贴在光标后面/前面                         |
+| `2p`        | 粘贴 2 次                                   |
+| `Ctrl-r{x}` | 在编辑模式或命令模式下粘贴 `x` 寄存器的内容 |
 
 你还可以在选区模式下按下 `y` 复制整个选区，按下 `d` 剪切选区
 
-值得注意的是，vim 的剪贴板是可以分区的（寄存器），类似历史记录功能，你可以将不同的内容复制到某一个区内，粘贴时选择相应的区即可。
+值得注意的是，vim 的剪贴板是带有寄存器（Register）的，类似历史记录功能，你可以将不同的内容复制到某一个寄存器内，粘贴时选择相应的寄存器即可。
 
-要使用寄存器，具体的使用方法是在复制/剪切/粘贴命令前输入`"x`，其中 `x` 可以是 `a-z` 和 `*`，如果指定为`*`，则指令将会与操作系统进行交互。
+要使用寄存器，具体的使用方法是在复制/剪切/粘贴命令前输入`"x`，其中 `x` 可以是 `a-z` 和 `*` 还有 `"`，如果指定为`*`，则指令将会与操作系统进行交互，如果指定为 `"` 则会使用上一次的寄存器。
 
 例如输入 `"*p` 就会把系统的剪贴板的内容粘贴到编辑器中。
+
+## 文本对象
+
+Vim 的智能之处在于它知道你的内容如何进行范围的界定，通过以下命令的 combo 来高效的进行编辑
+
+`{command}[inner|a]{scope}`
+
+也就是说，除了 `dd` `yy` 这种命令之外，任何命令包括 `y` `d` `s` `c`
+
+| 按键 | 作用                                                |
+| ---- | :-------------------------------------------------- |
+| `iw` | "inner word" 选择内联单词                           |
+| `it` | "inner tag" 选择内联 tag (指的是 xml/html 标签内容) |
+| `i"` | "inner quotes" 选择内联引号                         |
+| `ip` | "inner paragraph" 选择内联段落                      |
+| `is` | "inner sentence" 选择内联句子                       |
+| `as` | "a sentence" 选择一个句子                           |
 
 ## 大小写转换
 
@@ -146,10 +168,19 @@ Vim 打开后默认在 normal 模式，要进行文件操作，我们需要进�
 
 | 命令                   | 作用                                           |
 | ---------------------- | :--------------------------------------------- |
-| `/{word}`              | 查找 word                                      |
+| `/{word}`              | 向下查找 word                                  |
+| `?{word}`              | 向上查找 word                                  |
 | `*` `g*`               | 查找光标所在位置的单词（`g*`忽略忽略单词边界） |
 | `n` `N`                | 查找下/上一个（在`?`搜索下是相反的）           |
 | `:nohighlight` `:nohl` | 取消搜索高亮显示                               |
+
+上面的查找是跨行的，如果你想要在行内进行查找，可以使用 `f` `F` `t` `T` 命令
+
+| 命令           | 作用                                         |
+| -------------- | :------------------------------------------- |
+| `f{x}` /`F{x}` | 查找右/左边的 `{x}` 字符                     |
+| `t{x}` /`T{x}` | 查找右/左边的 `{x}` 字符, 光标定位在字符左边 |
+| `;` `,`        | 查找下/上一个（在 `F` `T` 搜索下是相反的）   |
 
 ## 替换
 
@@ -196,10 +227,20 @@ Vim 打开后默认在 normal 模式，要进行文件操作，我们需要进�
 | `incsearch`  | 敲键的同时搜索，按下回车把移动光标移动到匹配的词； 按下 Esc 取消搜索。 |
 | `wrapscan`   | 设置到文件尾部后是否重新从文件头开始搜索                               |
 
+# 小技巧
+
+1. 用剪贴板中的内容替换当前光标处的单词
+
+`viwp`
+
 # 参考资料
 
 - [Linux vim - Runoob](https://www.runoob.com/linux/linux-vim.html)
-- [技巧：快速提高 Vi/Vim 使用效率的原则与途径 - 方吾松(IBM)](https://www.ibm.com/developerworks/cn/linux/l-cn-tip-vim/)
+- [技巧：快速提高 Vi/Vim 使用效率的原则与途径 - 方吾松](https://www.ibm.com/developerworks/cn/linux/l-cn-tip-vim/)
 - [在 Vim 中优雅地查找和替换 - Harttle Land](https://harttle.land/2016/08/08/vim-search-in-file.html)
-- [You don't need more than one cursor in vim](https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db)
+- [You don't need more than one cursor in vim - @schoteffel](https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db)
 - [Macros - Vim Tips Wiki](https://vim.fandom.com/wiki/Macros)
+- [Replace a word with yanked text - Vim Tips Wiki](https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text)
+- [Vim 全局命令 g - Ein Verne's Blog](http://einverne.github.io/post/2017/10/vim-global.html)
+- [Vim Text Objects: The Definitive Guide - Carbon Five's Blog](https://blog.carbonfive.com/vim-text-objects-the-definitive-guide/)
+- [Vim: Jump Back To Previous or Last Cursor Position - nixCraft](https://www.cyberciti.biz/faq/unix-linux-vim-go-back-to-last-cursor-position/)
