@@ -231,7 +231,7 @@ if (await Vibration.hasVibrator()) {
     print('amplitude');
     Vibration.vibrate(amplitude: 128);
   } else if (await Vibration.hasCustomVibrationsSupport()) {
-    // 震动持续时间检测
+    // 震动持续时间检测 (Android 8.0+)
     print('custom vibrations');
     Vibration.vibrate(duration: 1);
   } else {
@@ -241,6 +241,10 @@ if (await Vibration.hasVibrator()) {
   }
 }
 ```
+
+## 我想获取计步器的数据
+
+使用 [`pedometer`](https://pub.dev/packages/pedometer) 库
 
 # MacOS APP
 
