@@ -51,7 +51,7 @@ Vim 提供了一些存放剪贴板及宏的内存区域，我们称之为 Regist
 
 你可以使用 `"aY` 来复制一整行到寄存器 'a' 中，然后按下 `"ap` 来粘贴寄存器 'a' 中的内容。
 
-除了 `a-z`的 26 个  命名寄存器，Vim 还提供了一些特殊的寄存器
+除了 `a-z`的 26 个命名寄存器，Vim 还提供了一些特殊的寄存器
 
 | 寄存器      | 作用                                                                                          |
 | ----------- | --------------------------------------------------------------------------------------------- |
@@ -181,7 +181,7 @@ Vim 的智能之处在于它知道你的内容如何进行范围的界定，通�
 | `is` | "inner sentence" 选择内联句子                       |
 | `as` | "a sentence" 选择一个句子                           |
 
-## 大小写转换
+## 转换
 
 | 按键  | 作用                           |
 | ----- | :----------------------------- |
@@ -191,6 +191,12 @@ Vim 的智能之处在于它知道你的内容如何进行范围的界定，通�
 | `guu` | 将当前行所有字母变为小写       |
 | `gUU` | 将当前行所有字母变为大写       |
 | `g~~` | 将当前行所有字母变为大小写互换 |
+
+| 按键  | 作用                           |
+| ----- | :----------------------------- |
+| `Ctrl-A`   | 将光标位置的数字自增     |
+| `Ctrl-X` | 将光标位置的数字自减       |
+| `5Ctrl-A` | 将光标位置的数字增加5       |
 
 ## 查找
 
@@ -280,3 +286,4 @@ Vim 的智能之处在于它知道你的内容如何进行范围的界定，通�
 - [Vim Text Objects: The Definitive Guide - Carbon Five's Blog](https://blog.carbonfive.com/vim-text-objects-the-definitive-guide/)
 - [Vim: Jump Back To Previous or Last Cursor Position - nixCraft](https://www.cyberciti.biz/faq/unix-linux-vim-go-back-to-last-cursor-position/)
 - [Vim 寄存器完全手册 - Harttle Land](https://harttle.land/2016/07/25/vim-registers.html)
+- [Vim 批量插入数字序列](https://www.jianshu.com/p/ce1b1e95fa84)
