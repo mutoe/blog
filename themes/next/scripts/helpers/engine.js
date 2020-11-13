@@ -24,7 +24,7 @@ hexo.extend.helper.register('next_vendors', function(url) {
 hexo.extend.helper.register('post_edit', function(src) {
   const theme = hexo.theme.config;
   if (!theme.post_edit.enable) return '';
-  return this.next_url(theme.post_edit.url + src, '<i class="fa fa-pencil"></i>', {
+  return this.next_url(theme.post_edit.url + src, '<i class="fa fa-pencil-alt"></i>', {
     class: 'post-edit-link',
     title: this.__('post.edit')
   });
@@ -59,7 +59,7 @@ hexo.extend.helper.register('gitalk_md5', function(path) {
 hexo.extend.helper.register('canonical', function() {
   // https://support.google.com/webmasters/answer/139066
   const { permalink } = hexo.config;
-  var url = this.url.replace(/index\.html$/, '');
+  let url = this.url.replace(/index\.html$/, '');
   if (!permalink.endsWith('.html')) {
     url = url.replace(/\.html$/, '');
   }

@@ -19,18 +19,21 @@ hexo.on('generateAfter', () => {
       'User-Agent': 'Theme NexT Client'
     }
   }, res => {
-    var result = '';
+    let result = '';
     res.on('data', data => {
       result += data;
     });
     res.on('end', () => {
       try {
-        var latest = JSON.parse(result).tag_name.replace('v', '').split('.');
-        var current = version.split('.');
-        var isOutdated = false;
-        for (var i = 0; i < Math.max(latest.length, current.length); i++) {
+        let latest = JSON.parse(result).tag_name.replace('v', '').split('.');
+        let current = version.split('.');
+        let isOutdated = false;
+        for (let i = 0; i < Math.max(latest.length, current.length); i++) {
           if (!current[i] || latest[i] > current[i]) {
             isOutdated = true;
+            break;
+          }
+          if (latest[i] < current[i]) {
             break;
           }
         }

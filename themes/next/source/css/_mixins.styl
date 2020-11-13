@@ -40,6 +40,12 @@ tablet-mobile() {
   }
 }
 
+tablet-desktop() {
+  @media (min-width: 768px) {
+    {block};
+  }
+}
+
 tablet() {
   @media (min-width: 768px) and (max-width: 991px) {
     {block};
@@ -100,4 +106,9 @@ flex-column() {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+font-family-icons() {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
 }
