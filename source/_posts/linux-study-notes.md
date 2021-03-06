@@ -177,6 +177,59 @@ chmod 644 authorized_keys
 - `setfacl -x u:user path` 为 path 移除 user 用户
 - `getfacl path` 查看 path 的所有权限
 
+## 文件操作
+
+### 复制文件
+
+`cp` 复制文件
+
+- `-r` 递归复制, 复制目录时使用此参数
+
+- `cp foo.txt foo_copy.txt`
+- `cp -r folder copied_folder`
+
+### 移动文件
+
+`mv` 移动文件或目录
+
+- `mv file1.txt file2.txt`
+- `mv folder1 folder2`
+
+[comment]: <> (TODO: 末尾带 / 与否影响结果)
+
+### 重命名
+
+使用 `mv` 亦可进行重命名操作，如果想使用高级用法，可以使用 `rename` 命令 
+
+`rename` 批量重命名
+
+`rename [options] oldname newname file`  
+`rename [options] "s/oldname/newname/" file`
+
+- `-v` verbose 输出详细信息
+- `-n` `--no-act` 预览输出而不进行实际操作
+- `-o` `--no-overwrite` 不覆盖已存在的文件
+- `-s` `--symlink` 同时作用于 symlink
+
+其中 `file` 可支持 `?` `*` 通配符，
+当指定为 `*` 时表示匹配当前目录下所有文件
+
+替换命令支持 perl 正则表达式, 匹配捕获组时使用 `\1` 来保留捕获组
+
+例如当前目录下有 `foo1` `foo2` ... `foo200`, 我们想将其重命名为 `text_1.txt` `text_2.txt` ... `text_200.txt` 可以使用如下命令
+
+``` shell
+rename "s/foo(\d+)/text_\1.txt/" foo*
+```
+
+将当前目录下所有 `file_1.txt` `file_200.txt` 替换为 `text_1.txt` `text_2.txt`
+
+### 修改目录名
+
+`mv` 移动文件
+
+`rename` 批量修改文件名
+
 ## 文件内容查阅
 
 | 命令   | 作用                       |
