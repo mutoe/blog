@@ -49,24 +49,24 @@ Vim 和其他编辑器不一样，并不是一打开就可以输入文字，打�
 
 command-line 模式一些实用的快捷键
 
-| 按键 (command-line 模式)           | 作用                                     |
-| ---------------------------------- | :--------------------------------------- |
-| <kbd>ESC</kbd> `Ctrl-[` `Ctrl-c`   | 退出 command-line 模式，回到 mormal 模式 |
-| <kbd>ENTER</kbd> `Ctrl-m` `Ctrl-j` | 执行命令                                 |
-| <kbd>UP</kbd> / <kbd>DOWN</kbd>    | 上一条输入的命令 / 回退一条              |
-| <kbd>INSERT</kbd>                  | 切换插入模式和替换模式                   |
-| <kbd>HOME</kbd> `Ctrl-b`           | 光标跳到行首                             |
-| <kbd>END</kbd> `Ctrl-e`            | 光标跳到行尾                             |
-| <kbd>BACKSPACE</kbd> `Ctrl-h`      | 删除光标前的字符                         |
-| <kbd>DELETE</kbd>                  | 删除光标处的字符                         |
-| `Ctrl-w`                           | 删除光标处以前的单词                     |
-| `Ctrl-u`                           | 删除光标处到行首                         |
-| `Ctrl-d`                           | 命令补全                                 |
-| `Ctrl-r`                           | 粘贴某寄存器内容                         |
-| `Ctrl-r Ctrl-f`                    | 粘贴光标处的文件名                       |
-| `Ctrl-r Ctrl-p`                    | 粘贴光标处的文件名, expand path          |
-| `Ctrl-r Ctrl-w`                    | 粘贴光标处的单词(word)                   |
-| `Ctrl-r Ctrl-a`                    | 粘贴光标处的单词(WORD)                   |
+| 按键 (command-line 模式)        | 作用                                              |
+| ------------------------------- | :------------------------------------------------ |
+| `Ctrl-[` `Ctrl-c`               | 退出 command-line 模式，相当于按下 <kbd>ESC</kbd> |
+| `Ctrl-m` `Ctrl-j`               | 执行命令，相当于按下 <kbd>ENTER</kbd>             |
+| <kbd>UP</kbd> / <kbd>DOWN</kbd> | 重复上一次命令 / 回退一条                         |
+| <kbd>INSERT</kbd>               | 切换插入模式和替换模式                            |
+| <kbd>HOME</kbd> `Ctrl-b`        | 光标跳到行首                                      |
+| <kbd>END</kbd> `Ctrl-e`         | 光标跳到行尾                                      |
+| <kbd>BACKSPACE</kbd> `Ctrl-h`   | 删除光标前的字符                                  |
+| <kbd>DELETE</kbd>               | 删除光标处的字符                                  |
+| `Ctrl-w`                        | 删除光标处以前的单词                              |
+| `Ctrl-u`                        | 删除光标处到行首                                  |
+| `Ctrl-d`                        | 命令补全                                          |
+| `Ctrl-r {x}`                    | 粘贴某寄存器 `{x}` 内容                           |
+| `Ctrl-r Ctrl-f`                 | 粘贴光标处的文件名                                |
+| `Ctrl-r Ctrl-p`                 | 粘贴光标处的文件名, expand path                   |
+| `Ctrl-r Ctrl-w`                 | 粘贴光标处的单词(word)                            |
+| `Ctrl-r Ctrl-a`                 | 粘贴光标处的单词(WORD)                            |
 
 # 工作区
 
@@ -493,22 +493,20 @@ Vim 提供了一些存放剪贴板及宏的内存区域，我们称之为 Regist
 # 参考资料
 
 - [Linux vim - Runoob](https://www.runoob.com/linux/linux-vim.html)
+- [Vim - Harttle Land](https://harttle.land/tags.html#Vim)
 - [技巧：快速提高 Vi/Vim 使用效率的原则与途径 - 方吾松](https://www.ibm.com/developerworks/cn/linux/l-cn-tip-vim/)
-- [在 Vim 中优雅地查找和替换 - Harttle Land](https://harttle.land/2016/08/08/vim-search-in-file.html)
 - [You don't need more than one cursor in vim - @schoteffel](https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db)
 - [Macros - Vim Tips Wiki](https://vim.fandom.com/wiki/Macros)
 - [Replace a word with yanked text - Vim Tips Wiki](https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text)
 - [Vim 全局命令 g - Ein Verne's Blog](http://einverne.github.io/post/2017/10/vim-global.html)
 - [Vim Text Objects: The Definitive Guide - Carbon Five's Blog](https://blog.carbonfive.com/vim-text-objects-the-definitive-guide/)
 - [Vim: Jump Back To Previous or Last Cursor Position - nixCraft](https://www.cyberciti.biz/faq/unix-linux-vim-go-back-to-last-cursor-position/)
-- [Vim 寄存器完全手册 - Harttle Land](https://harttle.land/2016/07/25/vim-registers.html)
 - [Vim 批量插入数字序列](https://www.jianshu.com/p/ce1b1e95fa84)
 - [无插件 Vim 编程技巧 - 陈浩](https://coolshell.cn/articles/11312.html)
 - [vim/gvim 有哪些实用技巧？ - 知乎](https://www.zhihu.com/question/27249253) （感谢所有回答者）
 
 <!--
 TODO:
-自动补全
 tag
 jumplist
 quickfix
