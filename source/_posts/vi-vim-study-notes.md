@@ -46,6 +46,55 @@ Vim 和其他编辑器不一样，并不是一打开就可以输入文字，打�
 | 命令        | 作用                          |
 | ----------- | :---------------------------- |
 | `:r! {cmd}` | 将 `{cmd}` 的输出插入到光标处 |
+| `:[range]s/pattern/target/gi` | 替换，在 `[range]` 范围内查找 `pattern` 然后替换为 `target` |
+| `:[range]g/pattern/cmd` | 查找，在 `[range]` 范围内查找 `pattern` 然后执行 `cmd` 命令 |
+
+<details>
+<summary>命令 `:g` 的一些例子</summary>
+
+```bash
+# 查看含有 pattern 的相关 5 行内容
+:g/pattern/z#.5
+:g/pattern/z#.5|echo "======"
+
+# 删除含有 pattern 的所有行
+:g/pattern/d
+
+# 删除所有空行
+:g/^\s*$/d
+
+# 删除不含有 pattern 的所有行
+:g!/pattern/d
+:v/pattern/d
+
+# 删除所有重复的行
+:g/^\(.*\)\(\r\?\n\1\)\+$/d
+:%!uniq
+
+# 在标记 a 和 b 定义的范围内搜索含有 pattern 行中替换字符串 pattern2 为 replaced
+:'a,'bg/pattern/s/pattern2/replaced/gi
+
+# 给每一行添加一个空行
+:g/^/pu =\"\n\"
+:g/^/pu _ # 从黑洞寄存器 (_) 中插入 
+
+# 复制所有含有 pattern 的行到寄存器 a
+:g/pattern/y a
+
+# 复制所有含有 pattern 的行到文件末尾
+:g/pattern/t$
+
+# 移动所有含有 pattern 的行到文件末尾
+:g/pattern/m$
+
+# 从当前行到最后一行中，所有行头的数字自增 1 (相当于 normal 模式下按 `Ctrl-a`)
+:.,$g/^\d/exe "normal! \<C-A>"
+
+# 在所有匹配的行中执行寄存器 a 中的宏
+:g/pattern/normal @a
+```
+
+</details>
 
 command-line 模式一些实用的快捷键
 
@@ -480,7 +529,7 @@ Vim 提供了一些存放剪贴板及宏的内存区域，我们称之为 Regist
 | `incsearch`            | 敲键的同时搜索，按下回车把移动光标移动到匹配的词； 按下 Esc 取消搜索。 |
 | `number` `nu`          | 显示行数                                                               |
 | `relativenumber` `rnu` | 显示相对行数                                                           |
-| `so=5`                 | 设置滚动屏幕时上下保留的行数                                           |
+| `scrolloff=5` `so=5`   | 设置滚动屏幕时上下保留的行数                                           |
 | `smartcase`            | 如果有一个大写字母，则切换到大小写敏感查找                             |
 | `wrapscan`             | 设置到文件尾部后是否重新从文件头开始搜索                               |
 
@@ -492,12 +541,11 @@ Vim 提供了一些存放剪贴板及宏的内存区域，我们称之为 Regist
 
 # 参考资料
 
+- [Vim Tips Wiki](https://vim.fandom.com/wiki/Vim_Tips_Wiki)
 - [Linux vim - Runoob](https://www.runoob.com/linux/linux-vim.html)
 - [Vim - Harttle Land](https://harttle.land/tags.html#Vim)
 - [技巧：快速提高 Vi/Vim 使用效率的原则与途径 - 方吾松](https://www.ibm.com/developerworks/cn/linux/l-cn-tip-vim/)
 - [You don't need more than one cursor in vim - @schoteffel](https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db)
-- [Macros - Vim Tips Wiki](https://vim.fandom.com/wiki/Macros)
-- [Replace a word with yanked text - Vim Tips Wiki](https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text)
 - [Vim 全局命令 g - Ein Verne's Blog](http://einverne.github.io/post/2017/10/vim-global.html)
 - [Vim Text Objects: The Definitive Guide - Carbon Five's Blog](https://blog.carbonfive.com/vim-text-objects-the-definitive-guide/)
 - [Vim: Jump Back To Previous or Last Cursor Position - nixCraft](https://www.cyberciti.biz/faq/unix-linux-vim-go-back-to-last-cursor-position/)
