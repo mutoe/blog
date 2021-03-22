@@ -2,7 +2,7 @@
 title: linux 学习笔记
 
 date: 2017-08-01 12:30:09
-update: 2019-10-16 15:47:14
+update: 2021-03-22 22:20:32
 categories: 笔记
 tags:
   - Linux
@@ -15,6 +15,21 @@ tags:
 <!-- more -->
 
 # 命令
+
+## 快捷键
+
+在 Linux 命令行中有一些快捷键可供方便的敲出命令
+
+| 按键     | 作用                   |
+| -------- | ---------------------- |
+| `Ctrl-a` | 将光标移到行首         |
+| `Ctrl-e` | 将光标移到行尾         |
+| `Ctrl-r` | 查找历史命令           |
+| `Ctrl-w` | 删除光标前的一个词     |
+| `Ctrl-u` | 删除已输入的内容       |
+| `Ctrl-y` | 粘贴上述命令删除的内容 |
+| `Ctrl-l` | 清空屏幕上的内容       |
+
 
 ## 别名
 
@@ -211,8 +226,7 @@ chmod 644 authorized_keys
 - `-o` `--no-overwrite` 不覆盖已存在的文件
 - `-s` `--symlink` 同时作用于 symlink
 
-其中 `file` 可支持 `?` `*` 通配符，
-当指定为 `*` 时表示匹配当前目录下所有文件
+其中 `file` 可支持 `?` `*` 通配符， 当指定为 `*` 时表示匹配当前目录下所有文件
 
 替换命令支持 perl 正则表达式, 匹配捕获组时使用 `\1` 来保留捕获组
 
@@ -617,3 +631,4 @@ branch_name=${ref_name##refs/heads/} # => master
 > - 《鸟哥的 Linux 私房菜》
 > - [Shell 编程中的用户输入处理 - Locutus](https://so.csdn.net/so/search/s.do?q=Shell%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E7%94%A8%E6%88%B7%E8%BE%93%E5%85%A5%E5%A4%84%E7%90%86&t=blog&u=yjk13703623757)
 > - [Linux 的 Shell 脚本——day5——sed 非交互文本编辑 - Lu-Yu](https://blog.csdn.net/Yu1543376365/article/details/82717257)
+> - [10个高效Linux技巧及Vim命令对比 - Vimjc](https://vimjc.com/linux-vim-tricks.html)
