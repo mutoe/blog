@@ -1,23 +1,24 @@
 ---
-title: 哈希表 Tash Table 中最好的质数
+title: 哈希函数质数速查表
 date: 2021-09-21 17:13:09
 keywords:
   - Hash
 
 ---
 
-In the course of designing a good hashing configuration, it is helpful to have a list of prime numbers for the hash table size.
+在设计一个好的散列配置的过程中，有一个用于散列表大小的素数列表是有帮助的。
 
-The following is such a list. It has the properties that:
+下面就是这样一份速查表，它具有以下特性:
 
-1.  each number in the list is prime
-2.  each number is slightly less than twice the size of the previous
-3.  each number is as far as possible from the nearest two powers of two
+1. 列表中的每个数字都是质数
+2. 每个数字的大小都略小于前一个数字的两倍
+3. 每个数字都尽可能远离最接近的两个2的幂
 
-Using primes for hash tables is a good idea because it minimizes clustering in the hashed table. Item (2) is nice because it is convenient for growing a hash table in the face of expanding data. Item (3) has, allegedly, been shown to yield especially good results in practice.
+对哈希表使用素数是一个好主意，因为它最大限度地减少了哈希表中的聚类。第 (2) 项很好，因为它可以方便地在扩展数据时增长哈希表。据称，第 (3) 项在实践中已显示出特别好的结果。
 
-And here is the list:
-
+<style>
+table {font-family: consolas, Menlo, monospace, 'PingFang SC', 'Microsoft YaHei';}
+</style>
 
 |           dec | lwr  | upr  |     % err |      prime |
 | ------------: | :--- | :--- | --------: | ---------: |
@@ -36,7 +37,7 @@ And here is the list:
 |       262,144 | 2^17 | 2^18 |  0.002543 |     196613 |
 |       524,288 | 2^18 | 2^19 |  0.006358 |     393241 |
 |     1,048,576 | 2^19 | 2^20 |  0.000127 |     786433 |
-|      2097,152 | 2^20 | 2^21 |  0.000318 |    1572869 |
+|     2,097,152 | 2^20 | 2^21 |  0.000318 |    1572869 |
 |     4,194,304 | 2^21 | 2^22 |  0.000350 |    3145739 |
 |     8,388,608 | 2^22 | 2^23 |  0.000207 |    6291469 |
 |    16,777,216 | 2^23 | 2^24 |  0.000040 |   12582917 |
@@ -49,7 +50,7 @@ And here is the list:
 | 2,147,483,648 | 2^30 | 2^31 |  0.000000 | 1610612741 |
 
 
-The columns are, in order, the lower bounding power of two, the upper bounding power of two, the relative deviation (in percent) of the prime number from the optimal middle of the first two, and finally the prime itself.
+这几栏依次是2的上界幂对应的十进制数、2的下限幂、2的上限幂、素数与前两者的最佳中间值的相对偏差（百分比），最后是素数本身。
 
 Happy hashing! 
 
