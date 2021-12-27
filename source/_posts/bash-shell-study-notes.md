@@ -178,3 +178,4 @@ esac
 - [Shell 教程 - c语言中文网](https://wiki.jikexueyuan.com/project/shell-tutorial)
 - [How do I split a string on a delimiter in Bash?](https://stackoverflow.com/q/918886/7736393)
 - [shell中各种括号的作用()、(())、[]、[[]]、{}](https://blog.csdn.net/taiyang1987912/article/details/39551385)
+- [How to Check if a File or Directory Exists in Bash - Linuxize](https://linuxize.com/post/bash-check-if-file-exists/)

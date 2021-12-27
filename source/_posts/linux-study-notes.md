@@ -1,5 +1,5 @@
 ---
-title: linux 学习笔记
+title: Linux 学习笔记
 
 date: 2017-08-01 12:30:09
 update: 2021-03-22 22:20:32
@@ -57,8 +57,8 @@ tags:
 | `Ctrl-s` / `Ctrl-q` | 阻止/允许屏幕输出            |
 | `Ctrl-c` / `Ctrl-z` | 中止/挂起进程                |
 
-    - macOS 下 `Alt` 键对应 <kbd>Option</kbd>；如果按出特殊字符则需要关闭相应的特殊字符输出设定，参考 [Mac 禁用 options 特殊字符](https://juejin.cn/post/6844903709152018439)
-    - `M-b` 为按住 <kbd>Esc</kbd> 再按 <kbd>b</kbd>
+> - macOS 下 `Alt` 键对应 <kbd>Option</kbd>；如果按出特殊字符则需要关闭相应的特殊字符输出设定，参考 [Mac 禁用 options 特殊字符](https://juejin.cn/post/6844903709152018439)
+> - `M-b` 为按住 <kbd>Esc</kbd> 再按 <kbd>b</kbd>
 
 ## 别名
 
