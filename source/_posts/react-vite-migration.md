@@ -238,7 +238,7 @@ export default {
 测试环境下需要打开 `@babel/preset-env` 的 `modules` 选项，而开发或构建必须关掉，所以需要 `babel.config.js` 做一些判断
 
 <details>
-<summary>附上 Babel 配置和 Jest 配置</summary>
+<summary>附上 Babel 配置和 Jest 配置, 安装相应依赖安装即可</summary>
 
 ```js babel.config.js
 module.exports = api => {
@@ -253,6 +253,7 @@ module.exports = api => {
     plugins: [
       '@babel/plugin-proposal-class-properties',
       '@babel/plugin-transform-runtime',
+      'babel-plugin-transform-import-meta', // 用于处理 import.meta 的问题
     ],
   }
 }
@@ -289,4 +290,30 @@ module.exports = api => {
 ```html
 
 <script>const global = globalThis</script>
+```
+
+## `vite.config.ts` 中无法使用 `import.meta.env` 读取环境变量
+
+`vite.config.ts` 在执行时处于编译时，所以可以使用 `process.env` 获取环境变量。
+
+至于获取启动 Vite 的 mode 和 development/production，可以参考 https://vitejs.dev/config/#conditional-config
+
+## Webpack dev server 中 proxy 配置了 onProxyRes 在 Vite 中失效
+
+Vite proxy 底层时用了 [node-http-proxy](https://github.com/http-party/node-http-proxy#options)，新的用法如下
+
+```ts vite.config.ts
+{
+  proxy: {
+    '/api': {
+      target: 'http://xxx.com',
+      configure: proxy => {
+        proxy.on('proxyRes', (proxyRes, req, res) => {
+          // ...
+          res.send()
+        })
+      }
+    }
+  }
+}
 ```
