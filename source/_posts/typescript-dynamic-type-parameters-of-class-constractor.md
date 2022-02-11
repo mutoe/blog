@@ -74,7 +74,7 @@ console.log(vm.a) // => 2
 <details open>
 <summary>在线版本</summary>
 
-<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-kh4zmn?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor" />
+<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-kh4zmn?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor"></iframe>
 </details>
 
 
@@ -191,7 +191,7 @@ vm.initProxy().a // ok now
 <details open>
 <summary>在线版本</summary>
 
-<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-wc52zd?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor" />
+<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-wc52zd?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor"></iframe>
 </details>
 
 我们使用泛型变量 `T` 来告诉 TypeScript 我们即将要声明的 `data` 的类型, 这个类型变量将会用于声明:
@@ -284,7 +284,7 @@ vm.a = 2
 <details open>
 <summary>在线版本</summary>
 
-<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-eyrsb8?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor" />
+<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-eyrsb8?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor"></iframe>
 </details>
 
 这种办法解决了我们的问题, 但是不完美. 我们实例话 Vue 类的时候, 需要这样写
@@ -349,7 +349,7 @@ vm.a = 2
 <details open>
 <summary>在线版本</summary>
 
-<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-9mhvbb?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor" />
+<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-9mhvbb?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor"></iframe>
 </details>
 
 完美的解决了我们的问题, 虽然这个办法需要声明一个额外的类型, 但是由于我们使用的是封装的高阶方法, 只要不影响使用就行啦!
