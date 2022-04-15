@@ -28,3 +28,5 @@ docker配置 https://github.com/lima-vm/lima/blob/master/examples/docker.yaml
 https://stackoverflow.com/questions/67642620/docker-credential-desktop-not-installed-or-not-available-in-path
 
 ## 端口转发
+
+## IDEA、WebStorm 中无法连接 Docker

@@ -1,5 +1,5 @@
 ---
-title: 学习资料快速导航
+title: 实用工具导航
 date: 2019-04-30 11:52:02
 update: 2019-08-16 10:07:24
 description: 一些自用的链接快速导航
@@ -8,6 +8,10 @@ keywords:
   - Electron
   - Flutter
 ---
+
+# 网络工具
+
+- [Speed test 测速服务器](https://github.com/librespeed/speedtest)
 
 # Flutter
 
