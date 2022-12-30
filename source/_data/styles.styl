@@ -70,6 +70,9 @@ figure.highlight
   p
     text-align left
 
+    +mobile-small()
+      margin-bottom 16px
+
 // 列表样式
 .posts-expand
   .post-meta
@@ -92,6 +95,9 @@ figure.highlight
       > ol > li
         list-style lower-roman
 
+    +mobile-small()
+      padding-left: 28px
+
   .post-title
     position: relative
     overflow hidden
@@ -103,6 +109,9 @@ figure.highlight
       display inline-flex
       align-items: center
       font-size 0.8em
+
+      +mobile-small()
+        display: none
 
 // stackblitz 代码在线演示
 .stackblitz
@@ -170,9 +179,9 @@ blockquote
     display block
     width var(--progress)
     height 100%
-    background-color var(--theme-color)
+    background-color var(--link-hover-color)
 
-@media (min-width: 1200px)
++desktop-large()
   .sidebar-active
     .reading-progress-bar
-      width: calc(100% - 320px)
+      width: 'calc(100% - %s)' % $sidebar-desktop
