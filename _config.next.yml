@@ -1,0 +1,228 @@
+scheme: Muse
+darkmode: true
+minify: true
+tag_icon: true
+mobile_layout_economy: true
+
+sidebar:
+  position: right
+
+custom_file_path:
+  #head: source/_data/head.njk
+  #header: source/_data/header.njk
+  #sidebar: source/_data/sidebar.njk
+  #postMeta: source/_data/post-meta.njk
+  #postBodyEnd: source/_data/post-body-end.njk
+  footer: source/_data/footer.njk
+  #bodyEnd: source/_data/body-end.njk
+  #variable: source/_data/variables.styl
+  #mixin: source/_data/mixins.styl
+  style: source/_data/styles.styl
+
+favicon:
+  small: /favicon.ico
+  medium: /favicon.ico
+
+# Use Animate.css to animate everything.
+# For more information: https://animate.style
+motion:
+  enable: true
+  async: true
+  transition:
+    # All available transition variants: https://theme-next.js.org/animate/
+    menu_item: fadeInDown
+    post_block: fadeIn
+    post_header: fadeInDown
+    post_body: fadeInDown
+    coll_header: fadeInLeft
+    # Only for Pisces | Gemini.
+    sidebar: fadeInUp
+
+language_switcher: false
+footer:
+  # Specify the date when the site was setup. If not defined, current year will be used.
+  since: 2015
+
+  # Icon between year and copyright info.
+  icon:
+    # Icon name in Font Awesome. See: https://fontawesome.com/icons
+    name: fa fa-heart
+    # If you want to animate the icon, set it to true.
+    animated: false
+    # Change the color of icon, using Hex Code.
+    color: "#ed5049"
+
+  # If not defined, `author` from Hexo `_config.yml` will be used.
+  copyright:
+
+  # Powered by Hexo & NexT
+  powered: false
+
+# Creative Commons 4.0 International License.
+# See: https://creativecommons.org/share-your-work/licensing-types-examples
+# Available values of license: by | by-nc | by-nc-nd | by-nc-sa | by-nd | by-sa | zero
+# You can set a language value if you prefer a translated version of CC license, e.g. deed.zh
+# CC licenses are available in 39 languages, you can find the specific and correct abbreviation you need on https://creativecommons.org
+creative_commons:
+  # Available values: by | by-nc | by-nc-nd | by-nc-sa | by-nd | by-sa | cc-zero
+  license: by-nc-sa
+  # Available values: big | small
+  size: small
+  sidebar: false
+  post: false
+  # You can set a language value if you prefer a translated version of CC license, e.g. deed.zh
+  # CC licenses are available in 39 languages, you can find the specific and correct abbreviation you need on https://creativecommons.org
+  language:
+
+menu:
+  home: / || fa fa-home
+  #about: /about/ || fa fa-user
+  tags: /tags/ || fa fa-tags
+  categories: /categories/ || fa fa-th
+  archives: /archives/ || fa fa-archive
+  #schedule: /schedule/ || fa fa-calendar
+  #sitemap: /sitemap.xml || fa fa-sitemap
+  #commonweal: /404/ || fa fa-heartbeat
+
+
+# Sidebar Avatar
+avatar:
+  # Replace the default image and set the url here.
+  url: /images/avatar.jpg
+  # If true, the avatar will be displayed in circle.
+  rounded: true
+  # If true, the avatar will be rotated with the cursor.
+  rotated: false
+
+social:
+  GitHub: https://github.com/mutoe || fab fa-github
+  E-Mail: mailto:imutoe@gmail.com || fa fa-envelope
+  #Weibo: https://weibo.com/yourname || fab fa-weibo
+  #Google: https://plus.google.com/yourname || fab fa-google
+  #Twitter: https://twitter.com/yourname || fab fa-twitter
+  #FB Page: https://www.facebook.com/yourname || fab fa-facebook
+  #StackOverflow: https://stackoverflow.com/yourname || fab fa-stack-overflow
+  #YouTube: https://youtube.com/yourname || fab fa-youtube
+  #Instagram: https://instagram.com/yourname || fab fa-instagram
+  #Skype: skype:yourname?call|chat || fab fa-skype
+
+social_icons:
+  enable: true
+  icons_only: false
+  transition: false
+
+links:
+  #Title: http://yoursite.com
+
+# Table of Contents in the Sidebar
+# Front-matter variable (unsupport wrap expand_all).
+toc:
+  enable: true
+  # Automatically add list number to toc.
+  number: false
+  # If true, all words will placed on next lines if header width longer then sidebar width.
+  wrap: false
+  # If true, all level of TOC in a post will be displayed, rather than the activated part of it.
+  expand_all: false
+  # Maximum heading depth of generated toc.
+  max_depth: 6
+
+# Post edit
+# Dependencies: https://github.com/hexojs/hexo-deployer-git
+post_edit:
+  enable: true
+  url: https://github.com/mutoe/mutoe.github.io/tree/master/source/ # Link for view source
+
+codeblock:
+  # Code Highlight theme
+  # All available themes: https://theme-next.js.org/highlight/
+  theme:
+    light: default
+    dark: base16/gruvbox-dark-soft
+  prism:
+    light: prism
+    dark: prism-dark
+  # Add copy button on codeblock
+  copy_button:
+    enable: true
+    # Available values: default | flat | mac
+    style: flat
+
+# Reading progress bar
+reading_progress:
+  enable: true
+  # Available values: top | bottom
+  position: top
+  color: "#222"
+  height: 3px
+
+# `Follow me on GitHub` banner in the top-right corner.
+github_banner:
+  enable: true
+  permalink: https://github.com/mutoe
+
+# Math Formulas Render Support
+math:
+  # Default (false) will load mathjax / katex script on demand.
+  # That is it only render those page which has `mathjax: true` in front-matter.
+  # If you set it to true, it will load mathjax / katex script EVERY PAGE.
+  every_page: false
+
+  mathjax:
+    enable: true
+    # Available values: none | ams | all
+    tags: none
+
+# Show Views / Visitors of the website / page with busuanzi.
+# Get more information on http://ibruce.info/2015/04/04/busuanzi
+busuanzi_count:
+  enable: true
+  total_visitors: true
+  total_visitors_icon: fa fa-user
+  total_views: true
+  total_views_icon: fa fa-eye
+  post_views: true
+  post_views_icon: fa fa-eye
+
+# Multiple Comment System Support
+comments:
+  # Available values: tabs | buttons
+  style: tabs
+  # Choose a comment system to be displayed by default.
+  # Available values: disqus | disqusjs | changyan | livere | gitalk | utterances
+  active: utterances
+  # Setting `true` means remembering the comment system selected by the visitor.
+  storage: true
+  # Lazyload all comment systems.
+  lazyload: false
+  # Modify texts or order for any naves, here are some examples.
+  nav:
+    #disqus:
+    #  text: Load Disqus
+    #  order: -1
+    #gitalk:
+    #  order: -2
+
+# Utterances
+# For more information: https://utteranc.es
+utterances:
+  enable: true
+  repo: mutoe/blog
+  # Available values: pathname | url | title | og:title
+  issue_term: title
+  # Available values: github-light | github-dark | preferred-color-scheme | github-dark-orange | icy-dark | dark-blue | photon-dark | boxy-light
+  theme: github-light
+
+# Local Search
+# Dependencies: https://github.com/next-theme/hexo-generator-searchdb
+local_search:
+  enable: true
+  # If auto, trigger search by changing input.
+  # If manual, trigger search by pressing enter key or search button.
+  trigger: auto
+  # Show top n results per article, show all results by setting to -1
+  top_n_per_article: 1
+  # Unescape html strings to the readable one.
+  unescape: false
+  # Preload the search data when the page loads.
+  preload: false

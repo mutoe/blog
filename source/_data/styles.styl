@@ -1,27 +1,16 @@
 // Custom styles.
 
 html
-  font-size 87.5%
+  font-size 100%
 
 // 让表格列宽度根据内容自适应
 table
   table-layout auto
 
-.inline-block
-  display inline-block
-
-.main
-  padding-bottom 217px
-
 #footer
   margin-top 56px
   border-top 1px solid #eee
 
-.author
-  margin-right 8px
-
-.theme-info
-  margin-left 8px
 
 .external-link
   margin 28px
@@ -29,41 +18,55 @@ table
   > a
     margin 0 .5em
 
-.highlight-wrap[data-rel]
-  position relative
+// 代码块 header
+figure.highlight
+  .copy-btn
+    background-color transparent
 
-  &::before
-    content attr(data-rel)
-    position absolute
+  figcaption
+    border-bottom 1px dashed var(--highlight-gutter-foreground)
     font-family consolas, Menlo, "PingFang SC", "Microsoft YaHei", monospace
-    top -10px
-    right 20px
-    line-height 1.6
     font-size 14px
     transition color .4s
-    color $blue-bright
+    color var(--blockquote-color)
 
-  &:hover::before
-    color $blue
+  &:hover
+    figcaption
+      color var(--link-hover-color)
 
-// 锚点
+
 .post-body
+  // 锚点
   h1, h2, h3, h4, h5, h6
-    > a
+    > a.headerlink
+      position: relative
       border-bottom none
+      float none
+      opacity 1
+      margin-left: 0
+      font-size inherit
+      display block
+      color inherit
 
-      &:hover
-        &::before
-          content '#'
-          position absolute
-          margin-left -0.8em
+      &::before
+        content '#'
+        position absolute
+        right 100%
+        padding-right 0.2em
+        transition opacity .2s
+        font-family inherit
+        opacity 0
 
+      &:hover::before
+        opacity 1
+
+  // 边距
   h1
     margin-top 96px
-
   h2, h3, h4, h5, h6
     margin-top 48px
 
+  // 文字对齐方式（不要两边对齐）
   p
     text-align left
 
@@ -89,12 +92,19 @@ table
       > ol > li
         list-style lower-roman
 
-// utterances
-.utterances
-  margin 24px 0 0
-  max-width none
+  .post-title
+    position: relative
+    overflow hidden
 
-// stackblitz
+    .post-edit-link
+      position: absolute
+      right: 0
+      height 100%
+      display inline-flex
+      align-items: center
+      font-size 0.8em
+
+// stackblitz 代码在线演示
 .stackblitz
   width 100%
   height auto
@@ -106,15 +116,17 @@ details
   summary
     cursor zoom-in
 
+    &::marker
+    &::-webkit-details-marker
+      display none
+      content: ''
+
     &::before
       display inline-block
       content '▶'
       margin-right 4px
       color #999
       transition transform .2s
-
-    &::-webkit-details-marker
-      display none
 
   &[open]
     summary
@@ -123,16 +135,44 @@ details
       &::before
         transform rotateZ(90deg)
 
+// 注音
 ruby
   rt
-    font-size 80%
+    font-size 70%
     color #ccc
 
 blockquote
   position relative
   padding 21px 15px 1px
-  background-color #f7f7f7
+  background-color var(--card-bg-color)
   margin-bottom 20px
 
   p
     color #999
+
+// 标签云
+.tag-cloud-tags
+  margin-top 24px
+
+  a
+    text-decoration none
+    border-bottom none
+    vertical-align middle
+
+// 阅读进度栏
+.reading-progress-bar
+  background-color transparent
+  width: 100%
+  transition width .4s
+
+  &::before
+    content ''
+    display block
+    width var(--progress)
+    height 100%
+    background-color var(--theme-color)
+
+@media (min-width: 1200px)
+  .sidebar-active
+    .reading-progress-bar
+      width: calc(100% - 320px)
