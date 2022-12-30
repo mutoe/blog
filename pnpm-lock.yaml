@@ -6,16 +6,16 @@ specifiers:
   hexo: ^6.0.0
   hexo-browsersync: ^0.3.0
   hexo-deployer-git: ^3.0.0
-  hexo-generator-archive: ^1.0.0
+  hexo-generator-archive: ^2.0.0
   hexo-generator-baidu-sitemap: ^0.1.9
-  hexo-generator-category: ^1.0.0
+  hexo-generator-category: ^2.0.0
   hexo-generator-feed: ^3.0.0
-  hexo-generator-index: ^2.0.0
+  hexo-generator-index: ^3.0.0
   hexo-generator-searchdb: ^1.3.3
-  hexo-generator-sitemap: ^2.1.0
-  hexo-generator-tag: ^1.0.0
+  hexo-generator-sitemap: ^3.0.1
+  hexo-generator-tag: ^2.0.0
   hexo-renderer-ejs: ^2.0.0
-  hexo-renderer-marked: ^5.0.0
+  hexo-renderer-marked: ^6.0.0
   hexo-renderer-stylus: ^2.0.1
   hexo-server: ^3.0.0
 
@@ -25,16 +25,16 @@ dependencies:
   hexo: 6.3.0
   hexo-browsersync: 0.3.0
   hexo-deployer-git: 3.0.0
-  hexo-generator-archive: 1.0.0
+  hexo-generator-archive: 2.0.0
   hexo-generator-baidu-sitemap: 0.1.9
-  hexo-generator-category: 1.0.0
+  hexo-generator-category: 2.0.0
   hexo-generator-feed: 3.0.0
-  hexo-generator-index: 2.0.0
+  hexo-generator-index: 3.0.0
   hexo-generator-searchdb: 1.4.1
-  hexo-generator-sitemap: 2.2.0
-  hexo-generator-tag: 1.0.0
+  hexo-generator-sitemap: 3.0.1
+  hexo-generator-tag: 2.0.0
   hexo-renderer-ejs: 2.0.0
-  hexo-renderer-marked: 5.0.0
+  hexo-renderer-marked: 6.0.0
   hexo-renderer-stylus: 2.1.0
   hexo-server: 3.0.0
 
@@ -91,26 +91,20 @@ packages:
       negotiator: 0.6.3
     dev: false
 
-  /acorn-globals/6.0.0:
-    resolution: {integrity: sha512-ZQl7LOWaF5ePqqcX4hLuv/bLXYQNfNWw2c0/yX/TsPRKamzHcTGQnlCjHT3TsmkOUVEPS3crCxiPfdzE/Trlhg==}
+  /acorn-globals/7.0.1:
+    resolution: {integrity: sha512-umOSDSDrfHbTNPuNpC2NSnnA3LUrqpevPb4T9jRx4MagXNS0rs+gwiTcAvqCRmsD6utzsrzNt+ebm00SNWiC3Q==}
     dependencies:
-      acorn: 7.4.1
-      acorn-walk: 7.2.0
+      acorn: 8.8.1
+      acorn-walk: 8.2.0
     dev: false
 
-  /acorn-walk/7.2.0:
-    resolution: {integrity: sha512-OPdCF6GsMIP+Az+aWfAAOEt2/+iVDKE7oy6lJ098aoe59oAmK76qV6Gw60SbZ8jHuG2wH058GF4pLFbYamYrVA==}
+  /acorn-walk/8.2.0:
+    resolution: {integrity: sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==}
     engines: {node: '>=0.4.0'}
     dev: false
 
   /acorn/6.4.2:
     resolution: {integrity: sha512-XtGIhXwF8YM8bJhGxG5kXgjkEuNGLTkoYqVE+KMR+aspr4KGYmKYg7yUe3KghyQ9yheNwLnjmzh/7+gfDBmHCQ==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
-    dev: false
-
-  /acorn/7.4.1:
-    resolution: {integrity: sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==}
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: false
@@ -478,10 +472,6 @@ packages:
 
   /browser-fingerprint/0.0.1:
     resolution: {integrity: sha512-b8SXP7yOlzLUJXF8WUvIjmbJzkJC0X6OHe7J9a/SHqEBC7a9Eglag6AANSTJz82h5U582kuxm/5TPudnD68EPA==}
-    dev: false
-
-  /browser-process-hrtime/1.0.0:
-    resolution: {integrity: sha512-9o5UecI3GhkpM6DrXr69PblIuWxPKk9Y0jHBRhdocZ2y7YECBFCsHm79Pr3OyR2AvjhDkabFJaDJMYRazHgsow==}
     dev: false
 
   /browser-sync-client/2.27.11:
@@ -1394,6 +1384,11 @@ packages:
     engines: {node: '>=0.12'}
     dev: false
 
+  /entities/4.4.0:
+    resolution: {integrity: sha512-oYp7156SP8LkeGD0GF85ad1X9Ai79WtRsZ2gxJqtBuzH+98YUV6jkHEKlZkMbcrjJjIVJNIDP/3WL9wQkoPbWA==}
+    engines: {node: '>=0.12'}
+    dev: false
+
   /error-ex/1.3.2:
     resolution: {integrity: sha512-7dFHNmqeFSEt2ZBsCriorKnn3Z2pj+fd9kmI6QoWw4//DL+icEBfc0U7qJCisqrTsKTjw4fNFy2pW9OqStD84g==}
     dependencies:
@@ -2130,11 +2125,11 @@ packages:
       hexo-util: 2.7.0
     dev: false
 
-  /hexo-generator-archive/1.0.0:
-    resolution: {integrity: sha512-24TeanDGpMBUIq37DHpSESQbeN6ssZ06edsGSI76tN4Yit50TgsgzP5g5DSu0yJk0jUtHJntysWE8NYAlFXibA==}
-    engines: {node: '>=8.6.0'}
+  /hexo-generator-archive/2.0.0:
+    resolution: {integrity: sha512-KikJk7dGFbtNHOgqtLFGf5T/S8n1paGp+Gy0KfVDz+HKYhGbXOouyiZkmc3O9KrYt6ja14rmkMhq7KKGtvfehw==}
+    engines: {node: '>=14'}
     dependencies:
-      hexo-pagination: 1.0.0
+      hexo-pagination: 3.0.0
     dev: false
 
   /hexo-generator-baidu-sitemap/0.1.9:
@@ -2148,11 +2143,11 @@ packages:
       - supports-color
     dev: false
 
-  /hexo-generator-category/1.0.0:
-    resolution: {integrity: sha512-kmtwT1SHYL2ismbGnYQXNtqLFSeTdtHNbJIqno3LKROpCK8ybST5QVXF1bZI9LkFcXV/H8ilt8gfg4/dNNcQQQ==}
-    engines: {node: '>=8.6.0'}
+  /hexo-generator-category/2.0.0:
+    resolution: {integrity: sha512-9OduRBf3WeRDa4BR0kAfRjOVHur7v3fm0NKAwbjUiqULigAdNZVZPO3cHKW2MlBbl/lI5PuWdhQ9zZ99CCCAgQ==}
+    engines: {node: '>=14'}
     dependencies:
-      hexo-pagination: 1.0.0
+      hexo-pagination: 3.0.0
     dev: false
 
   /hexo-generator-feed/3.0.0:
@@ -2165,12 +2160,11 @@ packages:
       - chokidar
     dev: false
 
-  /hexo-generator-index/2.0.0:
-    resolution: {integrity: sha512-q/29Vj9BZs0dwBcF+s9IT8ymS4aYZsDwBEYDnh96C8tsX+KPY5v6TzCdttz58BchifaJpP/l9mi6u9rZuYqA0g==}
-    engines: {node: '>=10.13.0'}
+  /hexo-generator-index/3.0.0:
+    resolution: {integrity: sha512-83AuNN4cWdLVi//3ugR8E3kR6rrOwhXZt+hOCm1IjtIGj353/GlrtpMHpqZHU5kqipzj4miy9dweVdukXglVWw==}
+    engines: {node: '>=14'}
     dependencies:
-      hexo-pagination: 1.0.0
-      timsort: 0.3.0
+      hexo-pagination: 3.0.0
     dev: false
 
   /hexo-generator-searchdb/1.4.1:
@@ -2181,9 +2175,9 @@ packages:
       - chokidar
     dev: false
 
-  /hexo-generator-sitemap/2.2.0:
-    resolution: {integrity: sha512-WoS/GpdrazoiFuhZXS3Qnb22L0uaiKHHWefcsoE7JLjh8WsksFom4v2FoNhr1RIYwFV7SudQFs91P5xcW+Gfow==}
-    engines: {node: '>=10.13.0'}
+  /hexo-generator-sitemap/3.0.1:
+    resolution: {integrity: sha512-n+0KLNmq6TLbiZPTQF6NY5MbEem/O+DFx0lgQZNQcU4tdjXIZRrQJs+KRKeT66NTkdlYTqb4WwCxswLqQz0crA==}
+    engines: {node: '>=12.13.0'}
     dependencies:
       hexo-util: 2.7.0
       micromatch: 4.0.5
@@ -2192,11 +2186,11 @@ packages:
       - chokidar
     dev: false
 
-  /hexo-generator-tag/1.0.0:
-    resolution: {integrity: sha512-JDoB2T1EncRlyGSjuAhkGxRfKkN8tq0i8tFlk9I4q2L6iYxPaUnFenhji0oxufTADC16/IchuPjmMk//dt8Msg==}
-    engines: {node: '>=8.6.0'}
+  /hexo-generator-tag/2.0.0:
+    resolution: {integrity: sha512-1px/hF3veEohWDN8jjzchQhaiz+uOStUvvMaBJC9vWOlALh30UFcapL8IrvAwwJZjFRVA+WqGgDRqoQ8+yaaFw==}
+    engines: {node: '>=14'}
     dependencies:
-      hexo-pagination: 1.0.0
+      hexo-pagination: 3.0.0
     dev: false
 
   /hexo-i18n/0.2.1:
@@ -2234,9 +2228,9 @@ packages:
       picocolors: 1.0.0
     dev: false
 
-  /hexo-pagination/1.0.0:
-    resolution: {integrity: sha512-miEVFgxchPr2qNWxw0JWpJ9R/Yaf7HjHBZVjvCCcqfbsLyYtCvIfJDxcEwz1sDOC/fLzYPqNnhUI73uNxBHRSA==}
-    engines: {node: '>=8.6.0'}
+  /hexo-pagination/3.0.0:
+    resolution: {integrity: sha512-8oo1iozloZo7TojPVYg4IxL3SJKCBdSJ908fTlIxIK7TWJIKdYnQlW31+12DBJ0NhVZA/lZisPObGF08wT8fKw==}
+    engines: {node: '>=14'}
     dev: false
 
   /hexo-renderer-ejs/2.0.0:
@@ -2246,13 +2240,13 @@ packages:
       ejs: 3.1.8
     dev: false
 
-  /hexo-renderer-marked/5.0.0:
-    resolution: {integrity: sha512-lifWMCvefTq3IlH+urQDPFX4gXquFAqDwOQBdqpwcPyhaiVHu0ZweeZ24IeZtCLRYP+zEgsksCPYrGl9hDDJHg==}
-    engines: {node: '>=12'}
+  /hexo-renderer-marked/6.0.0:
+    resolution: {integrity: sha512-/B/ud8q9pNldbipuv6cPyqL+fir973+blV79n6j59M3S8LRz/4hLXwd0TA4RHxcHVrgPakeWUtiH3UWo6B6Pag==}
+    engines: {node: '>=14'}
     dependencies:
       dompurify: 2.4.1
       hexo-util: 2.7.0
-      jsdom: 19.0.0
+      jsdom: 20.0.3
       marked: 4.2.5
     transitivePeerDependencies:
       - bufferutil
@@ -2820,9 +2814,9 @@ packages:
       argparse: 2.0.1
     dev: false
 
-  /jsdom/19.0.0:
-    resolution: {integrity: sha512-RYAyjCbxy/vri/CfnjUWJQQtZ3LKlLnDqj+9XLNnJPgEGeirZs3hllKR20re8LUZ6o1b1X4Jat+Qd26zmP41+A==}
-    engines: {node: '>=12'}
+  /jsdom/20.0.3:
+    resolution: {integrity: sha512-SYhBvTh89tTfCD/CRdSOm13mOBa42iTaTyfyEWBdKcGdPxPtLFBXuHR8XHb33YNYaP+lLbmSvBTsnoesCNJEsQ==}
+    engines: {node: '>=14'}
     peerDependencies:
       canvas: ^2.5.0
     peerDependenciesMeta:
@@ -2831,7 +2825,7 @@ packages:
     dependencies:
       abab: 2.0.6
       acorn: 8.8.1
-      acorn-globals: 6.0.0
+      acorn-globals: 7.0.1
       cssom: 0.5.0
       cssstyle: 2.3.0
       data-urls: 3.0.2
@@ -2844,16 +2838,15 @@ packages:
       https-proxy-agent: 5.0.1
       is-potential-custom-element-name: 1.0.1
       nwsapi: 2.2.2
-      parse5: 6.0.1
-      saxes: 5.0.1
+      parse5: 7.1.2
+      saxes: 6.0.0
       symbol-tree: 3.2.4
       tough-cookie: 4.1.2
-      w3c-hr-time: 1.0.2
-      w3c-xmlserializer: 3.0.0
+      w3c-xmlserializer: 4.0.0
       webidl-conversions: 7.0.0
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
-      whatwg-url: 10.0.0
+      whatwg-url: 11.0.0
       ws: 8.11.0
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
@@ -3595,8 +3588,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /parse5/6.0.1:
-    resolution: {integrity: sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==}
+  /parse5/7.1.2:
+    resolution: {integrity: sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==}
+    dependencies:
+      entities: 4.4.0
     dev: false
 
   /parseurl/1.3.3:
@@ -4025,9 +4020,9 @@ packages:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
     dev: false
 
-  /saxes/5.0.1:
-    resolution: {integrity: sha512-5LBh1Tls8c9xgGjw3QrMwETmTMVk0oFgvrFSvWx62llR2hcEInrKNZ2GZCCuuy2lvWrdl5jhbpeqc5hRYKFOcw==}
-    engines: {node: '>=10'}
+  /saxes/6.0.0:
+    resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
+    engines: {node: '>=v12.22.7'}
     dependencies:
       xmlchars: 2.2.0
     dev: false
@@ -4577,10 +4572,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /timsort/0.3.0:
-    resolution: {integrity: sha512-qsdtZH+vMoCARQtyod4imc2nIJwg9Cc7lPRrw9CzF8ZKR0khdr8+2nX80PBhET3tcyTtJDxAffGh2rXH4tyU8A==}
-    dev: false
-
   /titlecase/1.1.3:
     resolution: {integrity: sha512-pQX4oiemzjBEELPqgK4WE+q0yhAqjp/yzusGtlSJsOuiDys0RQxggepYmo0BuegIDppYS3b3cpdegRwkpyN3hw==}
     hasBin: true
@@ -4889,16 +4880,9 @@ packages:
       replace-ext: 1.0.1
     dev: false
 
-  /w3c-hr-time/1.0.2:
-    resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}
-    deprecated: Use your platform's native performance.now() and performance.timeOrigin.
-    dependencies:
-      browser-process-hrtime: 1.0.0
-    dev: false
-
-  /w3c-xmlserializer/3.0.0:
-    resolution: {integrity: sha512-3WFqGEgSXIyGhOmAFtlicJNMjEps8b1MG31NCA0/vOF9+nKMUW1ckhi9cnNHmf88Rzw5V+dwIwsm2C7X8k9aQg==}
-    engines: {node: '>=12'}
+  /w3c-xmlserializer/4.0.0:
+    resolution: {integrity: sha512-d+BFHzbiCx6zGfz0HyQ6Rg69w9k19nviJspaj4yNscGjrHu94sVP+aRm75yEbCh+r2/yR+7q6hux9LVtbuTGBw==}
+    engines: {node: '>=14'}
     dependencies:
       xml-name-validator: 4.0.0
     dev: false
@@ -4943,14 +4927,6 @@ packages:
   /whatwg-mimetype/3.0.0:
     resolution: {integrity: sha512-nt+N2dzIutVRxARx1nghPKGv1xHikU7HKdfafKkLNLindmPU/ch3U31NOCGGA/dmPcmb1VlofO0vnKAcsm0o/Q==}
     engines: {node: '>=12'}
-    dev: false
-
-  /whatwg-url/10.0.0:
-    resolution: {integrity: sha512-CLxxCmdUby142H5FZzn4D8ikO1cmypvXVQktsgosNy4a4BHrDHeciBBGZhb0bNoR5/MltoCatso+vFjjGx8t0w==}
-    engines: {node: '>=12'}
-    dependencies:
-      tr46: 3.0.0
-      webidl-conversions: 7.0.0
     dev: false
 
   /whatwg-url/11.0.0:
