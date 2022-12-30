@@ -6,7 +6,7 @@ date: 2018-03-24 02:24:20
 categories:
   - 教程
 tags:
-  - stylus
+  - Stylus
 ---
 
 相信前端的同学们已经接触过栅格化布局了, 只要你用过 bootstrap 或者一些其他的 css 框架.

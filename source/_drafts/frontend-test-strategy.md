@@ -3,7 +3,7 @@ title: 前端测试策略
 date: 2022-02-11 11:40:51
 categories: 心得
 tags:
-  - test
+  - Test
 ---
 
 # 前端项目中的测试金字塔

@@ -5,8 +5,8 @@ keywords: [yum, nodejs, centos, 升级失败, 缓存]
 date: 2018-07-11 22:36:41
 categories: 心得
 tags:
-  - nodejs
-  - yum
+  - NodeJS
+  - Yum
 ---
 
 > tips: 解决办法在文章底部，请使用右侧导航直接跳转到 **解决办法**

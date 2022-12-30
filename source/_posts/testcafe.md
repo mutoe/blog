@@ -2,9 +2,9 @@
 title: testcafe -- 一个基于 nodejs 自动化测试框架
 categories: 心得
 tags:
-  - test
-  - nodejs
-  - testcafe
+  - Test
+  - NodeJS
+  - Testcafe
 date: 2018-10-21 21:50:35
 update: 2019-04-03 11:30:18
 ---
@@ -1198,8 +1198,8 @@ test('Key Presses', async t => {
 t.navigateTo( url )
 ```
 
-| 参数 | 类型 | 描述 |
-| --- | --- | --- |
+| 参数    | 类型     | 描述                        |
+|-------|--------|---------------------------|
 | `url` | string | 要导航到的 URL 地址。可以是绝对地址或相对地址 |
 
 下面的例子来演示如何导航到一个绝对地址
