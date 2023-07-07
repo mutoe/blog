@@ -3,8 +3,8 @@ title: 玩转 javascript 正则表达式
 date: 2019-05-06 12:29:34
 categories: 笔记
 tags:
-	- RegExp
-	- JavaScript
+  - RegExp
+  - JavaScript
 ---
 
 # 正则表达式是什么
@@ -16,6 +16,8 @@ tags:
 他可以根据你输入的正则表达式动态的生成匹配图, 帮助你理解一个复杂的正则表达式. 像下面这样
 
 <iframe frameborder="0" style="width: 100%;" height="236" src="https://jex.im/regulex/#!embed=true&flags=&re=%5Ehttps%3F%3A%5C%2F%5C%2F(%3F%3A%5B%5Cw-%5D%2B%5C.)%2B%5B%5Cw-%5D%2B(%3F%3A%2F%5B%5Cw-.%2F%3F%23%25%26%3D%5D*)%3F%24"></iframe>
+
+**更新(2023-07-07)**：现在推荐这个网站，它支持最新的具名分组和后行断言语法 https://wangwl.net/static/projects/visualRegex
 
 # 语法
 
