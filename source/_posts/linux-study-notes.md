@@ -182,26 +182,53 @@ chmod u-w /etc/sudoers
 
 ### 新密钥对登陆
 
+在客户端上执行以下命令创建密钥对
+
 ```bash
 su username # 切换到普通用户
 cd ~ # 进入 home 目录
 ssh-keygen -r rsa # 创建密钥对, 一路回车即可
-cd .ssh # 进入 .ssh 目录
-mv id_rsa.pub authorized_keys # 将公钥重命名
 ```
 
-然后将 id_rsa 下载到主机, 并且使用它登陆即可
+现在你就拥有了一堆密钥对
 
-### 使用已有密钥对
+### 使用已有密钥对登陆远端主机
+
+将 `id_rsa.pub` 上传到主机, 并且使用它登陆即可
 
 ```bash
-su username
-cd ~
-mkdir -m 700 .ssh # 创建 .ssh 目录
-cd .ssh
-# 将 id_rsa.pub 放入此目录
-mv id_rsa.pub authorized_keys
-chmod 644 authorized_keys
+# 将 id_rsa 上传到远端服务器（host改成你服务器的ip或域名，remoteuser改成你自己的用户名）
+ssh-copy-id remoteuser@host
+
+# 使用刚上传的密钥对的私钥登陆远端服务器
+ssh remoteuser@host -i $HOME/.ssh/id_rsa
+```
+
+你也可以配置 ssh config 以避免每次使用 ssh 登陆时都需要指定私钥
+
+```config ~/.ssh/config
+Host *
+  # 对所有主机使用以下配置
+  IdentityFile ~/.ssh/id_rsa  # 指定登陆使用的密钥文件
+  ServerAliveInterval 60      # 每 60s 向服务器发送一次心跳，避免长时间无响应被服务器强制断开连接
+
+Host customname # customname 可以随意指定，用于后续登陆
+  HostName host # host 改成自己的主机ip或域名
+  Port 22
+  User root     # 如果你使用的不是 root 用户，改成自己的用户名
+
+```
+
+如果登陆失败，需要检查一下你的 `.ssh` 目录和 `.ssh/id_rsa` 私钥文件的权限 (将 `.ssh` 目录设置为 `700`, 将私钥设置为 `644`)
+
+```bash
+❯ ls -al
+total 56
+drwx------   9 user   staff   288 Jul 21 09:48 .
+-rw-r--r--   1 user   staff   475 Jun 25 10:55 config
+-rw-------   1 user   staff  2610 Mar 19 01:23 id_rsa
+-rw-r--r--   1 user   staff   578 Mar 19 01:23 id_rsa.pub
+-rw-------   1 user   staff  1534 Jul 19 16:14 known_hosts
 ```
 
 # 文件与目录
