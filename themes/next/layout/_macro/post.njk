@@ -26,17 +26,7 @@
     {%- if post.header !== false %}
       <header class="post-header">
         <{% if is_index %}h2{% else %}h1{% endif %} class="post-title{% if post.direction and post.direction.toLowerCase() === 'rtl' %} rtl{% endif %}" itemprop="name headline">
-          {# Link posts #}
-          {%- if post.link %}
-            {%- if post.sticky > 0 %}
-              <span class="post-sticky-flag" title="{{ __('post.sticky') }}">
-                <i class="fa fa-thumbtack"></i>
-              </span>
-            {%- endif %}
-            {%- set postTitleIcon = '<i class="fa fa-external-link-alt"></i>' %}
-            {%- set postText = post.title or post.link %}
-            {{- next_url(post.link, postText + postTitleIcon, {class: 'post-title-link post-title-link-external', itemprop: 'url'}) }}
-          {% elif is_index %}
+          {% if is_index %}
             {%- if post.sticky > 0 %}
               <span class="post-sticky-flag" title="{{ __('post.sticky') }}">
                 <i class="fa fa-thumbtack"></i>
@@ -90,7 +80,8 @@
           {{ post.content }}
         {%- endif %}
       {% else %}
-        {{ post.content }}
+        {{- next_inject('postBodyStart') }}
+        {{- post.content }}
       {%- endif %}
     </div>
 
@@ -134,14 +125,14 @@
             <div class="post-nav-item">
               {%- if prev %}
                 <a href="{{ url_for(prev.path) }}" rel="prev" title="{{ prev.title }}">
-                  <i class="fa fa-chevron-left"></i> {{ prev.title }}
+                  <i class="fa fa-angle-left"></i> {{ prev.title }}
                 </a>
               {%- endif %}
             </div>
             <div class="post-nav-item">
               {%- if next %}
                 <a href="{{ url_for(next.path) }}" rel="next" title="{{ next.title }}">
-                  {{ next.title }} <i class="fa fa-chevron-right"></i>
+                  {{ next.title }} <i class="fa fa-angle-right"></i>
                 </a>
               {%- endif %}
             </div>

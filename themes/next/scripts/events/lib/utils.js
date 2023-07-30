@@ -2,7 +2,12 @@
 
 const fs = require('fs');
 const path = require('path');
-const css = require('css');
+let css;
+try {
+  css = require('@adobe/css-tools');
+} catch (error) {
+  css = require('css');
+}
 
 function resolve(name, file = '') {
   let dir;
@@ -63,6 +68,7 @@ const points = {
     'header',
     'sidebar',
     'postMeta',
+    'postBodyStart',
     'postBodyEnd',
     'footer',
     'bodyEnd',
