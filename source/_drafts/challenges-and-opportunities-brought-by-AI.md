@@ -1,5 +1,5 @@
 ---
-title: AI 带来的挑战与机遇
+title: 人工智能、经济危机、隐私和我们
 date: 2023-08-26 16:10:55
 categories: 随笔
 tags:
@@ -10,7 +10,7 @@ tags:
 
 # 0. 序
 
-最近深度体验了 AI 绘图 Stable Diffusion，结合正在发生的经济危机/裁员/通缩，我产生了一些思考：AI 大模型时代的到来，到底会淘汰哪些人？哪些领域会受到影响？AI 带来哪些隐私、伦理和安全问题？作为受到直接影响的底层程序员/设计师/画师/写手，我们真的只能坐以待毙吗？
+最近深度体验了 AI 绘图 Stable Diffusion，结合正在发生的经济危机/裁员/通缩，我产生了一些思考：AI 大模型时代的到来，到底会淘汰哪些人？哪些领域会受到影响？AI 带来哪些隐私、道德和安全问题？作为受到直接影响的底层程序员/设计师/画师/写手，我们真的只能坐以待毙吗？
 
 我的结论是：第三产业大部分领域都会受到影响 (实业产业影响较小)。
 
@@ -67,14 +67,22 @@ tags:
   <figcaption style="font-style: italic">真人转动漫风格 (Disney 大模型重绘)</figcaption>
 </figure>
 
-![[AI 艺术字]]()
-![[光影重绘]]()
-![[换脸换装]]()
+<figure>
+  <img width="480" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/ai-art-font.jpg">
+  <figcaption style="font-style: italic">AI 艺术字 (ControlNet Tile 模型)</figcaption>
+</figure>
+
+<figure>
+  <img width="640" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/change-light.jpg">
+  <figcaption style="font-style: italic">光影重绘 (ControlNet Tile 模型)</figcaption>
+</figure>
 
 再后来又用爱人的照片做数据集，训练她自己的真人模型，效果也相当不错，她本人看到都惊叹于其相似度。
 
+<!-- more -->
+
 <figure>
-  <img width="640" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/repaint.jpg">
+  <img width="720" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/repaint.jpg">
   <figcaption style="font-style: italic">用自训练的 LoRa 模型重绘网络图片 (已征得爱人同意)</figcaption>
 </figure>
 
@@ -87,7 +95,11 @@ OK, 这里只是简单介绍一下 AI 绘图，就不占用过多篇幅了，以
 与此同时，无论工作中还是休闲放松时做做开源应用，我都会使用 AI 辅助编程工具，比如早期的 Tabnine、Kite 等，后来又陆续尝试了 GitHub Copilot、JetBrains AI Assistant 等工具。
 接触到 AI 辅助编程工具后，第一时间是惊奇，“太厉害了” “以后还要我们干啥” 这种言论充斥着整个同事圈。
 
-![[AI辅助编程]]()
+<figure>
+  <img width="720" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/code-ai-assistant.jpg">
+  <figcaption style="font-style: italic">AI 辅助编程</figcaption>
+</figure>
+
 
 但随着深入的使用后，发现这种工具还是有一定局限性。比如它只能按照已有的轮子生成新的轮子，如果你让他解决业务问题，或者是互联网上很难搜到的内容，它也无能为力（当然未来会通过上下文接入需求看板来解决这个问题），有时候还会胡乱回答。
 
@@ -98,8 +110,6 @@ OK, 这里只是简单介绍一下 AI 绘图，就不占用过多篇幅了，以
 
 所以现阶段我们只能将 AI 辅助编程工具当做一个代码片段生成器，在写一些工具方法、解决算法问题或者是写一些简单的业务逻辑时，AI 辅助编程工具还是很有用的，能很大的节约人工成本。
 以往我们都是靠自己的经验手敲或者去网上搜，现在只需要输入几个关键词，AI 就能帮我们生成代码片段，这样我们就能将更多的精力放在业务逻辑上，而不是在写代码上。
-
-![[自动生成代码片段]]()
 
 其实人工智能这个概念并不是近几年才被提出的，早在十几年前我们就已经生活在 AI 的时代了，比如我们常用的人脸(图像)识别、语音识别、聊天机器人、翻译机器人等，这些都是 AI 服务，甚至早在上个世纪就有一些简单的 AI 应用。
 
@@ -133,7 +143,7 @@ GPT-3 是一个 1750 亿参数的大语言模型 (LLM, Large Language Model)，�
 6. 自动上云部署，最终生成一个完整可用的网站。
 
 <figure>
-  <img width="640" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/auto-gpt-workflow.jpg">
+  <img width="480" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/auto-gpt-workflow.jpg">
   <figcaption style="font-style: italic">Auto-GPT Workflow</figcaption>
 </figure>
 
@@ -171,7 +181,7 @@ GPT-3 是一个 1750 亿参数的大语言模型 (LLM, Large Language Model)，�
 
 而 AI 带来的挑战和影响还不止这些...
 
-# 6. 隐私、伦理与安全
+# 6. 隐私、道德与安全
 
 作为企业或个人，你没有足够的资源训练属于自己的模型，使用第三方平台提供的“免费资源”，你无形的就将属于自己/企业的数据轻松并无偿的提供给了他人。你获得了你想要的，他们也获取到了他们想要的。
 这看似是一种双赢的局面，实则是一种隐形的“剥削”，你的数据被他人利用，而你却毫无察觉。
@@ -205,7 +215,7 @@ AI 大模型的训练需要大量的数据，而这些数据往往是用户的�
 利用你发在短视频平台中的视频和语音，对你进行声纹采样，结合实时换脸技术合成视频，来敲诈你的亲人或朋友；  
 如果你身价够高的话，利用你的位置数据，制作你的活动路线，进而推测出你的收入、消费水平，然后在你不知情的情况下，将你的位置信息出售给不法分子，让他们对你进行跟踪、敲诈甚至绑架等等行为。
 
-虽然现在各大网站都在呼吁伦理问题，抵制 AI 等声音也络绎不绝，但这个问题并不能够一刀切，为什么呢？  
+虽然现在各大网站都在呼吁道德问题，抵制 AI 等声音也络绎不绝，但这个问题并不能够一刀切，为什么呢？  
 一方面如果所有相关技术和学习资料都被明面上禁止，那么 AI 资源就会掌握在少数的几个国家或企业手中，未来的世界就会变成一个极权主义的世界；
 另一方面，这些技术也不会因为禁止而消失，只会变得更加隐蔽，更加危险。
 
@@ -233,7 +243,7 @@ AI 大模型的训练需要大量的数据，而这些数据往往是用户的�
 
 大语言模型的入局，也会带来新一轮人工智能革命。可以预见的是，它将解放大部分的脑力劳动，也会“解放”一群人。
 
-虽然作为可能被解放的人，但也不能因此就放弃对生活的热情。我们不能只看到 AI 带来的挑战，也要看到 AI 带来的机遇，即便是现在的我们，又何尝没有享受信息革命带来的红利呢？“高薪”的程序员、律师、设计师等，不就是信息革命的产物吗？
+虽然作为可能被解放的人，但也不能因此就放弃对生活的热情。我们不能只看到 AI 带来的挑战，也要看到 AI 带来的机遇，即便是**现在的我们，又何尝没有享受信息革命带来的红利呢？**“高薪”的程序员、律师、设计师等，不就是信息革命的产物吗？
 
 仔细观察，解放的这一群人，都是那些有高度可替代性基层人民和基础工作，会解放解放企业家和资本家吗？
 
