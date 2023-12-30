@@ -101,7 +101,7 @@ alias php=`php70`
 
 ### `adduser` 自动创建新用户
 
-会自动为创建的用户指定主目录、系统 shell 版本，会在创建时输入用户密码。
+会自动为创建的用户指定主目录、系统 shell 版本.
 
 ### `useradd` 自定义创建新用户
 
@@ -124,6 +124,18 @@ sudo user add -d "/home/xxx" -m -s "/bin/bash"
 
 > `useradd` 命令是有默认值的, 其值与 `/etc/default/useradd` 中的内容相同.
 
+## 指定用户密码
+
+```bash
+# 设置当前用户的密码
+passwd
+# 设置任意用户的密码
+passwd your_username       # 在 root 用户时
+sudo passwd your_username  # 在普通用户时
+```
+
+> 安全起见，请不要使用弱密码。最好使用 1password, BitWarden 或其他密码管理器来管理此密码，然后为其设置密钥登陆。
+
 ## 将用户添加进一个用户组中
 
 | 命令       | 作用           |
@@ -142,18 +154,10 @@ sudo user add -d "/home/xxx" -m -s "/bin/bash"
 
 ## 为普通用户添加 root 权限
 
-### 1. 切换到 root 用户下
-
-### 2. 添加 sudo 文件的写权限
+编辑 sudoers 文件
 
 ```bash
-chmod u+w /etc/sudoers
-```
-
-### 3. 编辑 sudoers 文件
-
-```bash
-vim /etc/sudoers
+sudo vim /etc/sudoers
 ```
 
 找到这行 `root ALL=(ALL) ALL`, 在它下面添加一行, 将 root 替换为你的用户名
@@ -172,11 +176,7 @@ vim /etc/sudoers
 > 第三行:允许用户 youuser 执行 sudo 命令,并且在执行的时候不输入密码.  
 > 第四行:允许用户组 youuser 里面的用户执行 sudo 命令,并且在执行的时候不输入密码.
 
-### 4. 撤销 sudo 文件的写权限
-
-```bash
-chmod u-w /etc/sudoers
-```
+然后使用 `:wq!` 保存
 
 ## 允许用户使用密钥登陆
 
