@@ -39,3 +39,7 @@ sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 ```shell
 docker compose version
 ```
+
+## 参考资料
+
+- [Install the plugin manually - Docker](https://docs.docker.com/compose/install/linux/#install-the-plugin-manually)
