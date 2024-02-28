@@ -4,7 +4,7 @@ date: 2024-01-21 23:56:25
 categories: 教程
 tags:
 - 家庭网络
-- OpenWRT
+- Openwrt
 - NAS
 - 群辉
 - DNS

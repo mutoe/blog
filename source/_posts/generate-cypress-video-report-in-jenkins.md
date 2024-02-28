@@ -4,7 +4,8 @@ date: 2019-10-27 18:34:02
 categories: 心得
 tags:
   - Cypress
-  - CI
+  - CI/CD
+  - DevOps
   - Jenkins
 ---
 
