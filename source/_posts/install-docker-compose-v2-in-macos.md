@@ -18,7 +18,7 @@ tags:
 
 https://github.com/docker/compose/releases
 
-macOS 系统架构为 `darwin`, 如果你是 M 系列芯片的 Mac，那么你需要下载 `darwin-arm64` 版本的镜像。否则下载 `darwin-x86_64` 版本的镜像。
+macOS 系统架构为 `darwin`, 如果你是 M 系列芯片的 Mac，那么你需要下载 `darwin-aarch64` 版本的镜像。否则下载 `darwin-x86_64` 版本的镜像。
 
 ## 2. 下载并安装
 
@@ -31,7 +31,7 @@ curl -SL [粘贴你复制的链接] -o $DOCKER_CONFIG/cli-plugins/docker-compose
 ## 3. 添加执行权限
 
 ```shell
-sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
 ```
 
 ## 4. 验证安装
