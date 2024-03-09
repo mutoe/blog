@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言这里是一篇个人学习使用 Linux 操作系统时遇到的一些常见问题以及资料的集合. 用来在日后的操作中做一个 QA 索引. 如果它也能帮到你就再好不过了.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 学习笔记">
+<meta property="og:url" content="https://blog.mutoe.com/2017/linux-study-notes/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="前言这里是一篇个人学习使用 Linux 操作系统时遇到的一些常见问题以及资料的集合. 用来在日后的操作中做一个 QA 索引. 如果它也能帮到你就再好不过了.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-08-01T04:30:09.000Z">
+<meta property="article:modified_time" content="2017-08-01T04:30:09.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2017/linux-study-notes/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2017/linux-study-notes/","path":"/2017/linux-study-notes/","title":"Linux 学习笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux 学习笔记 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4"><span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="nav-text">快捷键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%AB%E5%90%8D"><span class="nav-text">别名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B"><span class="nav-text">进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%82%E8%B5%B7%E4%B8%8E%E6%81%A2%E5%A4%8D"><span class="nav-text">挂起与恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8"><span class="nav-text">开机启动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E5%85%A8"><span class="nav-text">安全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E7%94%A8%E6%88%B7"><span class="nav-text">创建新用户</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#adduser-%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA%E6%96%B0%E7%94%A8%E6%88%B7"><span class="nav-text">adduser 自动创建新用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useradd-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%9B%E5%BB%BA%E6%96%B0%E7%94%A8%E6%88%B7"><span class="nav-text">useradd 自定义创建新用户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81"><span class="nav-text">指定用户密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86%E7%94%A8%E6%88%B7%E6%B7%BB%E5%8A%A0%E8%BF%9B%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E7%BB%84%E4%B8%AD"><span class="nav-text">将用户添加进一个用户组中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#usermod-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E7%BB%84"><span class="nav-text">usermod 创建一个用户组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E6%B7%BB%E5%8A%A0-root-%E6%9D%83%E9%99%90"><span class="nav-text">为普通用户添加 root 权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%81%E8%AE%B8%E7%94%A8%E6%88%B7%E4%BD%BF%E7%94%A8%E5%AF%86%E9%92%A5%E7%99%BB%E9%99%86"><span class="nav-text">允许用户使用密钥登陆</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%AF%86%E9%92%A5%E5%AF%B9%E7%99%BB%E9%99%86"><span class="nav-text">新密钥对登陆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%B7%B2%E6%9C%89%E5%AF%86%E9%92%A5%E5%AF%B9%E7%99%BB%E9%99%86%E8%BF%9C%E7%AB%AF%E4%B8%BB%E6%9C%BA"><span class="nav-text">使用已有密钥对登陆远端主机</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8E%E7%9B%AE%E5%BD%95"><span class="nav-text">文件与目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-text">目录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mkdir-%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95"><span class="nav-text">mkdir 创建目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setfacl-getfacl-%E4%B8%BA%E6%96%87%E4%BB%B6%E6%88%96%E7%9B%AE%E5%BD%95%E6%B7%BB%E5%8A%A0%E5%A4%9A%E4%B8%AA%E7%94%A8%E6%88%B7-%E7%BB%84"><span class="nav-text">setfacl getfacl 为文件或目录添加多个用户(组)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-text">文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6"><span class="nav-text">复制文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6"><span class="nav-text">移动文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%91%BD%E5%90%8D"><span class="nav-text">重命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%9B%AE%E5%BD%95%E5%90%8D"><span class="nav-text">修改目录名</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%9F%A5%E9%98%85"><span class="nav-text">文件内容查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cat-%E7%94%B1%E7%AC%AC%E4%B8%80%E8%A1%8C%E5%BC%80%E5%A7%8B%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-text">cat 由第一行开始显示文件内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#less-%E5%88%86%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-text">less 分页显示文件内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tail-%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E5%B0%BE%E9%83%A8%E5%86%85%E5%AE%B9"><span class="nav-text">tail 显示文件尾部内容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%BE%91%E6%96%87%E4%BB%B6"><span class="nav-text">编辑文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%86%99%E5%85%A5"><span class="nav-text">非交互式写入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sed-%E9%9D%9E%E4%BA%A4%E4%BA%92%E5%BC%8F%E7%BC%96%E8%BE%91"><span class="nav-text">sed 非交互式编辑</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SHELL"><span class="nav-text">SHELL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2017/linux-study-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux 学习笔记 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux 学习笔记<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/linux-study-notes.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-08-01 12:30:09" itemprop="dateCreated datePublished" datetime="2017-08-01T12:30:09+08:00">2017-08-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言">前言</a></h1><p>这里是一篇个人学习使用 Linux 操作系统时遇到的一些常见问题以及资料的集合. 用来在日后的操作中做一个 QA 索引. 如果它也能帮到你就再好不过了.</p>
+<span id="more"></span>
+
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令">命令</a></h1><h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键">快捷键</a></h2><p>在 Linux 命令行中有一些快捷键可供方便的敲出命令</p>
+<table>
+<thead>
+<tr>
+<th>光标移动</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ctrl-b</code> &#x2F; <code>Ctrl-f</code></td>
+<td>将光标移向左&#x2F;右移动一位</td>
+</tr>
+<tr>
+<td><code>M-b</code> &#x2F; <code>M-f</code></td>
+<td>将光标移向左&#x2F;右移动一个词</td>
+</tr>
+<tr>
+<td><code>Ctrl-a</code> &#x2F; <code>Ctrl-e</code></td>
+<td>将光标移到行首&#x2F;尾</td>
+</tr>
+<tr>
+<td><code>Ctrl-xx</code></td>
+<td>光标在当前位置与行尾之前切换</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>编辑</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ctrl-h</code> &#x2F; <code>Ctrl-d</code></td>
+<td>剪切光标前&#x2F;后的字符</td>
+</tr>
+<tr>
+<td><code>Ctrl-t</code></td>
+<td>交换当前字符与前一个字符</td>
+</tr>
+<tr>
+<td><code>Ctrl-w</code> &#x2F; <code>Alt-d</code></td>
+<td>剪切光标位置到词首&#x2F;尾</td>
+</tr>
+<tr>
+<td><code>Ctrl-k</code></td>
+<td>剪切到行尾</td>
+</tr>
+<tr>
+<td><code>Ctrl-u</code></td>
+<td>剪切整行</td>
+</tr>
+<tr>
+<td><code>Ctrl-y</code></td>
+<td>粘贴上述命令删除的内容</td>
+</tr>
+<tr>
+<td><code>Alt-.</code></td>
+<td>使用上一条命令的最后一个参数</td>
+</tr>
+<tr>
+<td><code>Ctrl-_</code></td>
+<td>撤销</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>历史命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ctrl-p</code> <code>⬆</code></td>
+<td>回溯上一个命令</td>
+</tr>
+<tr>
+<td><code>Ctrl-n</code> <code>⬇</code></td>
+<td>回溯下一个命令</td>
+</tr>
+<tr>
+<td><code>Ctrl-r</code>&#x2F; <code>Ctrl-g</code></td>
+<td>查找历史命令 &#x2F; 退出查找</td>
+</tr>
+<tr>
+<td><code>!!</code></td>
+<td>执行上一条命令</td>
+</tr>
+<tr>
+<td><code>!wget</code></td>
+<td>执行最近一条以 wget 开头的命令</td>
+</tr>
+<tr>
+<td><code>!wget:p</code></td>
+<td>dry-run (打印最近一条以 wget 开头的命令, 不执行)</td>
+</tr>
+<tr>
+<td><code>!*</code></td>
+<td>输入上一条命令的所有参数</td>
+</tr>
+<tr>
+<td><code>^abc</code></td>
+<td>删除上一条命令的 abc</td>
+</tr>
+<tr>
+<td><code>!-n</code></td>
+<td>执行前 n 条命令</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>控制命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ctrl-l</code></td>
+<td>清空屏幕上的内容</td>
+</tr>
+<tr>
+<td><code>Ctrl-o</code></td>
+<td>执行当前命令并选择上一条命令</td>
+</tr>
+<tr>
+<td><code>Ctrl-s</code> &#x2F; <code>Ctrl-q</code></td>
+<td>阻止&#x2F;允许屏幕输出</td>
+</tr>
+<tr>
+<td><code>Ctrl-c</code> &#x2F; <code>Ctrl-z</code></td>
+<td>中止&#x2F;挂起进程</td>
+</tr>
+</tbody></table>
+<blockquote>
+<ul>
+<li>macOS 下 <code>Alt</code> 键对应 <kbd>Option</kbd>；如果按出特殊字符则需要关闭相应的特殊字符输出设定，参考 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903709152018439">Mac 禁用 options 特殊字符</a></li>
+<li><code>M-b</code> 为按住 <kbd>Esc</kbd> 再按 <kbd>b</kbd></li>
+</ul>
+</blockquote>
+<h2 id="别名"><a href="#别名" class="headerlink" title="别名">别名</a></h2><p>在使用 yum 安装 remi 源的 php7 时，需要执行 <code>yum install php70</code>，安装完成后执行 php cli 的命令为 <code>php70 -v</code>，比较不方便，这时可以使用 alias 给 <code>php70</code> 设置一个别名。</p>
+<p>执行以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> php=`php70`</span><br></pre></td></tr></table></figure>
+
+<p>注意等号前后不可以有空格，否则会报错。</p>
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程">进程</a></h1><h2 id="挂起与恢复"><a href="#挂起与恢复" class="headerlink" title="挂起与恢复">挂起与恢复</a></h2><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ctrl-c</td>
+<td align="left">发送中断信号强制中断前台进程</td>
+</tr>
+<tr>
+<td>ctrl-z</td>
+<td align="left">发送挂起信号挂起一个前台进程，挂起后使用 <code>fg</code> &#x2F; <code>bg</code> 恢复进程</td>
+</tr>
+<tr>
+<td>ctrl-d</td>
+<td align="left">模拟输入 <code>.exit</code> 退出当前进程</td>
+</tr>
+</tbody></table>
+<h2 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动">开机启动</a></h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chkconfig [service]</code></td>
+<td align="left">查看某个 service 是否在开机启动状态</td>
+</tr>
+<tr>
+<td><code>chkconfig [service] on</code></td>
+<td align="left">允许开机启动某个 service</td>
+</tr>
+<tr>
+<td><code>chkconfig [service] off</code></td>
+<td align="left">禁止开机启动某个 service</td>
+</tr>
+</tbody></table>
+<h1 id="安全"><a href="#安全" class="headerlink" title="安全">安全</a></h1><h2 id="创建新用户"><a href="#创建新用户" class="headerlink" title="创建新用户">创建新用户</a></h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>adduser</code></td>
+<td align="left">自动创建新用户</td>
+</tr>
+<tr>
+<td><code>useradd</code></td>
+<td align="left">需要使用参数选项创建新用户</td>
+</tr>
+</tbody></table>
+<h3 id="adduser-自动创建新用户"><a href="#adduser-自动创建新用户" class="headerlink" title="adduser 自动创建新用户"><code>adduser</code> 自动创建新用户</a></h3><p>会自动为创建的用户指定主目录、系统 shell 版本.</p>
+<h3 id="useradd-自定义创建新用户"><a href="#useradd-自定义创建新用户" class="headerlink" title="useradd 自定义创建新用户"><code>useradd</code> 自定义创建新用户</a></h3><p>需要使用参数选项指定上述基本设置，如果不使用任何参数，则创建的用户无密码、无主目录、没有指定 shell 版本。</p>
+<ul>
+<li><code>-d [path]</code> 为其设置主目录.</li>
+<li><code>-g [gid|groupname]</code> 为其指定一个主用户组. 可以接组 ID 或组名称</li>
+<li><code>-G [gid|groupname,...]</code> 为其指定一个附加用户组. 可以用逗号分隔开(不要加空格).</li>
+<li><code>-m</code> 如果主目录不存在则创建; 存在则不再创建, 并且这个目录不属于新用户.</li>
+<li><code>-M</code> 不创建主目录.</li>
+<li><code>-N</code> 不为用户创建一个同名的用户组.</li>
+<li><code>-s [shell]</code> 指定用户登陆的 shell 版本</li>
+<li><code>-u [uid]</code> 指定用户 uid</li>
+</ul>
+<p>example.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo user add -d <span class="string">&quot;/home/xxx&quot;</span> -m -s <span class="string">&quot;/bin/bash&quot;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>useradd</code> 命令是有默认值的, 其值与 <code>/etc/default/useradd</code> 中的内容相同.</p>
+</blockquote>
+<h2 id="指定用户密码"><a href="#指定用户密码" class="headerlink" title="指定用户密码">指定用户密码</a></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置当前用户的密码</span></span><br><span class="line">passwd</span><br><span class="line"><span class="comment"># 设置任意用户的密码</span></span><br><span class="line">passwd your_username       <span class="comment"># 在 root 用户时</span></span><br><span class="line">sudo passwd your_username  <span class="comment"># 在普通用户时</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>安全起见，请不要使用弱密码。最好使用 1password, BitWarden 或其他密码管理器来管理此密码，然后为其设置密钥登陆。</p>
+</blockquote>
+<h2 id="将用户添加进一个用户组中"><a href="#将用户添加进一个用户组中" class="headerlink" title="将用户添加进一个用户组中">将用户添加进一个用户组中</a></h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>groupadd</code></td>
+<td align="left">创建一个用户组</td>
+</tr>
+<tr>
+<td><code>usermod</code></td>
+<td align="left">更改用户信息</td>
+</tr>
+</tbody></table>
+<h3 id="usermod-创建一个用户组"><a href="#usermod-创建一个用户组" class="headerlink" title="usermod 创建一个用户组"><code>usermod</code> 创建一个用户组</a></h3><p>参考 <code>useradd</code></p>
+<ul>
+<li><code>-a</code> 配合 <code>-G</code> 使用, 附加用户组.</li>
+<li><code>-l [username]</code> 修改用户名.</li>
+<li><code>-L</code> 锁定用户密码, 使密码无效.</li>
+<li><code>-U</code> 解除密码锁定.</li>
+</ul>
+<h2 id="为普通用户添加-root-权限"><a href="#为普通用户添加-root-权限" class="headerlink" title="为普通用户添加 root 权限">为普通用户添加 root 权限</a></h2><p>编辑 sudoers 文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/sudoers</span><br></pre></td></tr></table></figure>
+
+<p>找到这行 <code>root ALL=(ALL) ALL</code>, 在它下面添加一行, 将 root 替换为你的用户名</p>
+<blockquote>
+<p>你可以 sudoers 添加下面四行中任意一条</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">youuser            ALL=(ALL)                ALL</span><br><span class="line">%youuser           ALL=(ALL)                ALL</span><br><span class="line">youuser            ALL=(ALL)                NOPASSWD: ALL</span><br><span class="line">%youuser           ALL=(ALL)                NOPASSWD: ALL</span><br></pre></td></tr></table></figure>
+
+<p>第一行:允许用户 youuser 执行 sudo 命令(需要输入密码).<br>第二行:允许用户组 youuser 里面的用户执行 sudo 命令(需要输入密码).<br>第三行:允许用户 youuser 执行 sudo 命令,并且在执行的时候不输入密码.<br>第四行:允许用户组 youuser 里面的用户执行 sudo 命令,并且在执行的时候不输入密码.</p>
+</blockquote>
+<p>然后使用 <code>:wq!</code> 保存</p>
+<h2 id="允许用户使用密钥登陆"><a href="#允许用户使用密钥登陆" class="headerlink" title="允许用户使用密钥登陆">允许用户使用密钥登陆</a></h2><h3 id="新密钥对登陆"><a href="#新密钥对登陆" class="headerlink" title="新密钥对登陆">新密钥对登陆</a></h3><p>在客户端上执行以下命令创建密钥对</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">su username <span class="comment"># 切换到普通用户</span></span><br><span class="line"><span class="built_in">cd</span> ~ <span class="comment"># 进入 home 目录</span></span><br><span class="line">ssh-keygen -r rsa <span class="comment"># 创建密钥对, 一路回车即可</span></span><br></pre></td></tr></table></figure>
+
+<p>现在你就拥有了一堆密钥对</p>
+<h3 id="使用已有密钥对登陆远端主机"><a href="#使用已有密钥对登陆远端主机" class="headerlink" title="使用已有密钥对登陆远端主机">使用已有密钥对登陆远端主机</a></h3><p>将 <code>id_rsa.pub</code> 上传到主机, 并且使用它登陆即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将 id_rsa 上传到远端服务器（host改成你服务器的ip或域名，remoteuser改成你自己的用户名）</span></span><br><span class="line">ssh-copy-id remoteuser@host</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用刚上传的密钥对的私钥登陆远端服务器</span></span><br><span class="line">ssh remoteuser@host -i <span class="variable">$HOME</span>/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+
+<p>你也可以配置 ssh config 以避免每次使用 ssh 登陆时都需要指定私钥</p>
+<figure class="highlight plaintext"><figcaption><span>~/.ssh/config</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Host *</span><br><span class="line">  # 对所有主机使用以下配置</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa  # 指定登陆使用的密钥文件</span><br><span class="line">  ServerAliveInterval 60      # 每 60s 向服务器发送一次心跳，避免长时间无响应被服务器强制断开连接</span><br><span class="line"></span><br><span class="line">Host customname # customname 可以随意指定，用于后续登陆</span><br><span class="line">  HostName host # host 改成自己的主机ip或域名</span><br><span class="line">  Port 22</span><br><span class="line">  User root     # 如果你使用的不是 root 用户，改成自己的用户名</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果登陆失败，需要检查一下你的 <code>.ssh</code> 目录和 <code>.ssh/id_rsa</code> 私钥文件的权限 (将 <code>.ssh</code> 目录设置为 <code>700</code>, 将私钥设置为 <code>644</code>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">❯ <span class="built_in">ls</span> -al</span><br><span class="line">total 56</span><br><span class="line">drwx------   9 user   staff   288 Jul 21 09:48 .</span><br><span class="line">-rw-r--r--   1 user   staff   475 Jun 25 10:55 config</span><br><span class="line">-rw-------   1 user   staff  2610 Mar 19 01:23 id_rsa</span><br><span class="line">-rw-r--r--   1 user   staff   578 Mar 19 01:23 id_rsa.pub</span><br><span class="line">-rw-------   1 user   staff  1534 Jul 19 16:14 known_hosts</span><br></pre></td></tr></table></figure>
+
+<h1 id="文件与目录"><a href="#文件与目录" class="headerlink" title="文件与目录">文件与目录</a></h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录">目录</a></h2><h3 id="mkdir-创建目录"><a href="#mkdir-创建目录" class="headerlink" title="mkdir 创建目录"><code>mkdir</code> 创建目录</a></h3><ul>
+<li><code>-m [prop]</code> 目标属性, 目录权限.</li>
+<li><code>-p</code> 递归创建, 如果目标目录上级目录不存在, 则创建.</li>
+</ul>
+<h3 id="setfacl-getfacl-为文件或目录添加多个用户-组"><a href="#setfacl-getfacl-为文件或目录添加多个用户-组" class="headerlink" title="setfacl getfacl 为文件或目录添加多个用户(组)"><code>setfacl</code> <code>getfacl</code> 为文件或目录添加多个用户(组)</a></h3><ul>
+<li><code>setfacl -m g:group:rwx path</code> 为 path 添加 group 用户组</li>
+<li><code>setfacl -m u:user:rwx path</code> 为 path 添加 user 用户</li>
+<li><code>setfacl -x g:group path</code> 为 path 移除 group 用户组</li>
+<li><code>setfacl -x u:user path</code> 为 path 移除 user 用户</li>
+<li><code>getfacl path</code> 查看 path 的所有权限</li>
+</ul>
+<h2 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作">文件操作</a></h2><h3 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件">复制文件</a></h3><p><code>cp</code> 复制文件</p>
+<ul>
+<li><p><code>-r</code> 递归复制, 复制目录时使用此参数</p>
+</li>
+<li><p><code>cp foo.txt foo_copy.txt</code></p>
+</li>
+<li><p><code>cp -r folder copied_folder</code></p>
+</li>
+</ul>
+<h3 id="移动文件"><a href="#移动文件" class="headerlink" title="移动文件">移动文件</a></h3><p><code>mv</code> 移动文件或目录</p>
+<ul>
+<li><code>mv file1.txt file2.txt</code></li>
+<li><code>mv folder1 folder2</code></li>
+</ul>
+<h3 id="重命名"><a href="#重命名" class="headerlink" title="重命名">重命名</a></h3><p>使用 <code>mv</code> 亦可进行重命名操作，如果想使用高级用法，可以使用 <code>rename</code> 命令 </p>
+<p><code>rename</code> 批量重命名</p>
+<p><code>rename [options] oldname newname file</code><br><code>rename [options] &quot;s/oldname/newname/&quot; file</code></p>
+<ul>
+<li><code>-v</code> verbose 输出详细信息</li>
+<li><code>-n</code> <code>--no-act</code> 预览输出而不进行实际操作</li>
+<li><code>-o</code> <code>--no-overwrite</code> 不覆盖已存在的文件</li>
+<li><code>-s</code> <code>--symlink</code> 同时作用于 symlink</li>
+</ul>
+<p>其中 <code>file</code> 可支持 <code>?</code> <code>*</code> 通配符， 当指定为 <code>*</code> 时表示匹配当前目录下所有文件</p>
+<p>替换命令支持 perl 正则表达式, 匹配捕获组时使用 <code>\1</code> 来保留捕获组</p>
+<p>例如当前目录下有 <code>foo1</code> <code>foo2</code> … <code>foo200</code>, 我们想将其重命名为 <code>text_1.txt</code> <code>text_2.txt</code> … <code>text_200.txt</code> 可以使用如下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rename &quot;s/foo(\d+)/text_\1.txt/&quot; foo*</span><br></pre></td></tr></table></figure>
+
+<p>将当前目录下所有 <code>file_1.txt</code> <code>file_200.txt</code> 替换为 <code>text_1.txt</code> <code>text_2.txt</code></p>
+<h3 id="修改目录名"><a href="#修改目录名" class="headerlink" title="修改目录名">修改目录名</a></h3><p><code>mv</code> 移动文件</p>
+<p><code>rename</code> 批量修改文件名</p>
+<h2 id="文件内容查阅"><a href="#文件内容查阅" class="headerlink" title="文件内容查阅">文件内容查阅</a></h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cat</code></td>
+<td align="left">由第一行开始显示文件内容</td>
+</tr>
+<tr>
+<td><code>tac</code></td>
+<td align="left">由最后一行开始显示文件内容</td>
+</tr>
+<tr>
+<td><code>nl</code></td>
+<td align="left">输出行号显示</td>
+</tr>
+<tr>
+<td><code>more</code></td>
+<td align="left">逐页显示内容</td>
+</tr>
+<tr>
+<td><code>less</code></td>
+<td align="left">逐页显示内容还可以向上翻页</td>
+</tr>
+<tr>
+<td><code>head</code></td>
+<td align="left">输出头部若干行</td>
+</tr>
+<tr>
+<td><code>tail</code></td>
+<td align="left">输出尾部若干行</td>
+</tr>
+<tr>
+<td><code>od</code></td>
+<td align="left">以二进制输出文件内容</td>
+</tr>
+</tbody></table>
+<h3 id="cat-由第一行开始显示文件内容"><a href="#cat-由第一行开始显示文件内容" class="headerlink" title="cat 由第一行开始显示文件内容"><code>cat</code> 由第一行开始显示文件内容</a></h3><ul>
+<li><code>-n</code> 列出行号，包括空行</li>
+</ul>
+<h3 id="less-分页显示文件内容"><a href="#less-分页显示文件内容" class="headerlink" title="less 分页显示文件内容"><code>less</code> 分页显示文件内容</a></h3><table>
+<thead>
+<tr>
+<th>按键</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>space</td>
+<td align="left">向下翻一页</td>
+</tr>
+<tr>
+<td>pagedown</td>
+<td align="left">向下翻一页</td>
+</tr>
+<tr>
+<td>pageup</td>
+<td align="left">向上翻一页</td>
+</tr>
+<tr>
+<td>&#x2F;[字符串]</td>
+<td align="left">向下查询 [字符串]</td>
+</tr>
+<tr>
+<td>?[字符串]</td>
+<td align="left">向上查询 [字符串]</td>
+</tr>
+<tr>
+<td>n</td>
+<td align="left">向下重复一次查询</td>
+</tr>
+<tr>
+<td>N</td>
+<td align="left">向上重复一次查询</td>
+</tr>
+<tr>
+<td>q</td>
+<td align="left">离开 less</td>
+</tr>
+</tbody></table>
+<h3 id="tail-显示文件尾部内容"><a href="#tail-显示文件尾部内容" class="headerlink" title="tail 显示文件尾部内容"><code>tail</code> 显示文件尾部内容</a></h3><ul>
+<li><code>-n</code> 接数字，显示多少行</li>
+<li><code>-f</code> 持续检测文件尾部变动，按下 ctrl-c 结束检测</li>
+</ul>
+<h2 id="编辑文件"><a href="#编辑文件" class="headerlink" title="编辑文件">编辑文件</a></h2><h3 id="非交互式写入"><a href="#非交互式写入" class="headerlink" title="非交互式写入">非交互式写入</a></h3><p>将字符串写入文件（清空原有内容）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;foo&quot;</span> &gt; file.txt</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line"><span class="built_in">cat</span> &gt; file.txt &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">foo</span></span><br><span class="line"><span class="string">bar</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p>追加在文件尾部</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;foo&quot;</span> &gt;&gt; file.txt</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line"><span class="built_in">cat</span> &gt;&gt; file.txt &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">foo</span></span><br><span class="line"><span class="string">bar</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="sed-非交互式编辑"><a href="#sed-非交互式编辑" class="headerlink" title="sed 非交互式编辑"><code>sed</code> 非交互式编辑</a></h3><p>处理前置命令的输出结果</p>
+<p><code>(std-out) | sed [options]</code>command&#96;&#96;</p>
+<p>处理文件</p>
+<p><code>sed [-n] [-i]</code>条件 命令<code>file</code></p>
+<ul>
+<li><code>-n</code> 忽略没有修改的输出</li>
+<li><code>-i</code> 直接修改源文件</li>
+<li><code>-r</code> 支持拓展正则表达式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>作用</th>
+<th>例子</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>行号 命令</td>
+<td>对指定行号的行进行操作</td>
+<td><code>3p</code></td>
+<td>打印第 3 行</td>
+</tr>
+<tr>
+<td>起始行号,终止行号 命令</td>
+<td>对范围中的几行进行操作</td>
+<td><code>2,6d</code></td>
+<td>删除第 2 行到第 6 行</td>
+</tr>
+<tr>
+<td>行号 1 命令 ; 行号 2 命令; ……</td>
+<td>对多行进行操作，没有行号先后区分</td>
+<td><code>1p;2d</code></td>
+<td>打印第 1 行然后删除第 2 行</td>
+</tr>
+<tr>
+<td>起始行号,+附加的行数 命令</td>
+<td>从起始行号开始，再加指定行数，这写范围内的所有行进行操作</td>
+<td><code>1,+3p</code></td>
+<td>打印 1 到 4 行的内容</td>
+</tr>
+<tr>
+<td>起始行号~步长 命令</td>
+<td>从起始行号开始，每隔一个步长的每个行进行操作</td>
+<td><code>1~2p</code></td>
+<td>打印奇数行的内容</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>2~2p</code></td>
+<td>打印偶数行的内容</td>
+</tr>
+<tr>
+<td>&#x2F;正则表达式&#x2F;命令</td>
+<td>对匹配正则表达式的行进行操作，注意格式要求</td>
+<td><code>/^root&#124;^ftp/d<code></td>
+<td>删除文件中包以 root 或者 ftp 开头的行</td>
+</tr>
+<tr>
+<td>$命令</td>
+<td>对最后一行进行操作</td>
+<td><code>$!d</code></td>
+<td>最后一行保留，其他全部干掉</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+<th>用法和例子</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i</td>
+<td>插入文本</td>
+<td>条件 i 内容</td>
+<td>在指定的行之前插入文本</td>
+</tr>
+<tr>
+<td>a</td>
+<td>追加文本</td>
+<td>条件 a 内容</td>
+<td>在指定的行之后追加文本</td>
+</tr>
+<tr>
+<td>c</td>
+<td>替换行</td>
+<td>条件 c 内容</td>
+<td>把指定行的内容替换，整行都替换掉</td>
+</tr>
+<tr>
+<td>p</td>
+<td>打印</td>
+<td>条件 p</td>
+<td>打印符合条件的内容，注意如果没有-n，sed 默认打印所有</td>
+</tr>
+<tr>
+<td>!p</td>
+<td>打印其他</td>
+<td>条件!p</td>
+<td>不打印符合条件的内容，打印其他的所有</td>
+</tr>
+<tr>
+<td>=</td>
+<td>打印行号</td>
+<td><code>$=</code></td>
+<td>输出文件一共多少行，<code>$</code>代表最后一行，<code>=</code>代表输出行号</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>/^root/=</code></td>
+<td>输出以 root 开头的行号</td>
+</tr>
+<tr>
+<td>d</td>
+<td>删除</td>
+<td>条件 d</td>
+<td>删除符合条件的内容</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>$d</code></td>
+<td>删除最后一行</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>/^$/d</code></td>
+<td>删除所有空行 ，这是正则与之结合的结果</td>
+</tr>
+<tr>
+<td>!d</td>
+<td>保留其他</td>
+<td>条件!d</td>
+<td>符合条件的不删除，其余删除</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>/^root/!d</code></td>
+<td>以 root 开头的保留，其余全部删除</td>
+</tr>
+<tr>
+<td>s</td>
+<td>替换</td>
+<td>条件 s/被替换内容/替换成什么/第几个</td>
+<td>把文件中的每个符合条件的行的第几个匹配替换要求的内容进行替换，如果没有这么多个被替换内容就不替换，不写默认第一个</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>条件 s/被替换内容/替换成什么/g</td>
+<td>把文件中的每个符合条件的行的所有匹配替换要求的内容进行替换</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>条件 s/被替换内容/替换成什么/第几个 p</td>
+<td>把文件中的每个符合条件的行的第几个匹配替换要求的内容进行替换，然后显示，如果前面有-n，那么就可以完成替换后只显示替换的部分信息</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>条件 s#被替换内容#替换成什么#</td>
+<td>s 后面紧跟的符号就是控制替换符号，可以是任意字符，包括空格，字符，数字，但是不建议使用</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>2s/student//2p</code></td>
+<td>把文件中第二行中第二个 student 替换成空,然后现实替换的内容，可以用作删除</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>1,5s/^a/#a</code></td>
+<td>在 1 到 5 行每个以 a 开头的行的前面加上注释</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>6,10s/^#//</code></td>
+<td>把 6 到 10 行中的注释的注释标示去掉，让其成为配置</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>99s9\98\97\99\95\98\99gp</code></td>
+<td>这里面替换控制符号是 9，他就算把 99 行所有的 98979 替换成 95989 然后输出</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>1s#^.\&#123;&#39;$n&#39;\&#125;..∗..\&#123;&#39;$m&#39;\&#125;$#\1\4\3\2\5#</code></td>
+<td>把第 n 个和倒数第 m 个字符对调</td>
+</tr>
+<tr>
+<td>r</td>
+<td>导入文件</td>
+<td><code>条件 r 文件 2</code></td>
+<td>把文件 2（条件指令中的文件）中的内容添加文件 1（sed 命令后操作的文件）中到满足条件的行下</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>sed -n &quot;2 r a.txt&quot; b.txt</code></td>
+<td>把 a.txt 的内容添加到 b.txt 的第二行下</td>
+</tr>
+<tr>
+<td>w</td>
+<td>导出文件</td>
+<td>条件 w 文件 2</td>
+<td>把文件 1（sed 命令后操作的文件）中到满足条件的行另存到文件 2 中</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>sed -n &quot;w a.txt&quot; b.txt</code></td>
+<td>把 b.txt 的所有内容保存到 a.txt 中</td>
+</tr>
+<tr>
+<td>H</td>
+<td>追加复制</td>
+<td>条件 H</td>
+<td>把符合条件的行的内容写入复制版中</td>
+</tr>
+<tr>
+<td>h</td>
+<td>覆盖复制</td>
+<td>条件 h</td>
+<td>把符合条件的行的内容覆盖写入复制版中</td>
+</tr>
+<tr>
+<td>G</td>
+<td>追加粘贴</td>
+<td>条件 G</td>
+<td>把复制版中的内容追加到符合条件的行后面，注意也没有回车</td>
+</tr>
+<tr>
+<td>g</td>
+<td>覆盖粘贴</td>
+<td>条件 g</td>
+<td>把复制版中的内容覆盖到符合条件的行后面，注意也没有回车</td>
+</tr>
+</tbody></table>
+<p>注意</p>
+<ul>
+<li>在 sed 中的空格没有太过严格的要求，条件与命令间有没有空格都可以，不影响使用，</li>
+<li>如果想让输出有该行在源文件的位置，可以用 <code>cat -n 文件 | sed [选项] 条件 命令</code><br>但是这时候如果用正则匹配，开头匹配就不能用了，因为内容有了改变，原本再文件中开头的数据前面都有了行号，他们就不是在行首了</li>
+<li>删除某一行或多行用命令 <code>条件 d</code> ，如果删除某一行或多行中的某一些字段用 <code>条件 s/目标字段//</code><br>替换某一行的内容用<code>条件 c 内容</code> , 如果替换某一行中的某个字段用<code>条件 s/被替换的部分/替换成什么/</code></li>
+<li>s 后面紧跟的符号就是控制替换符号，可以是任意字符，包括空格，字符，数字，但是不建议使用</li>
+<li>在 sed 的 s 替换中替换成什么，这个部分，符号基本都没有特殊含义，除了 \ 和被选定作为控制替换符号 ， 如果要向替换成 \ 就要打 \ 如果向换成 \ 就打 \\ 依次类推 ， 如果要替换成控制替换符号如 / 就要打 /<br>例如： sed -n <code>s/[A−Z]/\/\\\1:&quot;</code>/gp` 文件 其作用就是把全文所有的大写字母 变成 /\大写字母:" 然后打印出来</li>
+<li>一般 sed 中用 ``限定起来如果要用变量可以把中间的条件命令分开来<code>……</code>$变量<code>……</code> 这样就可以了</li>
+</ul>
+<!-- ## 权限控制
+
+`chmod`
+`chown`
+`chgrp`
+`setfacl`
+`getfacl` -->
+
+<h1 id="SHELL"><a href="#SHELL" class="headerlink" title="SHELL">SHELL</a></h1><p><em>已移至 <a href="/2023/shell-script-study-notes/">Shell Script 学习笔记</a></em></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料">参考资料</a></h1><blockquote>
+<ul>
+<li>《鸟哥的 Linux 私房菜》</li>
+<li><a target="_blank" rel="noopener" href="https://vimjc.com/linux-vim-tricks.html">10个高效Linux技巧及Vim命令对比 - Vimjc</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/de98af781829">linux命令行常用光标移动快捷键</a></li>
+</ul>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/vi-vim-study-notes/" rel="prev" title="Vim 学习笔记（无插件）">
+                  <i class="fa fa-angle-left"></i> Vim 学习笔记（无插件）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/create-the-grids-layout-with-50-lines-of-code-using-stylus/" rel="next" title="用 stylus 写一个 50 行代码的栅格化布局">
+                  用 stylus 写一个 50 行代码的栅格化布局 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

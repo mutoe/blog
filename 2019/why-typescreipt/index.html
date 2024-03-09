@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="“TypeScript 又是什么东西啊, 怎么又在出新语言, 求不要再出了, 学不动了!!” 场景1 – 检查类型开心的撸代码中, 突然接到老大消息: xxx离职了, 现在你来接手他维护的项目.😳 拿到代码后, 看到了这段东西 12345&#x2F;** 根据用户id获取用户信息 *&#x2F;async function getUsers(id) &amp;#123;  const users &#x3D; await fetch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么要上 TypeScript">
+<meta property="og:url" content="https://blog.mutoe.com/2019/why-typescreipt/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="“TypeScript 又是什么东西啊, 怎么又在出新语言, 求不要再出了, 学不动了!!” 场景1 – 检查类型开心的撸代码中, 突然接到老大消息: xxx离职了, 现在你来接手他维护的项目.😳 拿到代码后, 看到了这段东西 12345&#x2F;** 根据用户id获取用户信息 *&#x2F;async function getUsers(id) &amp;#123;  const users &#x3D; await fetch">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static.mutoe.com/xianzhuo.jpg">
+<meta property="og:image" content="https://static.mutoe.com/2019/why-typescript/example-1-ts.gif">
+<meta property="og:image" content="https://static.mutoe.com/2019/why-typescript/example-2-js.png">
+<meta property="og:image" content="https://static.mutoe.com/xianzhuo.jpg">
+<meta property="og:image" content="https://static.mutoe.com/2019/why-typescript/example-2-ts.gif">
+<meta property="og:image" content="https://static.mutoe.com/2019/why-typescript/example-3-js.png">
+<meta property="og:image" content="https://static.mutoe.com/2019/why-typescript/example-3-js-1.gif">
+<meta property="og:image" content="https://static.mutoe.com/xianzhuo.jpg">
+<meta property="og:image" content="https://static.mutoe.com/2019/why-typescript/example-3-ts.gif">
+<meta property="article:published_time" content="2019-07-15T11:47:26.000Z">
+<meta property="article:modified_time" content="2019-07-15T11:47:26.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="TypeScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.mutoe.com/xianzhuo.jpg">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2019/why-typescreipt/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2019/why-typescreipt/","path":"/2019/why-typescreipt/","title":"为什么要上 TypeScript"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>为什么要上 TypeScript | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF1-%E2%80%93-%E6%A3%80%E6%9F%A5%E7%B1%BB%E5%9E%8B"><span class="nav-text">场景1 – 检查类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF2-%E2%80%93-%E6%9F%A5%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-text">场景2 – 查函数使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF3-%E2%80%93-%E9%87%8D%E6%9E%84%E5%8F%98%E9%87%8F"><span class="nav-text">场景3 – 重构变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E4%B8%8A-TypeScript-%E5%90%A7"><span class="nav-text">快上 TypeScript 吧</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2019/why-typescreipt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="为什么要上 TypeScript | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          为什么要上 TypeScript<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/why-typescreipt.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-07-15 19:47:26" itemprop="dateCreated datePublished" datetime="2019-07-15T19:47:26+08:00">2019-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>“TypeScript 又是什么东西啊, 怎么又在出新语言, 求不要再出了, 学不动了!!”</p>
+<h2 id="场景1-–-检查类型"><a href="#场景1-–-检查类型" class="headerlink" title="场景1 – 检查类型">场景1 – 检查类型</a></h2><p>开心的撸代码中, 突然接到老大消息: xxx离职了, 现在你来接手他维护的项目.😳</p>
+<p>拿到代码后, 看到了这段东西</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 根据用户id获取用户信息 */</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getUsers</span>(<span class="params">id</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> users = <span class="keyword">await</span> <span class="title function_">fetchUsers</span>(id)</span><br><span class="line">  <span class="keyword">return</span> users</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个 <code>id</code> 是什么? 是  <code>1</code> 还是 <code>&quot;1&quot;</code> 还是 <code>[1,2,3]</code> 还是 <code>&quot;1,2,3&quot;</code> ???</p>
+<p>这个 <code>users</code> 又是什么? 是普通权限用户? 还是管理员看到的用户?</p>
+<p>全局搜索了一下调用该方法的地方, 发现这是个“万能”的方法, 传入 id 为 <code>1</code> 时会返回 1 号用户的不含私密信息的对象</p>
+<p>传入 <code>[1,2,3]</code> 或 <code>&quot;1,2,3&quot;</code> 时会获取一个数组 </p>
+<p><img src="//static.mutoe.com/xianzhuo.jpg" alt="[掀桌]"></p>
+<hr>
+<p>如果上了ts</p>
+<p><img src="//static.mutoe.com/2019/why-typescript/example-1-ts.gif"></p>
+<span id="more"></span>
+
+
+<h2 id="场景2-–-查函数使用方法"><a href="#场景2-–-查函数使用方法" class="headerlink" title="场景2 – 查函数使用方法">场景2 – 查函数使用方法</a></h2><p>开心的撸代码中, 突然接到老大消息: xxx离职了, 现在你来接手他维护的项目.😳</p>
+<p>拿到代码后, 看到了这段东西</p>
+<p><img src="//static.mutoe.com/2019/why-typescript/example-2-js.png"></p>
+<p><img src="//static.mutoe.com/xianzhuo.jpg" alt="[掀桌]"></p>
+<hr>
+<p>如果上了ts</p>
+<p><img src="//static.mutoe.com/2019/why-typescript/example-2-ts.gif"></p>
+<h2 id="场景3-–-重构变量"><a href="#场景3-–-重构变量" class="headerlink" title="场景3 – 重构变量">场景3 – 重构变量</a></h2><p>开心的撸代码中, 突然接到老大消息: xxx离职了, 现在你来接手他维护的项目.😳</p>
+<p>拿到代码后, 看到了这段东西</p>
+<p><img src="//static.mutoe.com/2019/why-typescript/example-3-js.png"></p>
+<p>现在后端要将 <code>topic</code> 返回的 <code>name</code> 修改成 <code>title</code></p>
+<p><img src="//static.mutoe.com/2019/why-typescript/example-3-js-1.gif"></p>
+<p><img src="//static.mutoe.com/xianzhuo.jpg" alt="[掀桌]"></p>
+<hr>
+<p>如果上了ts</p>
+<p><img src="//static.mutoe.com/2019/why-typescript/example-3-ts.gif"></p>
+<h2 id="快上-TypeScript-吧"><a href="#快上-TypeScript-吧" class="headerlink" title="快上 TypeScript 吧">快上 TypeScript 吧</a></h2><p>老大: “可以呀, 别人改这些都要半天你只需要几分钟, 升职加薪就是你啦!”</p>
+<p>哇哈哈哈哈! 真香!</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"><i class="fa fa-tag"></i> TypeScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/javascript-regexp/" rel="prev" title="玩转 javascript 正则表达式">
+                  <i class="fa fa-angle-left"></i> 玩转 javascript 正则表达式
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/javascript-to-typescript/" rel="next" title="记一个项目改造为 TypeScript 心得">
+                  记一个项目改造为 TypeScript 心得 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

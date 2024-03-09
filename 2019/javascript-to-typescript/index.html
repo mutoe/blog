@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言现手上有一个小型的 js 项目, 内容比较简单, 就是提供一个单页, 其中引用了 quill 富文本编辑器.  该页面需要嵌入到其他客户端(如 iframe 或 webview) 以提供统一的富文本编辑的用户体验. 项目内部使用 webpack 将 js &#x2F; stylus 打包, 对外提供两个 html, 一个用于大屏的 iframe 显示, 另一个用于小屏的 Android &amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一个项目改造为 TypeScript 心得">
+<meta property="og:url" content="https://blog.mutoe.com/2019/javascript-to-typescript/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="前言现手上有一个小型的 js 项目, 内容比较简单, 就是提供一个单页, 其中引用了 quill 富文本编辑器.  该页面需要嵌入到其他客户端(如 iframe 或 webview) 以提供统一的富文本编辑的用户体验. 项目内部使用 webpack 将 js &#x2F; stylus 打包, 对外提供两个 html, 一个用于大屏的 iframe 显示, 另一个用于小屏的 Android &amp;#x">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static.mutoe.com/2019/javascript-to-typescript/file-tree.png">
+<meta property="og:image" content="https://static.mutoe.com/2019/javascript-to-typescript/tscompile-errors.png">
+<meta property="article:published_time" content="2019-07-20T03:38:11.000Z">
+<meta property="article:modified_time" content="2019-07-20T03:38:11.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="TypeScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.mutoe.com/2019/javascript-to-typescript/file-tree.png">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2019/javascript-to-typescript/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2019/javascript-to-typescript/","path":"/2019/javascript-to-typescript/","title":"记一个项目改造为 TypeScript 心得"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>记一个项目改造为 TypeScript 心得 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E6%94%B9%E9%80%A0"><span class="nav-text">开始改造</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%B7%BB%E5%8A%A0-typescript-%E4%BE%9D%E8%B5%96%E5%92%8C-tsconfig-json"><span class="nav-text">1. 添加 typescript 依赖和 tsconfig.json</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B0%86%E6%89%80%E6%9C%89-js-%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9%E4%B8%BA-ts-%E6%96%87%E4%BB%B6"><span class="nav-text">2. 将所有 js 文件修改为 ts 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%BF%AE%E5%A4%8D%E5%87%BA%E9%94%99%E7%9A%84-ts-%E6%96%87%E4%BB%B6"><span class="nav-text">3. 修复出错的 ts 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%AE%A9-webpack-%E6%94%AF%E6%8C%81%E7%BC%96%E8%AF%91-typescript"><span class="nav-text">4. 让 webpack 支持编译 typescript</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%B9%E9%80%A0%E5%90%8E%E5%B8%B8%E8%A7%81-TS-%E9%94%99%E8%AF%AF-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0"><span class="nav-text">改造后常见 TS 错误 (持续更新)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TS2307-Cannot-find-module-%E2%80%98moduleA%E2%80%99"><span class="nav-text">TS2307: Cannot find module ‘moduleA’.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TS2339-Property-%E2%80%98xxx%E2%80%99-does-not-exist-on-type-%E2%80%98yyy%E2%80%99"><span class="nav-text">TS2339: Property ‘xxx’ does not exist on type ‘yyy’.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TS2531-Object-is-possibly-%E2%80%98null%E2%80%99"><span class="nav-text">TS2531: Object is possibly ‘null’.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TS2554-Expected-2-arguments-but-got-1"><span class="nav-text">TS2554: Expected 2 arguments, but got 1.</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BF%83%E5%BE%97%E6%80%BB%E7%BB%93"><span class="nav-text">心得总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B3%E6%BB%91%E8%BF%87%E6%B8%A1%E5%88%B0-typescript"><span class="nav-text">平滑过渡到 typescript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%89%B9%E9%87%8F%E6%9B%BF%E6%8D%A2%E6%96%87%E4%BB%B6%E5%90%8D"><span class="nav-text">关于批量替换文件名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E6%95%B0%E9%87%8F%E5%B7%A8%E5%A4%A7"><span class="nav-text">错误数量巨大</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2019/javascript-to-typescript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="记一个项目改造为 TypeScript 心得 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记一个项目改造为 TypeScript 心得<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/javascript-to-typescript.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-07-20 11:38:11" itemprop="dateCreated datePublished" datetime="2019-07-20T11:38:11+08:00">2019-07-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言">前言</a></h1><p>现手上有一个小型的 js 项目, 内容比较简单, 就是提供一个单页, 其中引用了 quill 富文本编辑器. </p>
+<p>该页面需要嵌入到其他客户端(如 iframe 或 webview) 以提供统一的富文本编辑的用户体验.</p>
+<p>项目内部使用 webpack 将 js &#x2F; stylus 打包, 对外提供两个 html, 一个用于大屏的 iframe 显示, 另一个用于小屏的 Android &#x2F; IOS 设备显示.</p>
+<p>项目结构如下</p>
+<p><img src="//static.mutoe.com/2019/javascript-to-typescript/file-tree.png" alt="file-tree"></p>
+<p>你可以参考此项目对自己的项目进行改造, 过程大致相同</p>
+<blockquote>
+<p>阅读本贴, 你可能需要了解以下前置内容</p>
+<ul>
+<li>typescript</li>
+<li>webpack</li>
+<li>yarn</li>
+</ul>
+</blockquote>
+<p><strong>本次改造所有改动可在 github <a target="_blank" rel="noopener" href="https://github.com/slimkit/plus-editor/commit/3424d38e0e60ce39eeaa419113fb67cf73411d36">查看 commit 记录</a></strong></p>
+<span id="more"></span>
+
+<h1 id="开始改造"><a href="#开始改造" class="headerlink" title="开始改造">开始改造</a></h1><h2 id="1-添加-typescript-依赖和-tsconfig-json"><a href="#1-添加-typescript-依赖和-tsconfig-json" class="headerlink" title="1. 添加 typescript 依赖和 tsconfig.json">1. 添加 <code>typescript</code> 依赖和 <code>tsconfig.json</code></a></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yarn add -D typescript</span><br><span class="line">$ yarn tsc --init</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>yarn tsc --init</code> 使用本地刚安装的 typescript 初始化了一个 <code>tsconfig.json</code> 含有很多默认配置的文件</p>
+<p>修改 <code>tsconfig.json</code> 为以下内容 (可自行配置)</p>
+<figure class="highlight json"><figcaption><span>tsconfig.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./dist/&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./src/&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;sourceMap&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;noImplicitAny&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;es6&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;es5&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>查看 <a target="_blank" rel="noopener" href="https://www.typescriptlang.org/docs/handbook/tsconfig-json.html">TypeScript 官方文档</a> 了解更多关于 <code>tsconfig.json</code> 的配置选项。</p>
+</blockquote>
+<h2 id="2-将所有-js-文件修改为-ts-文件"><a href="#2-将所有-js-文件修改为-ts-文件" class="headerlink" title="2. 将所有 js 文件修改为 ts 文件">2. 将所有 js 文件修改为 ts 文件</a></h2><p>一个一个替换后缀名太麻烦了, 我们使用几行命令批量替换. (注意我们只需要批量替换 src 目录下的 js 文件)</p>
+<p>linux &#x2F; mac 下执行以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> src</span><br><span class="line">$ find . -name <span class="string">&quot;*.js&quot;</span> | sed <span class="string">&#x27;s/.js//&#x27;</span> | xargs -n1 -I &#123;&#125; <span class="built_in">mv</span> &#123;&#125;.js &#123;&#125;.ts</span><br></pre></td></tr></table></figure>
+
+<p>windows 下参考 <a target="_blank" rel="noopener" href="https://www.google.com/search?q=windows+%E9%80%92%E5%BD%92+%E6%89%B9%E9%87%8F%E6%9B%BF%E6%8D%A2%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80">这里(google)</a> 或 <a target="_blank" rel="noopener" href="https://www.baidu.com/baidu?wd=windows+%E9%80%92%E5%BD%92+%E6%89%B9%E9%87%8F%E6%9B%BF%E6%8D%A2%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80">这里(baidu)</a></p>
+<h2 id="3-修复出错的-ts-文件"><a href="#3-修复出错的-ts-文件" class="headerlink" title="3. 修复出错的 ts 文件">3. 修复出错的 ts 文件</a></h2><p>执行以下命令来检查有多少个文件需要修改</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn tsc</span><br></pre></td></tr></table></figure>
+
+<p><img src="//static.mutoe.com/2019/javascript-to-typescript/tscompile-errors.png" alt="tscompile-errors"></p>
+<p>意料之中, 我们得到了 29 个错误, 分了下类, 大约有下面几种类型, 逐一解决之</p>
+<ul>
+<li><a href="#TS2307">error TS2307: Cannot find module ‘xxx’.</a></li>
+<li><a href="#TS2339">error TS2339: Property ‘xxx’ does not exist on type ‘yyy’.</a></li>
+<li><a href="#TS2554">error TS2554: Expected 2-3 arguments, but got 1.</a></li>
+<li><a href="#TS2322">error TS2322: Type ‘any’ is not assignable to type ‘never’.</a></li>
+</ul>
+<h2 id="4-让-webpack-支持编译-typescript"><a href="#4-让-webpack-支持编译-typescript" class="headerlink" title="4. 让 webpack 支持编译 typescript">4. 让 webpack 支持编译 typescript</a></h2><p>我们接下来我们需要让 webpack 认识 ts 文件并且以 typescript 自己的编译器进行转化, 安装 <code>ts-loader</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yarn add -D ts-loader</span><br></pre></td></tr></table></figure>
+
+<p>然后添加 <code>webpack.config.js</code> 文件中对 ts 文件的解析 (自行追加)</p>
+<figure class="highlight js"><figcaption><span>webpack.config.js</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/index.ts&#x27;</span>,</span><br><span class="line">  <span class="attr">devtool</span>: <span class="string">&#x27;inline-source-map&#x27;</span>,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.ts?$/</span>,</span><br><span class="line">        <span class="attr">use</span>: <span class="string">&#x27;ts-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">resolve</span>: &#123;</span><br><span class="line">    <span class="attr">extensions</span>: [ <span class="string">&#x27;.ts&#x27;</span>, <span class="string">&#x27;.js&#x27;</span>, <span class="string">&#x27;.json&#x27;</span> ]</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>查看 <a target="_blank" rel="noopener" href="https://webpack.docschina.org/concepts/configuration/">Webpack 中文文档</a> 了解更多关于 <code>webpack.config.js</code> 的配置选项。</p>
+</blockquote>
+<h1 id="改造后常见-TS-错误-持续更新"><a href="#改造后常见-TS-错误-持续更新" class="headerlink" title="改造后常见 TS 错误 (持续更新)">改造后常见 TS 错误 (持续更新)</a></h1><blockquote>
+<p>如果你想了解一些常见的 TS 错误, 可以参见我的另一篇帖子 – <a href="/2019/typescript-errors">《TypeScript 常见错误整理》</a></p>
+</blockquote>
+<div id="TS2307"></div>
+
+<h2 id="TS2307-Cannot-find-module-‘moduleA’"><a href="#TS2307-Cannot-find-module-‘moduleA’" class="headerlink" title="TS2307: Cannot find module ‘moduleA’.">TS2307: Cannot find module ‘moduleA’.</a></h2><p>假设我们有一个导入语句 <code>import &#123; a &#125; from &quot;moduleA&quot;</code>, 为了去检查任何对 <code>a</code> 的使用, 编译器回去寻找关于它的定义, 这会去向上寻找 <code>moduelA</code>.</p>
+<p>但 moduleA 会写在某个 <code>.ts</code> 或是 <code>.d.ts</code> 文件中, 如果没有找到对应的类型定义去解析这个模块, 可能会抛出一个 <code>error TS2307: Cannot find module &#39;moduleA&#39;.</code></p>
+<p><strong>解决办法</strong><br>给 <code>moduleA</code> 声明定义文件, 如果导入的是一个第三方 npm 包, 可以去社区找到对应的 <a target="_blank" rel="noopener" href="https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/README.cn.md">@types</a></p>
+<details>
+<summary>本示例项目中出现的 TS2307 错误</summary>
+
+<p><strong><code>error TS2307: Cannot find module &#39;quill&#39;.</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">src/blots/divider.ts:1:19 - error TS2307: Cannot find module &#x27;quill&#x27;.</span><br><span class="line"></span><br><span class="line">1 import Quill from &#x27;quill&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>需要安装 <code>@types/quill</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yarn add -D @types/quill</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>error TS2307: Cannot find module &#39;source-map&#39;.</code></strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node_modules/@types/uglify-js/index.d.ts:9:30 - error TS2307: Cannot find module <span class="string">&#x27;source-map&#x27;</span>.</span><br><span class="line"></span><br><span class="line">9 import &#123; RawSourceMap &#125; from <span class="string">&#x27;source-map&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>我尝试安装 @types&#x2F;source-map 但是不起作用, 于是去 google 这个问题, 在 <a target="_blank" rel="noopener" href="https://github.com/DefinitelyTyped/DefinitelyTyped/issues/23649#issuecomment-424355987">DefinitelyTyped#23649</a> 找到了解决办法:</p>
+<p>安装 <code>source-map</code> 并且设置 <code>tsconfig.json</code> 中的 <code>moduleResolution</code></p>
+<figure class="highlight json"><figcaption><span>tsconfig.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;moduleResolution&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</details>
+
+<hr>
+<div id="TS2339"></div>
+
+<h2 id="TS2339-Property-‘xxx’-does-not-exist-on-type-‘yyy’"><a href="#TS2339-Property-‘xxx’-does-not-exist-on-type-‘yyy’" class="headerlink" title="TS2339: Property ‘xxx’ does not exist on type ‘yyy’.">TS2339: Property ‘xxx’ does not exist on type ‘yyy’.</a></h2><p>当使用表达式 <code>window.xxx</code> 时, typescript 会尝试从 <code>yyy</code> 对象上解析 <code>xxx</code> 属性, 如果没有找到对应的定义, 则会抛出一个 <code>error TS2339: Property &#39;xxx&#39; does not exist on type &#39;yyy&#39;.</code></p>
+<p><strong>解决办法</strong></p>
+<p>给 <code>yyy</code> 对象定义正确的类型</p>
+<p>需要注意的是, 如果 <code>yyy</code> 是 window 对象, 则需要定义全局的声明文件</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> <span class="variable language_">global</span> &#123;</span><br><span class="line">  <span class="keyword">interface</span> <span class="title class_">Window</span> &#123;</span><br><span class="line">    <span class="attr">xxx</span>: <span class="built_in">any</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里还是建议 xxx 应该有自己的类型而不是 any.</p>
+<details>
+<summary>本示例项目中出现的 TS2339 错误</summary>
+
+<p><strong><code>error TS2339: Property &#39;id&#39; does not exist on type &#39;never&#39;.</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">src/index.ts:64:51 - error TS2339: Property &#x27;id&#x27; does not exist on type &#x27;never&#x27;.</span><br><span class="line"></span><br><span class="line">64     const index = images.findIndex(image =&gt; image.id === item.id)</span><br></pre></td></tr></table></figure>
+
+<p>这里是因为我在初始化 <code>images</code> 数组时书写了以下内容 </p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> images = []</span><br></pre></td></tr></table></figure>
+
+<p>TS 认为 <code>images</code> 数组是一个空数组并且不可拓展, 于是遍历数组时 TS 认为每个元素都是 <code>never</code> 类型, 而 <code>id</code> 属性并不在 <code>never</code> 类型上面. 我们给这个数组补充声明一个类型</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 上传的图片 */</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">UploadImage</span> &#123;</span><br><span class="line">  <span class="comment">/** 图片标识 */</span></span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span></span><br><span class="line">  <span class="comment">/** 图片地址 */</span></span><br><span class="line">  src?: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 上传的图片列表 */</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">images</span>: <span class="title class_">UploadImage</span>[] = []</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>error TS2339: Property &#39;launcher&#39; does not exist on type &#39;Window&#39;.</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">src/caller.ts:2:14 - error TS2339: Property &#x27;launcher&#x27; does not exist on type &#x27;Window&#x27;.</span><br><span class="line"></span><br><span class="line">2   if (window.launcher) &#123;</span><br></pre></td></tr></table></figure>
+
+<p>在入口 <code>index.ts</code> 文件顶部增加以下内容</p>
+<figure class="highlight ts"><figcaption><span>index.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> <span class="variable language_">global</span> &#123;</span><br><span class="line">  <span class="keyword">interface</span> <span class="title class_">Window</span> &#123;</span><br><span class="line">    <span class="attr">quill</span>: <span class="title class_">Quill</span></span><br><span class="line">    <span class="comment">/** Android 端注入 webview 中的对象 */</span></span><br><span class="line">    <span class="attr">launcher</span>: <span class="built_in">any</span></span><br><span class="line">    <span class="comment">/** IOS 端注入 webview 中的对象 */</span></span><br><span class="line">    <span class="attr">webkit</span>: <span class="built_in">any</span></span><br><span class="line">    <span class="comment">/** 接收图片预览地址的钩子 */</span></span><br><span class="line">    <span class="attr">imagePreviewReceiver</span>: <span class="function">(<span class="params">src: <span class="built_in">string</span></span>) =&gt;</span> <span class="built_in">void</span></span><br><span class="line">    <span class="comment">/** 接收图片实际地址的钩子 */</span></span><br><span class="line">    <span class="attr">imageUrlReceiver</span>: <span class="function">(<span class="params">src: <span class="built_in">string</span></span>) =&gt;</span> <span class="built_in">void</span></span><br><span class="line">    <span class="comment">/** 接收提交请求的钩子, 会触发各端对应的提交事件 */</span></span><br><span class="line">    <span class="attr">editorSubmitReceiver</span>: <span class="function">(<span class="params">src: <span class="built_in">string</span></span>) =&gt;</span> <span class="built_in">void</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至于 <code>launcher</code> 和 <code>webkit</code> 为什么是 <code>any</code> 类型, 这两个变量是 android 和 ios 端分别注入在 window 中的 sdk, 所以保证他内部逻辑不会出错就可以啦.</p>
+</details>
+
+<hr>
+<div id="TS2531"></div>
+
+<h2 id="TS2531-Object-is-possibly-‘null’"><a href="#TS2531-Object-is-possibly-‘null’" class="headerlink" title="TS2531: Object is possibly ‘null’.">TS2531: Object is possibly ‘null’.</a></h2><p>在访问一个对象上的属性时, 如果该对象可能为 <code>null</code> 则抛出 <code>error TS2531: Object is possibly &#39;null&#39;.</code></p>
+<p><strong>解决办法</strong></p>
+<p>在访问可能为空的对象前判断该对象是否为空</p>
+<details>
+<summary>本示例项目中出现的 TS2531 错误</summary>
+
+<p><strong><code>error TS2531: Object is possibly &#39;null&#39;.</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    const range = quill.getSelection()</span><br><span class="line">    quill.insertEmbed(range.index, &#x27;image&#x27;, item.base64, &#x27;user&#x27;)</span><br><span class="line">    </span><br><span class="line">const range: RangeStatic | null</span><br><span class="line">Object is possibly &#x27;null&#x27;.ts(2531)</span><br></pre></td></tr></table></figure>
+
+<p>这是由于 <code>range</code> 对象是调用 <code>quill.getSelection()</code> 得到的, 而该方法的返回值包含了 <code>RangeStatic | null</code>. </p>
+<p>如果 <code>range</code> 为空的话, 我们在生产环境访问 <code>range.index</code> 就不好了… Fix it.</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> index = (range &amp;&amp; range.<span class="property">index</span>) || <span class="number">0</span></span><br><span class="line">quill.<span class="title function_">insertEmbed</span>(index, <span class="string">&#x27;image&#x27;</span>, item.<span class="property">base64</span>, <span class="string">&#x27;user&#x27;</span>)</span><br></pre></td></tr></table></figure>
+</details>
+
+<hr>
+<div id="TS2554"></div>
+
+<h2 id="TS2554-Expected-2-arguments-but-got-1"><a href="#TS2554-Expected-2-arguments-but-got-1" class="headerlink" title="TS2554: Expected 2 arguments, but got 1.">TS2554: Expected 2 arguments, but got 1.</a></h2><p>这是由于调用函数时, <strong>传入参数</strong> 与 <strong>期望的参数</strong> 数量不一致时, 会抛出 <code>error TS2554: Expected 2 arguments, but got 1.</code></p>
+<p><strong>解决办法</strong></p>
+<ul>
+<li>如果是自定义函数类型定义的问题, 修改函数的 interface.</li>
+<li>如果是调用时传参的问题, 恭喜你, 提前发现了一个错误, Fix it.</li>
+</ul>
+<details>
+<summary>本示例项目中出现的 TS2554 错误</summary>
+
+<p><strong><code>error TS2554: Expected 2-3 arguments, but got 1.</code></strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    window.top.postMessage(&#123; funcName: fnName, params &#125;)</span><br><span class="line"></span><br><span class="line">Expected 2-3 arguments, but got 1.ts(2554)</span><br><span class="line">lib.dom.d.ts(17233, 31): An argument for &#x27;targetOrigin&#x27; was not provided.</span><br></pre></td></tr></table></figure>
+
+<p>这是由于调用 <code>window.postMessage</code> 方法时传参不严谨导致的问题, 该方法期望接受第二个参数 <code>targetOrigin</code> 用于增强安全性, 补充之.  </p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">top</span>.<span class="title function_">postMessage</span>(&#123; <span class="attr">funcName</span>: fnName, params &#125;, <span class="string">&#x27;*&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>注: 虽然该方法不传入第二个参数也可调用成功, 但是在 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/postMessage">postMessage 文档</a> 中该方法是必选的.  </p>
+<br>
+**`error TS2554: Expected 2 arguments, but got 1.`**
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    inWebview = callMethod(&#x27;chooseImage&#x27;)</span><br><span class="line"></span><br><span class="line">(alias) callMethod(fnName: any, params: any): boolean</span><br><span class="line">import callMethod</span><br><span class="line">Expected 2 arguments, but got 1.ts(2554)</span><br><span class="line">caller.ts(1, 36): An argument for &#x27;params&#x27; was not provided.</span><br></pre></td></tr></table></figure>
+
+<p>该问题是由于自己定义的方法 <code>callMethod</code> 第二个参数是可选的, 但是忘记书写默认值, 导致问题出现. 修正 <code>callMethod</code> 类型</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">callMethod</span>(<span class="params">fnName: <span class="built_in">string</span>, params: <span class="built_in">any</span> = &#123;&#125;</span>): <span class="built_in">boolean</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h1 id="心得总结"><a href="#心得总结" class="headerlink" title="心得总结">心得总结</a></h1><p><em>如果你自己改造的过程中遇到了什么问题, 可以在下面留言, 我会第一时间回复并尽可能的帮助你解决一些改造过程中遇到的问题.</em></p>
+<h2 id="平滑过渡到-typescript"><a href="#平滑过渡到-typescript" class="headerlink" title="平滑过渡到 typescript">平滑过渡到 typescript</a></h2><p>为了减小过渡到 typescript 的成本, 我添加了 <code>&quot;noImplicitAny&quot;: false</code> 如果你的项目不大, 可以移除改行逐一替换 any 类型</p>
+<p>当然中大型项目后期是需要逐渐移除 any 类型的, 不然就成了 anyscript 😂</p>
+<h2 id="关于批量替换文件名"><a href="#关于批量替换文件名" class="headerlink" title="关于批量替换文件名">关于批量替换文件名</a></h2><p>在替换文件名时一开始尝试使用 <code>for i in *.js; do mv &quot;$i&quot; &quot;$&#123;i%.js&#125;.ts&quot;;done</code> 命令, 发现该命令只能替换当前目录下的文件, 不能递归替换子目录, 遂放弃之.</p>
+<h2 id="错误数量巨大"><a href="#错误数量巨大" class="headerlink" title="错误数量巨大">错误数量巨大</a></h2><p>很多时候刚改造完项目编译发现成百上千个错误, 这时候千万不能怕, 很多错其实都是联动发生的, 你只要找对了根源修复它, 一次可以减少很多数量的错误.</p>
+<p>像这次改造, 开始有 30 个错误, 每次调整同类型的错误都能减少很多, 改到最后 0 个问题, 心里还是觉得蛮有成就感的.</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料">参考资料</a></h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.typescriptlang.org/docs/handbook/react-&-webpack.html">React &amp; Webpack(EN) - TypeScript</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.typescriptlang.org/docs/handbook/module-resolution.html">Module Resolution(EN) - TypeScript</a></li>
+<li><a target="_blank" rel="noopener" href="https://webpack.docschina.org/guides/typescript/">TypeScript - Webpack中文文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/README.cn.md">DefinitelyTyped(CN) - GitHub</a></li>
+<li><a target="_blank" rel="noopener" href="https://jkchao.github.io/typescript-book-chinese/typings/migrating.html">从 JavaScript 迁移 - 《深入理解 TypeScript[译]》</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"><i class="fa fa-tag"></i> JavaScript</a>
+              <a href="/tags/TypeScript/" rel="tag"><i class="fa fa-tag"></i> TypeScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/why-typescreipt/" rel="prev" title="为什么要上 TypeScript">
+                  <i class="fa fa-angle-left"></i> 为什么要上 TypeScript
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/typescript-errors/" rel="next" title="TypeScript 常见错误整理">
+                  TypeScript 常见错误整理 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

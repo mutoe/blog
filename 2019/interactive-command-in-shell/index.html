@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="我们在写 shell 脚本时经常会遇到一些需要交互的操作，比如修改某个文件，或是使用 yum install ssh-keygen certbot --nginx 等操作时，需要输入一些指令如 “y”, “Enter” 和其他的一些信息。 我们写脚本就是为了自动操作，怎么可以等命令执行一会之后在按个回车进行下一步呢？既然我知道接下来要输入什么命令，我告诉你你帮我输入了不就得了？ 聪明tōu lǎn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Shell 脚本中进行交互的一些心得">
+<meta property="og:url" content="https://blog.mutoe.com/2019/interactive-command-in-shell/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="我们在写 shell 脚本时经常会遇到一些需要交互的操作，比如修改某个文件，或是使用 yum install ssh-keygen certbot --nginx 等操作时，需要输入一些指令如 “y”, “Enter” 和其他的一些信息。 我们写脚本就是为了自动操作，怎么可以等命令执行一会之后在按个回车进行下一步呢？既然我知道接下来要输入什么命令，我告诉你你帮我输入了不就得了？ 聪明tōu lǎn">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-17T04:12:16.000Z">
+<meta property="article:modified_time" content="2019-10-17T04:12:16.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Shell">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2019/interactive-command-in-shell/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2019/interactive-command-in-shell/","path":"/2019/interactive-command-in-shell/","title":"在 Shell 脚本中进行交互的一些心得"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>在 Shell 脚本中进行交互的一些心得 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BE%93%E5%85%A5"><span class="nav-text">1. 自动化输入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%BE%93%E5%85%A5%E5%8D%95%E4%B8%AA%E6%8C%87%E4%BB%A4"><span class="nav-text">1.1 输入单个指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%BE%93%E5%85%A5%E5%A4%9A%E8%A1%8C%E6%8C%87%E4%BB%A4"><span class="nav-text">1.2 输入多行指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E5%80%9F%E5%8A%A9-expect-%E8%BF%9B%E8%A1%8C%E4%BA%A4%E4%BA%92"><span class="nav-text">1.3 借助 expect 进行交互</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6"><span class="nav-text">2. 修改文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%9C%A8%E6%96%87%E4%BB%B6%E4%B8%AD%E5%A2%9E%E5%8A%A0%E5%86%85%E5%AE%B9"><span class="nav-text">2.1 在文件中增加内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-text">2.2 修改文件的内容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2019/interactive-command-in-shell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="在 Shell 脚本中进行交互的一些心得 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 Shell 脚本中进行交互的一些心得<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/interactive-command-in-shell.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-10-17 12:12:16" itemprop="dateCreated datePublished" datetime="2019-10-17T12:12:16+08:00">2019-10-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>我们在写 shell 脚本时经常会遇到一些需要交互的操作，比如修改某个文件，或是使用 <code>yum install</code> <code>ssh-keygen</code> <code>certbot --nginx</code> 等操作时，需要输入一些指令如 “y”, “Enter” 和其他的一些信息。</p>
+<p>我们写脚本就是为了自动操作，怎么可以等命令执行一会之后在按个回车进行下一步呢？既然我知道接下来要输入什么命令，我告诉你你帮我输入了不就得了？</p>
+<p><ruby>聪明<rt>tōu lǎn<rt></ruby>的我们想到了一些办法来避免这种无谓的等待，记录下来分享给大家</p>
+<span id="more"></span>
+
+<h1 id="1-自动化输入"><a href="#1-自动化输入" class="headerlink" title="1. 自动化输入">1. 自动化输入</a></h1><h2 id="1-1-输入单个指令"><a href="#1-1-输入单个指令" class="headerlink" title="1.1 输入单个指令">1.1 输入单个指令</a></h2><p>这里用 <code>yum install</code> 来进行演示 （假设不使用 <code>-y</code> 参数）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;y&quot;</span> | yum install wget</span><br></pre></td></tr></table></figure>
+
+<p>如果要求输入回车，可以使用 echo 指令的参数 <code>-e</code> + <code>\n</code> 进行操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\n&quot;</span> | yum remove wget</span><br></pre></td></tr></table></figure>
+
+<details>
+<summary>**`echo -e` 的小知识**</summary>
+
+<p>若字符串中出现以下字符，则特别加以处理，而不会将它当成一般文字输出：<br><code>\a</code> 发出警告声；<br><code>\b</code> 删除前一个字符；<br><code>\c</code> 最后不加上换行符号；<br><code>\f</code> 换行但光标仍旧停留在原来的位置；<br><code>\v</code> 与\f 相同；<br><code>\n</code> 换行且光标移至行首；<br><code>\r</code> 光标移至行首，但不换行；<br><code>\t</code> 插入 <code>tab</code> 符号；<br><code>\\</code> 插入 ‘&#39; 字符；<br><code>\nnn</code> 插入 nnn（八进制）所代表的 ASCII 字符；</p>
+</details>
+
+<h2 id="1-2-输入多行指令"><a href="#1-2-输入多行指令" class="headerlink" title="1.2 输入多行指令">1.2 输入多行指令</a></h2><p>输入多行指令我们需要借助输入重定向操作符 <code>&lt;&lt;</code></p>
+<p>以下面这个脚本为例</p>
+<figure class="highlight bash"><figcaption><span>multi.sh</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;enter number:&quot;</span> no</span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;enter name:&quot;</span> name</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;you have entered <span class="variable">$no</span>, <span class="variable">$name</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>借助 <code>&lt;&lt;</code> 符号进行自动化输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">sh multi.sh &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">1</span></span><br><span class="line"><span class="string">mutoe</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p>但是有时候这种方法并不生效，比如 <code>ssh-keygen</code> 命令，那只有借助强大的 <code>expect</code> 命令了</p>
+<h2 id="1-3-借助-expect-进行交互"><a href="#1-3-借助-expect-进行交互" class="headerlink" title="1.3 借助 expect 进行交互">1.3 借助 <code>expect</code> 进行交互</a></h2><p>在使用 <code>expect</code> 前需要进行安装，方法很简单，以 CentOS 为例，只需要运行 <code>yum install -y expect</code> 即可</p>
+<p>expect 有两种用法，一种是直接写 expect 解释器的脚本，和 bash 类似，以 <code>#!/usr/bin/expect</code> 开头</p>
+<p>下面是一个合格的 expect 脚本示例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/expect</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> IP     [lindex <span class="variable">$argv</span> 0] <span class="comment"># 读取第1个参数设置为 IP 变量</span></span><br><span class="line"><span class="built_in">set</span> PASSWD [lindex <span class="variable">$argv</span> 1] <span class="comment"># 读取第2个参数设置为 PASSWD 变量</span></span><br><span class="line"><span class="built_in">set</span> CMD    [lindex <span class="variable">$argv</span> 2] <span class="comment"># 读取第3个参数设置为 CMD 变量</span></span><br><span class="line"></span><br><span class="line">spawn ssh <span class="variable">$IP</span> <span class="variable">$CMD</span> <span class="comment"># spawn 来给命令加壳，以便于断言输出</span></span><br><span class="line">expect &#123; <span class="comment"># expect 是断言命令</span></span><br><span class="line">  <span class="comment"># 如果读取到屏幕上输出 (yes/no) 信息，则输入 &quot;yes&quot; 并按下回车键</span></span><br><span class="line">  <span class="comment"># exp_continue 是继续等待花括号内的断言, 如果不加这一句会直接跳出 expect</span></span><br><span class="line">  <span class="string">&quot;(yes/no)?&quot;</span> &#123; send <span class="string">&quot;yes\r&quot;</span>; exp_continue &#125;</span><br><span class="line"></span><br><span class="line">  <span class="string">&quot;password:&quot;</span> &#123; send <span class="string">&quot;<span class="variable">$PASSWD</span>\r&quot;</span> &#125; <span class="comment"># 如果读取到屏幕上输出 password 信息，则输入 PASSWD 变量中的内容</span></span><br><span class="line">  <span class="string">&quot;*host &quot;</span> &#123; <span class="built_in">exit</span> 1 &#125; <span class="comment"># 如果读取到 &quot;No route to host&quot; 等内容， 就以非0状态退出</span></span><br><span class="line">&#125;</span><br><span class="line">expect eof <span class="comment"># 等待命令执行结束</span></span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，在 expect 解释器内， 除了几个特定关键字的命令，其他命令都不可用，这种方式适用于执行命令较少，单次需要交互较多的自动化脚本</p>
+<p>第二种用法是在 bash 脚本中执行 expect 配合重定向操作符, 在有大量脚本需要执行的情况下推荐使用该方式</p>
+<p>下面是我在 <code>certbot</code> 命令时使用的 shell 脚本，以供参考</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">sudo expect &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">spawn certbot --nginx</span></span><br><span class="line"><span class="string">expect &#123;</span></span><br><span class="line"><span class="string">  &quot;Enter email address&quot; &#123; send &quot;mutoe@foxmail.com\n&quot;;exp_continue&#125;</span></span><br><span class="line"><span class="string">  &quot;Please read the Terms of Service&quot; &#123;send &quot;A\n&quot;;exp_continue&#125;</span></span><br><span class="line"><span class="string">  &quot;Would you be willing to share your email address&quot; &#123;send &quot;N\n&quot;;exp_continue&#125;</span></span><br><span class="line"><span class="string">  &quot;Which names would you like to activate HTTPS for&quot; &#123;send &quot;\n&quot;;exp_continue&#125;</span></span><br><span class="line"><span class="string">  &quot;You have an existing certificate that has exactly the same domains&quot; &#123;send &quot;1\n&quot;;exp_continue&#125;</span></span><br><span class="line"><span class="string">  &quot;Please choose whether or not to redirect HTTP traffic to HTTPS&quot; &#123;send &quot;2\n&quot;;exp_continue&#125;</span></span><br><span class="line"><span class="string">  eof</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="2-修改文件"><a href="#2-修改文件" class="headerlink" title="2. 修改文件">2. 修改文件</a></h1><h2 id="2-1-在文件中增加内容"><a href="#2-1-在文件中增加内容" class="headerlink" title="2.1 在文件中增加内容">2.1 在文件中增加内容</a></h2><p>我们想要将某个命令的输出写入到文件中进行保存，比如日志、新增一行配置，可以借助输出重定向符号 <code>&gt;</code> <code>&gt;&gt;</code> 来实现</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">who</span> &gt; log.txt <span class="comment"># &gt; 符号将会先清空 log.txt 然后以 who 的输出写入到文件中</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;append&quot;</span> &gt;&gt; log.txt <span class="comment"># &gt;&gt; 符号会追加字符串 &quot;append&quot; 到文件的尾行</span></span><br></pre></td></tr></table></figure>
+
+<p>那如果需要写入多行该怎么办呢？虽然也可以借助 <code>echo -e</code> + <code>\n</code> 来实现，但是我们还有其他更优雅的办法</p>
+<p>借助 <code>cat</code> 命令配合 <code>&lt;&lt;</code> 符号也可以达到我们的目的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> &gt; log.txt &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">我有很多行</span></span><br><span class="line"><span class="string">很多行</span></span><br><span class="line"><span class="string">行</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>WHY?</strong><br><code>cat</code> 命令如果不接受任何参数，将会进入交互式界面，输入什么就会输出什么；<br>配合 <code>&gt;</code> 符号将 <code>cat</code> 的输出写入到文件 <code>log.txt</code> 中；<br>而 <code>&lt;&lt;</code> 我们前面介绍过，会将多行输入重定向到前面的命令 <code>cat</code> 中</p>
+</blockquote>
+<h2 id="2-2-修改文件的内容"><a href="#2-2-修改文件的内容" class="headerlink" title="2.2 修改文件的内容">2.2 修改文件的内容</a></h2><p>关于修改文件的内容，如何在不借助 vim 等工具情况下进行呢？</p>
+<p>有请我们强大的 <code>sed</code> 命令登场！！</p>
+<p><code>sed [选项] 指令 文件</code></p>
+<p>其中选项有</p>
+<ul>
+<li><code>-n</code> 忽略没有修改的内容</li>
+<li><code>-i</code> 原地修改文件而不输出</li>
+<li><code>-r</code> 拓展正则表达式</li>
+</ul>
+<p>指令为一个字符串，由 2 个部分组成 <code>条件</code> <code>命令</code>，条件用于约束，指令进行操作</p>
+<p>一个正常的替换命令长这样</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">&quot;/^user/ s/nginx/mutoe/&quot;</span> /paht/to/nginx.conf</span><br></pre></td></tr></table></figure>
+
+<p>其中<br><code>/^user/</code> 为条件，查找以 “user” 开头的一行;<br><code>s/nginx/mutoe/</code> 为命令，<code>s</code>是替换，这条命令意思是将 <code>nginx</code> 替换为 <code>mutoe</code></p>
+<p>sed 支持的命令有很多，约有 15 中，列举一些常见的命令</p>
+<ul>
+<li><code>i</code> 插入</li>
+<li><code>a</code> 追加</li>
+<li><code>d</code> 删除行</li>
+<li><code>c</code> 替换行</li>
+<li><code>s</code> 替换指定内容</li>
+</ul>
+<blockquote>
+<p>关于 <code>sed</code> 的更多用法，可以参考我的 <a href="/2017/linux-study-notes/#sed-%E9%9D%9E%E4%BA%A4%E4%BA%92%E5%BC%8F%E7%BC%96%E8%BE%91">《Linux 学习笔记》 “sed 非交互式编辑”</a> 部分</p>
+</blockquote>
+<p>以下面的 nginx 配置片段为例</p>
+<figure class="highlight nginx"><figcaption><span>nginx.conf</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">user</span> nginx;</span><br><span class="line"><span class="attribute">worker_processes</span>  <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">  <span class="attribute">include</span>       /etc/nginx/mime.types;</span><br><span class="line">  <span class="attribute">default_type</span>  application/octet-stream;</span><br><span class="line"></span><br><span class="line">  <span class="comment">#gzip  on;</span></span><br><span class="line"></span><br><span class="line">  <span class="attribute">include</span> /etc/nginx/conf.d/<span class="regexp">*.conf</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># delete me</span></span><br></pre></td></tr></table></figure>
+
+<p>首先我们将 nginx 的启动用户改为自定义用户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">&quot;1c user mutoe;&quot;</span> /path/to/nginx.conf</span><br></pre></td></tr></table></figure>
+
+<p><code>-i</code> 意思是将输出 “in-placed” 直接替换文件内容而不是作为输出<br>“1c user mutoe;” 是指将第 1 行替换(c)为”user mutoe;”</p>
+<p>接下来我们去除 <code>#gzip on;</code> 前的空格，难度在于我们并不知道改行配置位于哪一行，没关系，我们借助正则表达式先找到这一行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">&quot;/#gzip\s+on;/s/#//&quot;</span> /path/to/nginx.conf</span><br></pre></td></tr></table></figure>
+
+<p>最后我们删除文件的最后一行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">&quot;<span class="variable">$d</span>&quot;</span> /path/to/nginx.conf</span><br></pre></td></tr></table></figure>
+
+<p>好了，所有内容到这里就结束啦，如果看的不过瘾，<a target="_blank" rel="noopener" href="https://gist.github.com/mutoe/c7f86167d648d697e9c28a68db74ae0e">这里</a>有我在实际使用中的一些脚本，以供参考。</p>
+<p>如果你有任何疑问或是支持，欢迎在下方留言。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料">参考资料</a></h1><ul>
+<li><a target="_blank" rel="noopener" href="https://man.linuxde.net/echo">echo 命令 - Linux 命令大全</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-shell-io-redirections.html">Shell 输入&#x2F;输出重定向 - Runoob</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lufubo/article/details/7627393">shell 中交互输入自动化 - lufubo</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+              <a href="/tags/Shell/" rel="tag"><i class="fa fa-tag"></i> Shell</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/flutter-starting/" rel="prev" title="flutter 环境搭建">
+                  <i class="fa fa-angle-left"></i> flutter 环境搭建
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/generate-cypress-video-report-in-jenkins/" rel="next" title="在 Jenkins 中产出由 Cypress 生成的测试视频">
+                  在 Jenkins 中产出由 Cypress 生成的测试视频 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

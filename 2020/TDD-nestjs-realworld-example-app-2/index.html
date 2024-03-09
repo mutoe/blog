@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="上一个文章我们介绍了如何搭建一个开发环境和 Pipeline, 这篇文章开始我们将正式的用 TDD 的模式实现一个后端项目. 1. 安装依赖我们选用了 Postgres 作为我们的数据库, 操作数据库的 ORM 我们选用 TypeORM, 这是一个 TypeScript 友好的 ORM, 并且 nest 也提供了非常便利的集成方法. 1yarn add @nestjs&#x2F;typeorm typeor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手把手带你实践 TDD Nestjs Realworld 项目 - 2. 数据库连接">
+<meta property="og:url" content="https://blog.mutoe.com/2020/TDD-nestjs-realworld-example-app-2/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="上一个文章我们介绍了如何搭建一个开发环境和 Pipeline, 这篇文章开始我们将正式的用 TDD 的模式实现一个后端项目. 1. 安装依赖我们选用了 Postgres 作为我们的数据库, 操作数据库的 ORM 我们选用 TypeORM, 这是一个 TypeScript 友好的 ORM, 并且 nest 也提供了非常便利的集成方法. 1yarn add @nestjs&#x2F;typeorm typeor">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/TDD-pyramid.png">
+<meta property="og:image" content="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/test-failed.png">
+<meta property="og:image" content="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/green.png">
+<meta property="og:image" content="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/test-passed.png">
+<meta property="og:image" content="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/json-response.png">
+<meta property="og:image" content="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/e2e-passed.png">
+<meta property="article:published_time" content="2020-01-03T13:37:17.000Z">
+<meta property="article:modified_time" content="2020-01-03T13:37:17.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Nestjs">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Postgres">
+<meta property="article:tag" content="TypeORM">
+<meta property="article:tag" content="TDD">
+<meta property="article:tag" content="Jest">
+<meta property="article:tag" content="GitHub Actions">
+<meta property="article:tag" content="ESLint">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/TDD-pyramid.png">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2020/TDD-nestjs-realworld-example-app-2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2020/TDD-nestjs-realworld-example-app-2/","path":"/2020/TDD-nestjs-realworld-example-app-2/","title":"手把手带你实践 TDD Nestjs Realworld 项目 - 2. 数据库连接"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>手把手带你实践 TDD Nestjs Realworld 项目 - 2. 数据库连接 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-text">1. 安装依赖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E6%8E%A5%E5%85%A5-TypeORM"><span class="nav-text">2. 接入 TypeORM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-text">3. 创建数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E8%A1%A8"><span class="nav-text">4. 定义用户表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E5%AE%9E%E7%8E%B0%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD"><span class="nav-text">5. 实现注册功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1"><span class="nav-text">5.1 添加路由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7"><span class="nav-text">5.2 创建用户</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-E2E-%E6%B5%8B%E8%AF%95"><span class="nav-text">6. E2E 测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E5%88%9B%E5%BB%BA%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-text">6.1 创建测试数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E7%BC%96%E5%86%99-E2E-%E6%B5%8B%E8%AF%95"><span class="nav-text">6.2 编写 E2E 测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2020/TDD-nestjs-realworld-example-app-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="手把手带你实践 TDD Nestjs Realworld 项目 - 2. 数据库连接 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          手把手带你实践 TDD Nestjs Realworld 项目 - 2. 数据库连接<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/TDD-nestjs-realworld-example-app-2.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-03 21:37:17" itemprop="dateCreated datePublished" datetime="2020-01-03T21:37:17+08:00">2020-01-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>上一个文章我们介绍了如何搭建一个开发环境和 Pipeline, 这篇文章开始我们将正式的用 TDD 的模式实现一个后端项目.</p>
+<h1 id="1-安装依赖"><a href="#1-安装依赖" class="headerlink" title="1. 安装依赖">1. 安装依赖</a></h1><p>我们选用了 Postgres 作为我们的数据库, 操作数据库的 ORM 我们选用 TypeORM, 这是一个 TypeScript 友好的 ORM, 并且 nest 也提供了非常便利的集成方法.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add @nestjs/typeorm typeorm pg</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-接入-TypeORM"><a href="#2-接入-TypeORM" class="headerlink" title="2. 接入 TypeORM">2. 接入 TypeORM</a></h1><p>编辑 <code>app.module.ts</code></p>
+<figure class="highlight ts"><figcaption><span>app.module.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Module</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppController</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.controller&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.service&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">TypeOrmModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/typeorm&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  <span class="attr">imports</span>: [</span><br><span class="line">    <span class="title class_">TypeOrmModule</span>.<span class="title function_">forRoot</span>(&#123;</span><br><span class="line">      <span class="attr">type</span>: <span class="string">&#x27;postgres&#x27;</span>,</span><br><span class="line">      <span class="attr">host</span>: <span class="string">&#x27;localhost&#x27;</span>,</span><br><span class="line">      <span class="attr">port</span>: <span class="number">5432</span>,</span><br><span class="line">      <span class="attr">username</span>: <span class="string">&#x27;realworld&#x27;</span>,</span><br><span class="line">      <span class="attr">password</span>: <span class="string">&#x27;123456&#x27;</span>,</span><br><span class="line">      <span class="attr">database</span>: <span class="string">&#x27;nestjs&#x27;</span>,</span><br><span class="line">      <span class="attr">entities</span>: [<span class="string">&#x27;dist/**/*.entity&#123;.ts,.js&#125;&#x27;</span>],</span><br><span class="line">      <span class="attr">synchronize</span>: <span class="literal">true</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">controllers</span>: [<span class="title class_">AppController</span>],</span><br><span class="line">  <span class="attr">providers</span>: [<span class="title class_">AppService</span>],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppModule</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h1 id="3-创建数据库"><a href="#3-创建数据库" class="headerlink" title="3. 创建数据库">3. 创建数据库</a></h1><p>我们启动我们的 Postgres 服务, 然后创建一个用户 <code>realworld</code> 和数据库 <code>nestjs</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">psql postgres</span><br><span class="line"></span><br><span class="line">CREATE ROLE realworld WITH LOGIN PASSWORD <span class="string">&#x27;123456&#x27;</span>;</span><br><span class="line">CREATE DATABASE nestjs OWNER realworld;</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE nestjs TO realworld;</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-定义用户表"><a href="#4-定义用户表" class="headerlink" title="4. 定义用户表">4. 定义用户表</a></h1><p>我们接下来定义一个用户表, TypeORM 支持仓库设计模式(Repository design pattern), 每个实体都有自己的的仓库.</p>
+<p>首先执行下面的命令来创建用户 module 和 service</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nest g module user</span><br><span class="line">nest g service user</span><br></pre></td></tr></table></figure>
+
+<p>然后在自动生成的 <code>src/user</code> 目录下创建一个 <code>user.entity.ts</code> 文件</p>
+<figure class="highlight ts"><figcaption><span>user.entity.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Column</span>, <span class="title class_">Entity</span>, <span class="title class_">PrimaryGeneratedColumn</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;typeorm&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> nullable = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">  <span class="meta">@PrimaryGeneratedColumn</span>()</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123; <span class="attr">length</span>: <span class="number">80</span> &#125;)</span><br><span class="line">  <span class="attr">email</span>: <span class="built_in">string</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123; <span class="attr">length</span>: <span class="number">20</span> &#125;)</span><br><span class="line">  <span class="attr">username</span>: <span class="built_in">string</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123; nullable, <span class="attr">type</span>: <span class="string">&#x27;text&#x27;</span> &#125;)</span><br><span class="line">  <span class="attr">bio</span>: <span class="literal">null</span> | <span class="built_in">string</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123; nullable, <span class="attr">type</span>: <span class="string">&#x27;text&#x27;</span> &#125;)</span><br><span class="line">  <span class="attr">image</span>: <span class="literal">null</span> | <span class="built_in">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后编辑 <code>user.service.ts</code>, 注入 userRepository 在 UserService 中</p>
+<figure class="highlight ts"><figcaption><span>user.service.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Injectable</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">InjectRepository</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/typeorm&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./user.entity&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Repository</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;typeorm&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span></span><br><span class="line"><span class="params">    <span class="meta">@InjectRepository</span>(User)</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> userRepository: Repository&lt;User&gt;,</span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后 <code>user.module.ts</code> 中导入 <code>User</code> entity</p>
+<figure class="highlight ts"><figcaption><span>user.module.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Module</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">TypeOrmModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/typeorm&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./user.entity&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">UserService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./user.service&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Module</span>(&#123;</span><br><span class="line">  <span class="attr">imports</span>: [<span class="title class_">TypeOrmModule</span>.<span class="title function_">forFeature</span>([<span class="title class_">User</span>])],</span><br><span class="line">  <span class="attr">providers</span>: [<span class="title class_">UserService</span>],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">UserModule</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后, 启动服务, 我们就可以看到, 数据库表中已经多了一张 user 表啦</p>
+<h1 id="5-实现注册功能"><a href="#5-实现注册功能" class="headerlink" title="5. 实现注册功能">5. 实现注册功能</a></h1><p>现在所有的东西都准备好了, 接下来就在 user service 中实现一个注册方法来看看我们是怎么来做 TDD 的.</p>
+<blockquote>
+<p>不了解 TDD 的同学这里简单介绍一下 TDD<br>TDD 要求我们先设计 Task, 将我们的需求拆成一个个的 Task, 然后每个 Task 写至少一个测试用例,解决语法错误的问题(如将要调用的方法还未声明)后, 跑一遍测试, 这时测试应该是“红”(不通过)的, 然后开始写实现, 写到刚好“绿”(通过测试)为止, 不要写多余的方法. 经过“红-绿”后,对自己的代码进行重构. 这个过程就是 TDD 三角 “红-绿-重构”</p>
+</blockquote>
+<p>我们的代码应当按照 TDD 金字塔来设计: 首先要保证我们的代码通过测试, 其次最求最小元素实现功能、保证传达测试的意图,最后消除重复的代码.</p>
+<p><img src="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/TDD-pyramid.png" alt="TDD 金字塔" title="TDD 金字塔"></p>
+<h2 id="5-1-添加路由"><a href="#5-1-添加路由" class="headerlink" title="5.1 添加路由">5.1 添加路由</a></h2><p>首先我们要在应用添加一个注册入口, 根据 ConduitAPI 需求, 用户注册的路由是 POST <code>/auth/register</code>, request 和 response 应该长这样</p>
+<figure class="highlight json"><figcaption><span>request body</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;user&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mutoe@foxmail.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mutoe&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;password&quot;</span><span class="punctuation">:</span> <span class="string">&quot;12345678&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><figcaption><span>response body</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;user&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mutoe@foxmail.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;createdAt&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2019-10-22T03:22:54.038Z&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;updatedAt&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2019-10-22T03:22:54.046Z&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mutoe&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;bio&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;image&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1N...&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>根据软件设计三层架构(User Interface Layer, Business Logic Layer, Data Access Layer), 我们知道, 在 Controller 中需要调用用户相关的 Service, 那我们测 Controller 时只需要断言是否调用了 Service 即可, 我们也信任 Service 返回的内容是我们需要的, 因为我们也会通过单元测试验证 Service 返回的内容.</p>
+<p>打开 <code>app.controller.spec.ts</code>, 添加按照 Given-When-Then 以下测试用例</p>
+<figure class="highlight diff"><figcaption><span>app.controller.spec.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">  import &#123; Test, TestingModule &#125; from &#x27;@nestjs/testing&#x27;</span><br><span class="line">  import &#123; AppController &#125; from &#x27;./app.controller&#x27;</span><br><span class="line"><span class="deletion">- import &#123; AppService &#125; from &#x27;./app.service&#x27;</span></span><br><span class="line"><span class="addition">+ import &#123; UserService &#125; from &#x27;./user/user.service&#x27;</span></span><br><span class="line"></span><br><span class="line">  describe(&#x27;# AppController&#x27;, () =&gt; &#123;</span><br><span class="line">    let appController: AppController</span><br><span class="line"><span class="addition">+   let userService: UserService</span></span><br><span class="line"></span><br><span class="line">    beforeEach(async () =&gt; &#123;</span><br><span class="line">      const app: TestingModule = await Test.createTestingModule(&#123;</span><br><span class="line">        controllers: [AppController],</span><br><span class="line"><span class="deletion">-       providers: [AppService],</span></span><br><span class="line"><span class="addition">+       providers: [</span></span><br><span class="line"><span class="addition">+         UserService,</span></span><br><span class="line"><span class="addition">+         &#123;</span></span><br><span class="line"><span class="addition">+           provide: getRepositoryToken(User),</span></span><br><span class="line"><span class="addition">+           useClass: Repository,</span></span><br><span class="line"><span class="addition">+         &#125;,</span></span><br><span class="line"><span class="addition">+       ],</span></span><br><span class="line">      &#125;).compile()</span><br><span class="line"></span><br><span class="line">      appController = app.get(AppController)</span><br><span class="line"><span class="addition">+     userService = app.get(UserService)</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="addition">+   describe(&#x27;Register&#x27;, function () &#123;</span></span><br><span class="line"><span class="addition">+     it(&#x27;should return user response&#x27;, async function () &#123;</span></span><br><span class="line"><span class="addition">+       // Given</span></span><br><span class="line"><span class="addition">+       const requestBody = &#123;</span></span><br><span class="line"><span class="addition">+         email: &#x27;mutoe@foxmail.com&#x27;,</span></span><br><span class="line"><span class="addition">+         username: &#x27;mutoe&#x27;,</span></span><br><span class="line"><span class="addition">+         password: &#x27;12345678&#x27;,</span></span><br><span class="line"><span class="addition">+       &#125;</span></span><br><span class="line"><span class="addition">+       jest.spyOn(userService, &#x27;createUser&#x27;).mockResolvedValue(&#123; user: &#123;&#125; &#125;)</span></span><br><span class="line"><span class="addition">+</span></span><br><span class="line"><span class="addition">+       // When</span></span><br><span class="line"><span class="addition">+       const response = await appController.register(requestBody)</span></span><br><span class="line"><span class="addition">+</span></span><br><span class="line"><span class="addition">+       // Then</span></span><br><span class="line"><span class="addition">+       expect(userService.createUser).toBeCalledTimes(1)</span></span><br><span class="line"><span class="addition">+       expect(response).toHaveProperty(&#x27;user&#x27;, expect.any(Object))</span></span><br><span class="line"><span class="addition">+     &#125;)</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>简单解释一下上面的代码</p>
+<p>Given 部分我们首先构造了一个 request body, 方便我们在接下来的调用时使用. 然后我们将 <code>userService</code> 下的 <code>createUser</code> 方法 mock 掉</p>
+<p>接下来我们要消除语法错误, 我们可以看到, <code>appController</code> 下是没有 <code>register</code> 这个方法的, 而且 <code>userService</code> 下也没有 <code>createUser</code> 方法.</p>
+<p>我们进入 <code>app.controller.ts</code> 声明一下 <code>register</code> 方法</p>
+<figure class="highlight diff"><figcaption><span>app.controller.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">export class AppController &#123;</span><br><span class="line">  ...</span><br><span class="line"><span class="addition">+ @Post(&#x27;/auth/register&#x27;)</span></span><br><span class="line"><span class="addition">+ register (@Body() requestBody: &#123; email: string; username: string; password: string &#125;): any &#123;&#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后进入 <code>user.service.ts</code> 声明一个 <code>createUser</code> 的方法</p>
+<figure class="highlight diff"><figcaption><span>user.service.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">export class UserService &#123;</span><br><span class="line">  ...</span><br><span class="line"><span class="addition">+ async createUser (user: &#123; email: string; username: string; password: string &#125;): Promise&lt;any&gt; &#123;&#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>消除语法错误后, 我们就可以跑一下测试啦</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>好, 测试成功的失败了</p>
+<p><img src="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/test-failed.png" alt="Test failed"></p>
+<p>这就是“红”的过程</p>
+<p>接下来我们进行实现, 让测试变“绿”</p>
+<p><img src="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/green.png" alt="green"></p>
+<figure class="highlight ts"><figcaption><span>app.controller.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Body</span>, <span class="title class_">Controller</span>, <span class="title class_">Get</span>, <span class="title class_">Post</span>, <span class="title class_">Query</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">UserService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./user/user.service&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppController</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="keyword">private</span> <span class="keyword">readonly</span> userService: UserService</span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@Post</span>(<span class="string">&#x27;/auth/register&#x27;</span>)</span><br><span class="line">  <span class="title function_">register</span>(</span><br><span class="line">    <span class="meta">@Body</span>() <span class="attr">requestBody</span>: &#123; <span class="attr">email</span>: <span class="built_in">string</span>; <span class="attr">username</span>: <span class="built_in">string</span>; <span class="attr">password</span>: <span class="built_in">string</span> &#125;,</span><br><span class="line">  ): <span class="built_in">any</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">userService</span>.<span class="title function_">createUser</span>(requestBody)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后 Run 一下测试, 当当当当~</p>
+<p><img src="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/test-passed.png" alt="Test passed"></p>
+<p>好, 我们的 TDD Controller 就完成啦!</p>
+<h2 id="5-2-创建用户"><a href="#5-2-创建用户" class="headerlink" title="5.2 创建用户">5.2 创建用户</a></h2><p>接下来的思路是一样的, 首先编写测试代码</p>
+<figure class="highlight ts"><figcaption><span>user.service.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Test</span>, <span class="title class_">TestingModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/testing&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">UserService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./user.service&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; getRepositoryToken &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/typeorm&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./user.entity&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Repository</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;typeorm&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;UserService&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> <span class="attr">service</span>: <span class="title class_">UserService</span></span><br><span class="line">  <span class="keyword">let</span> <span class="attr">repository</span>: <span class="title class_">Repository</span>&lt;<span class="title class_">User</span>&gt;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">beforeEach</span>(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="attr">module</span>: <span class="title class_">TestingModule</span> = <span class="keyword">await</span> <span class="title class_">Test</span>.<span class="title function_">createTestingModule</span>(&#123;</span><br><span class="line">      <span class="attr">providers</span>: [</span><br><span class="line">        <span class="title class_">UserService</span>,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">provide</span>: <span class="title function_">getRepositoryToken</span>(<span class="title class_">User</span>),</span><br><span class="line">          <span class="attr">useValue</span>: &#123;</span><br><span class="line">            <span class="attr">save</span>: jest.<span class="title function_">fn</span>(<span class="function">() =&gt;</span> <span class="literal">true</span>),</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;).<span class="title function_">compile</span>()</span><br><span class="line"></span><br><span class="line">    service = <span class="variable language_">module</span>.<span class="title function_">get</span>(<span class="title class_">UserService</span>)</span><br><span class="line">    repository = <span class="variable language_">module</span>.<span class="title function_">get</span>(<span class="title function_">getRepositoryToken</span>(<span class="title class_">User</span>))</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;should be defined&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">expect</span>(service).<span class="title function_">toBeDefined</span>()</span><br><span class="line">    <span class="title function_">expect</span>(repository).<span class="title function_">toBeDefined</span>()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;should create user correctly&#x27;</span>, <span class="keyword">async</span> <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> user = &#123;</span><br><span class="line">      <span class="attr">email</span>: <span class="string">&#x27;mutoe@foxmail.com&#x27;</span>,</span><br><span class="line">      <span class="attr">username</span>: <span class="string">&#x27;mutoe&#x27;</span>,</span><br><span class="line">      <span class="attr">password</span>: <span class="string">&#x27;12345678&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">await</span> service.<span class="title function_">createUser</span>(user)</span><br><span class="line"></span><br><span class="line">    <span class="title function_">expect</span>(repository.<span class="property">save</span>).<span class="title function_">toBeCalledWith</span>(<span class="title class_">Object</span>.<span class="title function_">assign</span>(<span class="keyword">new</span> <span class="title class_">User</span>(), user))</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>写实现</p>
+<figure class="highlight ts"><figcaption><span>user.service.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Injectable</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">InjectRepository</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/typeorm&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./user.entity&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Repository</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;typeorm&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span></span><br><span class="line"><span class="params">    <span class="meta">@InjectRepository</span>(User)</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> <span class="keyword">readonly</span> userRepository: Repository&lt;User&gt;,</span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">createUser</span>(<span class="params">userInfo: &#123; email: <span class="built_in">string</span>; username: <span class="built_in">string</span>; password: <span class="built_in">string</span> &#125;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">userRepository</span>.<span class="title function_">save</span>(<span class="title class_">Object</span>.<span class="title function_">assign</span>(<span class="keyword">new</span> <span class="title class_">User</span>(), userInfo))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Run 一下测试, 单元测试应该是全通过的</p>
+<h1 id="6-E2E-测试"><a href="#6-E2E-测试" class="headerlink" title="6. E2E 测试">6. E2E 测试</a></h1><p>接下来我们验证一下功能是不是正确, 发起一个真实的请求, 看看数据库是不是多了一个用户, 首先启动服务, 然后发起一个 POST 请求</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn start</span><br><span class="line">curl -X POST http://localhost:3000/auth/register -d <span class="string">&#x27;&#123;&quot;username&quot;:&quot;mutoe&quot;,&quot;email&quot;:&quot;mutoe@foxmail.com&quot;,&quot;password&quot;:&quot;12345678&quot;&#125;&#x27;</span> -H <span class="string">&quot;Content-Type: application/json&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>应该会返回一个含有用户 ID 的 json 格式响应</p>
+<p><img src="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/json-response.png" alt="json response"></p>
+<p>那我们总不能每次写完一个功能都手动测试一次吧! 这太 Low 了, 我们要自动化!</p>
+<h2 id="6-1-创建测试数据库"><a href="#6-1-创建测试数据库" class="headerlink" title="6.1 创建测试数据库">6.1 创建测试数据库</a></h2><p>E2E 是连接的真实的数据库,所以我们要为了这些自动化测试创建一个用于单独的数据库, 避免影响我们开发环境的数据.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">psql postgres</span><br><span class="line">CREATE DATABASE nestjs_test OWNER realworld;</span><br><span class="line">GRANT ALL PRIVILEGES ON DATABASE nestjs_test TO realworld;</span><br></pre></td></tr></table></figure>
+
+<p>然后编辑 <code>app.e2e-spec.ts</code></p>
+<figure class="highlight ts"><figcaption><span>app.e2e-spec.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Test</span>, <span class="title class_">TestingModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/testing&#x27;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> request <span class="keyword">from</span> <span class="string">&#x27;supertest&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;../src/app.module&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">TypeOrmModule</span>, <span class="title class_">TypeOrmModuleOptions</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/typeorm&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">ormConfig</span>: <span class="title class_">TypeOrmModuleOptions</span> = &#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&#x27;postgres&#x27;</span>,</span><br><span class="line">  <span class="attr">host</span>: <span class="string">&#x27;localhost&#x27;</span>,</span><br><span class="line">  <span class="attr">port</span>: <span class="number">5432</span>,</span><br><span class="line">  <span class="attr">username</span>: <span class="string">&#x27;realworld&#x27;</span>,</span><br><span class="line">  <span class="attr">password</span>: <span class="string">&#x27;123456&#x27;</span>,</span><br><span class="line">  <span class="attr">database</span>: <span class="string">&#x27;nestjs_test&#x27;</span>,</span><br><span class="line">  <span class="attr">entities</span>: [<span class="string">&#x27;dist/**/*.entity&#123;.ts,.js&#125;&#x27;</span>],</span><br><span class="line">  <span class="attr">synchronize</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">dropSchema</span>: <span class="literal">true</span>, <span class="comment">// 这个选项将会在每次测试运行前扔掉所有数据,请不要连错数据库</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;AppController (e2e)&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> app</span><br><span class="line"></span><br><span class="line">  <span class="title function_">beforeEach</span>(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="attr">moduleFixture</span>: <span class="title class_">TestingModule</span> = <span class="keyword">await</span> <span class="title class_">Test</span>.<span class="title function_">createTestingModule</span>(&#123;</span><br><span class="line">      <span class="attr">imports</span>: [<span class="title class_">TypeOrmModule</span>.<span class="title function_">forRoot</span>(ormConfig), <span class="title class_">AppModule</span>],</span><br><span class="line">    &#125;).<span class="title function_">compile</span>()</span><br><span class="line"></span><br><span class="line">    app = moduleFixture.<span class="title function_">createNestApplication</span>()</span><br><span class="line">    <span class="keyword">await</span> app.<span class="title function_">init</span>()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="title function_">afterEach</span>(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">await</span> app.<span class="title function_">close</span>()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在每次 E2E 测试启动时, 都会自动连入我们的测试数据库</p>
+<h2 id="6-2-编写-E2E-测试"><a href="#6-2-编写-E2E-测试" class="headerlink" title="6.2 编写 E2E 测试">6.2 编写 E2E 测试</a></h2><p>开始写我们的 E2E 测试</p>
+<figure class="highlight ts"><figcaption><span>test/app.e2e-spec.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">it</span>(<span class="string">&#x27;/auth/register (POST)&#x27;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> requestBody = &#123;</span><br><span class="line">    <span class="attr">username</span>: <span class="string">&#x27;mutoe&#x27;</span>,</span><br><span class="line">    <span class="attr">email</span>: <span class="string">&#x27;mutoe@foxmail.com&#x27;</span>,</span><br><span class="line">    <span class="attr">password</span>: <span class="string">&#x27;12345678&#x27;</span>,</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">await</span> <span class="title function_">request</span>(app.<span class="title function_">getHttpServer</span>())</span><br><span class="line">    .<span class="title function_">post</span>(<span class="string">&#x27;/auth/register&#x27;</span>)</span><br><span class="line">    .<span class="title function_">send</span>(requestBody)</span><br><span class="line">    .<span class="title function_">expect</span>(<span class="number">201</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>然后运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn <span class="built_in">test</span>:e2e</span><br></pre></td></tr></table></figure>
+
+<p>成功啦!</p>
+<p><img src="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/e2e-passed.png" alt="e2e passed"></p>
+<p>好, 到这里, 我们这一章所有的内容就结束了, 如果你有什么疑惑和问题, 欢迎在下方留言.</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料">参考资料</a></h1><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.nestjs.com/techniques/database">Database | NestJS</a></li>
+<li><a target="_blank" rel="noopener" href="https://wiki.postgresql.org/wiki/9.1%E7%AC%AC%E4%BA%8C%E5%8D%81%E4%B8%80%E7%AB%A0">数据库管理 | wiki.postgresql.org</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nestjs/nest/issues/1209">How to unit test controller | GitHub nestjs&#x2F;nest#1209</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.carloscaballero.io/part-9-clock-in-out-system-testing-backend-unit-test-services/">Testing: Backend Testing - Unit Testing - Services</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+              <a href="/tags/Nestjs/" rel="tag"><i class="fa fa-tag"></i> Nestjs</a>
+              <a href="/tags/TypeScript/" rel="tag"><i class="fa fa-tag"></i> TypeScript</a>
+              <a href="/tags/Postgres/" rel="tag"><i class="fa fa-tag"></i> Postgres</a>
+              <a href="/tags/TypeORM/" rel="tag"><i class="fa fa-tag"></i> TypeORM</a>
+              <a href="/tags/TDD/" rel="tag"><i class="fa fa-tag"></i> TDD</a>
+              <a href="/tags/Jest/" rel="tag"><i class="fa fa-tag"></i> Jest</a>
+              <a href="/tags/GitHub-Actions/" rel="tag"><i class="fa fa-tag"></i> GitHub Actions</a>
+              <a href="/tags/ESLint/" rel="tag"><i class="fa fa-tag"></i> ESLint</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/TDD-nestjs-realworld-example-app-1/" rel="prev" title="手把手带你实践 TDD Nestjs Realworld 项目 - 1. 环境搭建篇">
+                  <i class="fa fa-angle-left"></i> 手把手带你实践 TDD Nestjs Realworld 项目 - 1. 环境搭建篇
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/TDD-nestjs-realworld-example-app-3/" rel="next" title="手把手带你实践 TDD Nestjs Realworld 项目 - 3. 鉴权认证">
+                  手把手带你实践 TDD Nestjs Realworld 项目 - 3. 鉴权认证 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

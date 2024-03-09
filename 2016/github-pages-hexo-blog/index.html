@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文于 2019-08-02 更新, 主要内容是修正一些现在已经无法正常进行的步骤, 包管理器更换为 yarn  准备工作 github 帐号 node 环境 yarn 科学上网 (尽量)  如果你还不知道 github 或者 node, 建议您简单了解一下 git &#x2F; github 、 node 工作原理, 以便快速上手该教程, 这里就不再阐述了. yarn 包管理器是一个 npm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 GitHub Pages 和 Hexo 搭建自己的静态博客">
+<meta property="og:url" content="https://blog.mutoe.com/2016/github-pages-hexo-blog/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="本文于 2019-08-02 更新, 主要内容是修正一些现在已经无法正常进行的步骤, 包管理器更换为 yarn  准备工作 github 帐号 node 环境 yarn 科学上网 (尽量)  如果你还不知道 github 或者 node, 建议您简单了解一下 git &#x2F; github 、 node 工作原理, 以便快速上手该教程, 这里就不再阐述了. yarn 包管理器是一个 npm">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static.mutoe.com/2016/github-pages-hexo-blog/github-pages-project.jpg">
+<meta property="article:published_time" content="2016-12-14T13:41:22.000Z">
+<meta property="article:modified_time" content="2016-12-14T13:41:22.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="GitHub Pages">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.mutoe.com/2016/github-pages-hexo-blog/github-pages-project.jpg">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2016/github-pages-hexo-blog/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2016/github-pages-hexo-blog/","path":"/2016/github-pages-hexo-blog/","title":"使用 GitHub Pages 和 Hexo 搭建自己的静态博客"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 GitHub Pages 和 Hexo 搭建自己的静态博客 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%90%AD%E5%BB%BA-Github-Pages"><span class="nav-text">1 搭建 Github Pages</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA-GitHub-Pages-%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5%E9%A1%B9%E7%9B%AE"><span class="nav-text">1.1 新建一个 GitHub Pages 个人主页项目</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0-git-%E7%8E%AF%E5%A2%83"><span class="nav-text">2 搭建本地 git 环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0-Hexo-%E7%8E%AF%E5%A2%83"><span class="nav-text">3 搭建本地 Hexo 环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%AE%89%E8%A3%85-Hexo-%E6%A1%86%E6%9E%B6"><span class="nav-text">3.1 安装 Hexo 框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%88%9D%E5%A7%8B%E5%8C%96-Hexo-%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95"><span class="nav-text">3.2 初始化 Hexo 项目目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%87%E7%AB%A0"><span class="nav-text">3.3 创建一个文章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E6%B8%B2%E6%9F%93%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0"><span class="nav-text">3.4 渲染这篇文章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E5%90%AF%E5%8A%A8-Hexo-%E5%86%85%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-text">3.5 启动 Hexo 内置服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-6-%E5%85%B3%E4%BA%8E-Hexo-%E7%9A%84%E6%9B%B4%E5%A4%9A%E5%86%85%E5%AE%B9"><span class="nav-text">3.6 关于 Hexo 的更多内容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%B0%86-Hexo-%E7%BB%91%E5%AE%9A%E5%88%B0-github"><span class="nav-text">4 将 Hexo 绑定到 github</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%9C%A8-Hexo-%E4%B8%AD%E5%A1%AB%E5%86%99-GitHub-Pages-%E5%9C%B0%E5%9D%80"><span class="nav-text">4.1 在 Hexo 中填写 GitHub Pages 地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E5%B0%86%E7%BC%96%E8%AF%91%E5%A5%BD%E7%9A%84%E6%96%87%E4%BB%B6%E5%8F%91%E5%B8%83%E5%88%B0-GitHub-Pages-%E4%BB%A3%E7%A0%81%E5%BA%93%E4%B8%AD"><span class="nav-text">4.2 将编译好的文件发布到 GitHub Pages 代码库中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E8%AE%BF%E9%97%AE-GitHub-Pages"><span class="nav-text">4.3 访问 GitHub Pages</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%93%E5%B1%95%E9%98%85%E8%AF%BB"><span class="nav-text">拓展阅读</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2016/github-pages-hexo-blog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 GitHub Pages 和 Hexo 搭建自己的静态博客 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 GitHub Pages 和 Hexo 搭建自己的静态博客<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/github-pages-hexo-blog.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-12-14 21:41:22" itemprop="dateCreated datePublished" datetime="2016-12-14T21:41:22+08:00">2016-12-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>本文于 2019-08-02 更新, 主要内容是修正一些现在已经无法正常进行的步骤, 包管理器更换为 yarn</p>
+</blockquote>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作">准备工作</a></h2><ul>
+<li>github 帐号</li>
+<li>node 环境</li>
+<li>yarn</li>
+<li>科学上网 (尽量)</li>
+</ul>
+<p>如果你还不知道 github 或者 node, 建议您简单了解一下 git &#x2F; github 、 node 工作原理, 以便快速上手该教程, 这里就不再阐述了.</p>
+<p>yarn 包管理器是一个 npm 的增强版, 自带国内加速, 什么 cnpm 、 代理之类的都不用啦, 安装方式也很简单: <code>npm i -g yarn</code></p>
+<h2 id="1-搭建-Github-Pages"><a href="#1-搭建-Github-Pages" class="headerlink" title="1 搭建 Github Pages">1 搭建 Github Pages</a></h2><h3 id="1-1-新建一个-GitHub-Pages-个人主页项目"><a href="#1-1-新建一个-GitHub-Pages-个人主页项目" class="headerlink" title="1.1 新建一个 GitHub Pages 个人主页项目">1.1 新建一个 GitHub Pages 个人主页项目</a></h3><p>注意项目名要填 <code>用户名.github.io</code> , 比如我的github用户名是mutoe, 那我的项目名就必须填 <code>mutoe.github.io</code> , 如果不这样做的话你的主页就会变成类似 <code>http://mutoe.github.io/project-name</code> 这样的子目录了.</p>
+<p><img src="//static.mutoe.com/2016/github-pages-hexo-blog/github-pages-project.jpg" alt="github-pages-project"></p>
+<p>填完项目名直接确认就好, 其它不用设置.</p>
+<span id="more"></span>
+
+<h2 id="2-搭建本地-git-环境"><a href="#2-搭建本地-git-环境" class="headerlink" title="2 搭建本地 git 环境">2 搭建本地 git 环境</a></h2><p>如果你已经搭建好了 git 环境, 如安装了 github 客户端或其他 git 客户端, 那么您就可以跳过此步.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yarn global add git</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-搭建本地-Hexo-环境"><a href="#3-搭建本地-Hexo-环境" class="headerlink" title="3 搭建本地 Hexo 环境">3 搭建本地 Hexo 环境</a></h2><h3 id="3-1-安装-Hexo-框架"><a href="#3-1-安装-Hexo-框架" class="headerlink" title="3.1 安装 Hexo 框架">3.1 安装 Hexo 框架</a></h3><p>首先确认您的 node 是 6.9 及以上版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ node -v</span><br><span class="line">v12.5.0</span><br></pre></td></tr></table></figure>
+
+<p>然后安装 Hexo 到全局空间</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yarn global add hexo-cli</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-初始化-Hexo-项目目录"><a href="#3-2-初始化-Hexo-项目目录" class="headerlink" title="3.2 初始化 Hexo 项目目录">3.2 初始化 Hexo 项目目录</a></h3><p>在 bash 内切换到你准备在本地保存博客文档 ( markdown ) 的目录.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /www/blog</span><br></pre></td></tr></table></figure>
+
+<p>在执行以下代码前__请尽量确保您正在科学上网__, 否则会让您苦等甚至觉得它卡死了.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init</span><br></pre></td></tr></table></figure>
+<p>这里首先会以 git 方式下载 Hexo 所依赖的程序, 如果您电脑内还没有安装 git 或下载速度过慢, 它会自动切换到 npm 方式下载依赖程序.</p>
+<blockquote>
+<p>某些地区或时段可能会出现git拉仓库过慢的情况, 所以尽量科学上网.</p>
+</blockquote>
+<h3 id="3-3-创建一个文章"><a href="#3-3-创建一个文章" class="headerlink" title="3.3 创建一个文章">3.3 创建一个文章</a></h3><p>在 Hexo 中文章叫做 post, 我们新建一个示例文章.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;my first article&quot;</span></span><br></pre></td></tr></table></figure>
+<p>_我们第一篇文章名字不起 <code>Hello world!</code> 的原因是 Hexo 自带了一篇示例文章, 就叫做 <code>Hello world!</code> [滑稽][滑稽] _</p>
+<p>这条命令执行完之后就新建了一个空白的文章, 它放在 <code>./source/_posts/my-first-article.md</code> 了, 你可以用喜欢的编辑器来写它, 它是 Markdown 标准的文档, 随后会被 Hexo 渲染成 html 形式显示在网页上.</p>
+<h3 id="3-4-渲染这篇文章"><a href="#3-4-渲染这篇文章" class="headerlink" title="3.4 渲染这篇文章">3.4 渲染这篇文章</a></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate <span class="comment"># 这条命令的缩写是 &#x27;hexo g&#x27; , 它们的效果是一样的.</span></span><br></pre></td></tr></table></figure>
+
+<p>然后你就可以在 <code>./public/</code> 找到这篇文章的 html 源码了, 但是你现在还不能够直接打开它, 因为它需要服务器的支持.</p>
+<h3 id="3-5-启动-Hexo-内置服务器"><a href="#3-5-启动-Hexo-内置服务器" class="headerlink" title="3.5 启动 Hexo 内置服务器">3.5 启动 Hexo 内置服务器</a></h3><p>如果您的机器上有其他的服务器软件, 可以将虚拟目录指向这个项目, 然后运行. 如果您没有服务器软件, 则可以使用 Hexo 内置的临时服务器进行预览.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server <span class="comment"># 这条命令的缩写是 &#x27;hexo s&#x27;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>hexo server</code> 命令默认启动 4000 端口, 您可以使用参数 <code>-p xxxx</code> 来指定一个端口号.</p>
+</blockquote>
+<p>然后您就可以在浏览器中输入 <code>localhost:4000</code> 查看您的博客啦.</p>
+<blockquote>
+<p>使服务器停止运行可以使用快捷键 <code>ctrl + c</code></p>
+</blockquote>
+<h3 id="3-6-关于-Hexo-的更多内容"><a href="#3-6-关于-Hexo-的更多内容" class="headerlink" title="3.6 关于 Hexo 的更多内容">3.6 关于 Hexo 的更多内容</a></h3><p>你可以在 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/index.html">Hexo 官方文档 ( 简体中文 ) </a> 中查看详细的使用说明.</p>
+<h2 id="4-将-Hexo-绑定到-github"><a href="#4-将-Hexo-绑定到-github" class="headerlink" title="4 将 Hexo 绑定到 github">4 将 Hexo 绑定到 github</a></h2><h3 id="4-1-在-Hexo-中填写-GitHub-Pages-地址"><a href="#4-1-在-Hexo-中填写-GitHub-Pages-地址" class="headerlink" title="4.1 在 Hexo 中填写 GitHub Pages 地址">4.1 在 Hexo 中填写 GitHub Pages 地址</a></h3><p>打开项目根目录下 <code>./_config.yml</code> 文件, 找到下面这一行</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span></span><br></pre></td></tr></table></figure>
+
+<p>将 type 的值改为以下内容, 其中 repo 填你的 GitHub Pages 项目地址, branch 填 master.</p>
+<blockquote>
+<p>在 GitHub Pages 中, 如果你需要将代码渲染为页面, 只能在 master 分支中放置代码.</p>
+</blockquote>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/mutoe/mutoe.github.io.git</span> <span class="comment"># 这里改为你自己的 GitHub Pages 地址</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-将编译好的文件发布到-GitHub-Pages-代码库中"><a href="#4-2-将编译好的文件发布到-GitHub-Pages-代码库中" class="headerlink" title="4.2 将编译好的文件发布到 GitHub Pages 代码库中">4.2 将编译好的文件发布到 GitHub Pages 代码库中</a></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yarn add -D hexo-deployer-git</span><br><span class="line">$ hexo deploy <span class="comment"># 这条命令的缩写是 &#x27;hexo d&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>在这过程中可能会提示您输入 github 帐号密码, 按提示输入即可.</p>
+<blockquote>
+<p>你可以在未来的编写中使用 <code>hexo g -d</code> 来编译并提交, 他是 <code>hexo generate --deploy</code> 的缩写, 更多命令请<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/commands#generate">参考这里</a></p>
+</blockquote>
+<h3 id="4-3-访问-GitHub-Pages"><a href="#4-3-访问-GitHub-Pages" class="headerlink" title="4.3 访问 GitHub Pages">4.3 访问 GitHub Pages</a></h3><p>接下来在浏览器中输入您的 GitHub Pages 地址就可以看到用 Hexo 搭建好的个人博客啦.</p>
+<hr>
+<h2 id="拓展阅读"><a href="#拓展阅读" class="headerlink" title="拓展阅读">拓展阅读</a></h2><ul>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/index.html">Hexo 官方文档 ( 简体中文 ) </a></li>
+<li><a href="/2016/github-pages-custom-domain/" title="将 GitHub Pages 绑定到自己的域名">将 GitHub Pages 绑定到自己的域名</a></li>
+<li><a href="/2016/hexo-post-livereload-edit/" title="Hexo 实现实时预览编辑">Hexo 实现实时预览编辑</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Hexo/" rel="tag"><i class="fa fa-tag"></i> Hexo</a>
+              <a href="/tags/GitHub-Pages/" rel="tag"><i class="fa fa-tag"></i> GitHub Pages</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/github-pages-custom-domain/" rel="next" title="将 GitHub Pages 绑定到自己的域名">
+                  将 GitHub Pages 绑定到自己的域名 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

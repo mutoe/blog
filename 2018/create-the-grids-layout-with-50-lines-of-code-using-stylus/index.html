@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="相信前端的同学们已经接触过栅格化布局了, 只要你用过 bootstrap 或者一些其他的 css 框架. 栅格化布局是一个非常方便的布局方式, 尤其是它的自适应布局, 可以根据屏幕大小缩放容器的宽度.  今天我们用一个 css 预处理器 stylus 来编写一个 只有 50 行代码, 能自定义栅格数, 能响应多个断点, 能推能拉的栅格化布局!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 stylus 写一个 50 行代码的栅格化布局">
+<meta property="og:url" content="https://blog.mutoe.com/2018/create-the-grids-layout-with-50-lines-of-code-using-stylus/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="相信前端的同学们已经接触过栅格化布局了, 只要你用过 bootstrap 或者一些其他的 css 框架. 栅格化布局是一个非常方便的布局方式, 尤其是它的自适应布局, 可以根据屏幕大小缩放容器的宽度.  今天我们用一个 css 预处理器 stylus 来编写一个 只有 50 行代码, 能自定义栅格数, 能响应多个断点, 能推能拉的栅格化布局!">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static.mutoe.com/2018/create-the-grids-layout-with-50-lines-of-code-using-stylus/preview.png">
+<meta property="og:image" content="https://static.mutoe.com/2018/create-the-grids-layout-with-50-lines-of-code-using-stylus/preview-stylus.png">
+<meta property="article:published_time" content="2018-03-23T18:24:20.000Z">
+<meta property="article:modified_time" content="2018-03-23T18:24:20.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="Stylus">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.mutoe.com/2018/create-the-grids-layout-with-50-lines-of-code-using-stylus/preview.png">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2018/create-the-grids-layout-with-50-lines-of-code-using-stylus/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2018/create-the-grids-layout-with-50-lines-of-code-using-stylus/","path":"/2018/create-the-grids-layout-with-50-lines-of-code-using-stylus/","title":"用 stylus 写一个 50 行代码的栅格化布局"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>用 stylus 写一个 50 行代码的栅格化布局 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-text">代码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-cols-12"><span class="nav-text">:1 $cols &#x3D; 12</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-9-query"><span class="nav-text">:2-9 $query &#x3D; {...}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-media-class-39-39"><span class="nav-text">:11 media($class &#x3D; &#39;&#39;) {...}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-class-39-39-unless-class-39-39"><span class="nav-text">:12 $class +&#x3D; &#39;-&#39; unless $class &#x3D;&#x3D; &#39;&#39;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-15-el-col-class-0"><span class="nav-text">:14-15 .el-col-{$class}0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-for-c-in-1-cols"><span class="nav-text">:17 for $c in 1..$cols</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-percent-100-cols-c"><span class="nav-text">:18 $percent &#x3D; (100 &#x2F; $cols * $c)%</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-29-el-col-class-c"><span class="nav-text">:20-29 .el-col-{$class}{$c}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#31-36-el-row"><span class="nav-text">:31-36 .el-row</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#38-40-class-quot-el-col-quot"><span class="nav-text">:38-40 [class*&#x3D;&quot;el-col-&quot;]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#42-47-for-k-v-in-query"><span class="nav-text">:42-47 for $k, $v in $query</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E7%94%9F%E6%88%90%E7%9A%84-css-%E4%BB%A3%E7%A0%81"><span class="nav-text">最终生成的 css 代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-text">参考链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2018/create-the-grids-layout-with-50-lines-of-code-using-stylus/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="用 stylus 写一个 50 行代码的栅格化布局 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用 stylus 写一个 50 行代码的栅格化布局<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/create-the-grids-layout-with-50-lines-of-code-using-stylus.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-03-24 02:24:20" itemprop="dateCreated datePublished" datetime="2018-03-24T02:24:20+08:00">2018-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>相信前端的同学们已经接触过栅格化布局了, 只要你用过 bootstrap 或者一些其他的 css 框架.</p>
+<p>栅格化布局是一个非常方便的布局方式, 尤其是它的自适应布局, 可以根据屏幕大小缩放容器的宽度.</p>
+<p><img src="//static.mutoe.com/2018/create-the-grids-layout-with-50-lines-of-code-using-stylus/preview.png" alt="preview" title="图片来自 ElementUI Layout"></p>
+<p>今天我们用一个 css 预处理器 stylus 来编写一个 <strong>只有 50 行代码</strong>, 能自定义栅格数, 能响应多个断点, 能推能拉的栅格化布局!</p>
+<span id="more"></span>
+
+<h2 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析">代码解析</a></h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$cols</span> = <span class="number">12</span>      <span class="comment">// 自定义栅格数</span></span><br><span class="line"><span class="variable">$query</span> = &#123;      <span class="comment">// 自定义断点</span></span><br><span class="line">  <span class="attribute">normal</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  xs: <span class="string">&#x27;max-width: 768px&#x27;</span>,</span><br><span class="line">  sm: <span class="string">&#x27;min-width: 768px&#x27;</span>,</span><br><span class="line">  md: <span class="string">&#x27;min-width: 992px&#x27;</span>,</span><br><span class="line">  lg: <span class="string">&#x27;min-width: 1200px&#x27;</span>,</span><br><span class="line">  xl: <span class="string">&#x27;min-width: 1920px&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">media</span><span class="params">(<span class="variable">$class</span> = <span class="string">&#x27;&#x27;</span>)</span></span></span><br><span class="line">  <span class="variable">$class</span> += <span class="string">&#x27;-&#x27;</span> unless <span class="variable">$class</span> == <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">  .el-col-&#123;<span class="variable">$class</span>&#125;<span class="number">0</span></span><br><span class="line">    <span class="attribute">display</span> none</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> <span class="variable">$c</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="variable">$cols</span></span><br><span class="line">    <span class="variable">$percent</span> = (<span class="number">100</span> / <span class="variable">$cols</span> * <span class="variable">$c</span>)%</span><br><span class="line"></span><br><span class="line">    .el-col-&#123;<span class="variable">$class</span>&#125;&#123;<span class="variable">$c</span>&#125;</span><br><span class="line">      <span class="attribute">width</span> <span class="variable">$percent</span></span><br><span class="line">    .el-col-&#123;<span class="variable">$class</span>&#125;offset-&#123;<span class="variable">$c</span>&#125;</span><br><span class="line">      <span class="attribute">margin-left</span> <span class="variable">$percent</span></span><br><span class="line">    .el-col-&#123;<span class="variable">$class</span>&#125;pull-&#123;<span class="variable">$c</span>&#125;</span><br><span class="line">      <span class="attribute">position</span> relative</span><br><span class="line">      <span class="attribute">right</span> <span class="variable">$percent</span></span><br><span class="line">    .el-col-&#123;<span class="variable">$class</span>&#125;push-&#123;<span class="variable">$c</span>&#125;</span><br><span class="line">      <span class="attribute">position</span> relative</span><br><span class="line">      <span class="attribute">left</span> <span class="variable">$percent</span></span><br><span class="line"></span><br><span class="line"><span class="selector-class">.el-row</span></span><br><span class="line">  <span class="attribute">position</span> relative</span><br><span class="line">  <span class="attribute">box-sizing</span> border-box</span><br><span class="line">  </span><br><span class="line">  <span class="selector-pseudo">&amp;::after</span></span><br><span class="line">    <span class="attribute">clear</span> both</span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[class*=<span class="string">&quot;el-col-&quot;</span>]</span></span><br><span class="line">  <span class="attribute">float</span> left</span><br><span class="line">  <span class="attribute">box-sizing</span> border-box</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="variable">$k</span>, <span class="variable">$v</span> <span class="keyword">in</span> <span class="variable">$query</span></span><br><span class="line">  <span class="keyword">if</span> <span class="variable">$k</span> == <span class="string">&#x27;normal&#x27;</span></span><br><span class="line">    <span class="built_in">media</span>()</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">@media</span> <span class="keyword">only</span> screen <span class="keyword">and</span> (&#123;<span class="variable">$v</span>&#125;)</span><br><span class="line">      <span class="built_in">media</span>(<span class="variable">$k</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>去除那些空行, 这段代码只有 39 行, 为了方便阅读, 所以加上一些空行.</p>
+<p>下面我将逐行为大家解释这段代码, 请善用右侧导航栏进行跳转.</p>
+<h3 id="1-cols-12"><a href="#1-cols-12" class="headerlink" title=":1 $cols = 12">:1 <code>$cols = 12</code></a></h3><p>这里声明了一个变量, 用来定义栅格数. 在 stylus 中, 变量无需 <code>$</code> 字符开头, 但本人为了区分这是自定义变量, 习惯在变量前加该字符.</p>
+<h3 id="2-9-query"><a href="#2-9-query" class="headerlink" title=":2-9 $query = {...}">:2-9 <code>$query = &#123;...&#125;</code></a></h3><p>这里声明了一个对象 ( Hash 数组 ), 键名为 class 缩写, 键值为 media query 条件 (第一行除外).</p>
+<h3 id="11-media-class-39-39"><a href="#11-media-class-39-39" class="headerlink" title=":11 media($class = &#39;&#39;) {...}">:11 <code>media($class = &#39;&#39;) &#123;...&#125;</code></a></h3><p>这里声明了一个方法, 用于创建某个 media query 条件下的栅格布局.</p>
+<p>该方法含有一个参数, 该参数用于给栅格化布局增加响应式断点, 默认值为空. 该参数为空时表示无自适应布局时的条件</p>
+<h3 id="12-class-39-39-unless-class-39-39"><a href="#12-class-39-39-unless-class-39-39" class="headerlink" title=":12 $class += &#39;-&#39; unless $class == &#39;&#39;">:12 <code>$class += &#39;-&#39; unless $class == &#39;&#39;</code></a></h3><p>这里给自适应类增加后缀 <code>-</code>, 用于接下来将变量作为插值拼接到 class 名中</p>
+<h3 id="14-15-el-col-class-0"><a href="#14-15-el-col-class-0" class="headerlink" title=":14-15 .el-col-{$class}0">:14-15 <code>.el-col-&#123;$class&#125;0</code></a></h3><p>这一行就是将变量 <code>$class</code> 作为差值拼入 class 名中了</p>
+<p>如果 <code>$class = &#39;&#39;</code>, 则生成代码为 <code>.el-col-0</code>, 如果 <code>$class = &#39;xs&#39;</code>, 则生成代码为 <code>.el-col-xs-0</code>. 插值是不是很方便?</p>
+<h3 id="17-for-c-in-1-cols"><a href="#17-for-c-in-1-cols" class="headerlink" title=":17 for $c in 1..$cols">:17 <code>for $c in 1..$cols</code></a></h3><p>这里使用了一个迭代 (Iteration, 也可以叫做循环). 意思是将 <code>$c</code> 作为循环变量, 从 <code>1</code> 到 <code>$cols</code> 进行循环.</p>
+<p>界限操作符 <code>1..5</code> 意思是从 1 开始, 一直到 5</p>
+<p>范围操作符 <code>1...5</code> 意思是从 1 开始, 到 4 (不含 5) 结束</p>
+<h3 id="18-percent-100-cols-c"><a href="#18-percent-100-cols-c" class="headerlink" title=":18 $percent = (100 / $cols * $c)%">:18 <code>$percent = (100 / $cols * $c)%</code></a></h3><p>这里声明了本次循环中的变量 <code>$percent</code>, 有两个注意点.</p>
+<p>在 stylus 中计算属性最好将其用圆括号 <code>()</code> 包裹起来, 避免某些情况下编译器将其理解为多个值, 如 <code>border-raidus: 4px / 2px;</code>.</p>
+<p><code>(expr)%</code> 的意思是将 expr 表达式强行加个单位, 是内置函数 <code>unit(expr, &#39;%&#39;)</code> 的语法糖</p>
+<h3 id="20-29-el-col-class-c"><a href="#20-29-el-col-class-c" class="headerlink" title=":20-29 .el-col-{$class}{$c}">:20-29 <code>.el-col-&#123;$class&#125;&#123;$c&#125;</code></a></h3><p>这里就开始循环声明 class 了, 设置栅格宽度, 设置偏移量, 设置推拉. 同样使用了变量插值.</p>
+<h3 id="31-36-el-row"><a href="#31-36-el-row" class="headerlink" title=":31-36 .el-row">:31-36 <code>.el-row</code></a></h3><p>所有声明完毕后, 从这一行开始实际生成 css. </p>
+<p>没什么多说了的, 栅格容器. 设置清除浮动.</p>
+<h3 id="38-40-class-quot-el-col-quot"><a href="#38-40-class-quot-el-col-quot" class="headerlink" title=":38-40 [class*=&quot;el-col-&quot;]">:38-40 <code>[class*=&quot;el-col-&quot;]</code></a></h3><p>这里使用了 css 的属性选择器, 选择以 <code>.el-col-</code> 开头的元素, 为其设置浮动和盒模型.</p>
+<h3 id="42-47-for-k-v-in-query"><a href="#42-47-for-k-v-in-query" class="headerlink" title=":42-47 for $k, $v in $query">:42-47 <code>for $k, $v in $query</code></a></h3><p>遍历 <code>$query</code>, 将所有断点取出来. 然后判断如果键名为 <code>normal</code> (<code>$query</code> 的第一个键值对), 则调用无参的 <code>media()</code> 方法. 否则生成相应断点和 media query 的方法.</p>
+<h2 id="最终生成的-css-代码"><a href="#最终生成的-css-代码" class="headerlink" title="最终生成的 css 代码">最终生成的 css 代码</a></h2><p><a target="_blank" rel="noopener" href="https://codepen.io/mutoe/pen/JLyGVa">codepen 在线查看</a></p>
+<p><img src="//static.mutoe.com/2018/create-the-grids-layout-with-50-lines-of-code-using-stylus/preview-stylus.png" alt="preview"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接">参考链接</a></h2><p><a target="_blank" rel="noopener" href="http://element-cn.eleme.io/#/zh-CN/component/layout">ElementUI - Layout 布局</a> 灵感来自其 sass 源码</p>
+<p><a target="_blank" rel="noopener" href="http://www.zhangxinxu.com/jq/stylus/">张鑫旭 - stylus中文版参考文档</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Stylus/" rel="tag"><i class="fa fa-tag"></i> Stylus</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/linux-study-notes/" rel="prev" title="Linux 学习笔记">
+                  <i class="fa fa-angle-left"></i> Linux 学习笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/upgrade-nodejs-using-yum/" rel="next" title="记使用 yum 升级 nodejs 遇到的坑">
+                  记使用 yum 升级 nodejs 遇到的坑 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

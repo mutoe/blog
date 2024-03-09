@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="你是不是经常浏览网页时遇到以上类似的画面, 叫你换个浏览器, 本开开开心心的浏览网页非要换浏览器, 让人特别不爽. 下面我来科普一下为什么网页开发者会这么做, 在普及这个知识前, 我先解读一下为什么 IE 浏览器在中国市场占有量这么大. IE6 “网上冲浪”在 10 多年前的互联网时代, 人们都在用家喻户晓的 XP 系统, 那时系统自带的浏览器是 Internet Explorer 6.0 也就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么有些网站要求使用 chrome 浏览器">
+<meta property="og:url" content="https://blog.mutoe.com/2017/with-chrome-to-browse-the-web/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="你是不是经常浏览网页时遇到以上类似的画面, 叫你换个浏览器, 本开开开心心的浏览网页非要换浏览器, 让人特别不爽. 下面我来科普一下为什么网页开发者会这么做, 在普及这个知识前, 我先解读一下为什么 IE 浏览器在中国市场占有量这么大. IE6 “网上冲浪”在 10 多年前的互联网时代, 人们都在用家喻户晓的 XP 系统, 那时系统自带的浏览器是 Internet Explorer 6.0 也就">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static.mutoe.com/2017/with-chrome-to-browse-the-web/fuck-ie.jpg">
+<meta property="og:image" content="https://static.mutoe.com/2017/with-chrome-to-browse-the-web/chrome.png">
+<meta property="og:image" content="https://static.mutoe.com/2017/with-chrome-to-browse-the-web/qzone.jpg">
+<meta property="article:published_time" content="2017-02-21T07:15:46.000Z">
+<meta property="article:modified_time" content="2017-02-21T07:15:46.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="Browser">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.mutoe.com/2017/with-chrome-to-browse-the-web/fuck-ie.jpg">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2017/with-chrome-to-browse-the-web/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2017/with-chrome-to-browse-the-web/","path":"/2017/with-chrome-to-browse-the-web/","title":"为什么有些网站要求使用 chrome 浏览器"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>为什么有些网站要求使用 chrome 浏览器 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IE6-%E2%80%9C%E7%BD%91%E4%B8%8A%E5%86%B2%E6%B5%AA%E2%80%9D"><span class="nav-text">IE6 “网上冲浪”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8E%A5%E8%A7%A6-chrome-%E5%B0%8F%E6%8F%92%E6%9B%B2"><span class="nav-text">第一次接触 chrome 小插曲</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML5-%E7%AE%80%E6%B4%81-%E8%87%AA%E7%94%B1"><span class="nav-text">HTML5 简洁 自由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E5%B1%82%E9%9D%A2"><span class="nav-text">用户层面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E5%B1%82%E9%9D%A2"><span class="nav-text">技术层面</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2017/with-chrome-to-browse-the-web/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="为什么有些网站要求使用 chrome 浏览器 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          为什么有些网站要求使用 chrome 浏览器<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/with-chrome-to-browse-the-web.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-02-21 15:15:46" itemprop="dateCreated datePublished" datetime="2017-02-21T15:15:46+08:00">2017-02-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%A7%91%E6%99%AE/" itemprop="url" rel="index"><span itemprop="name">科普</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><img src="//static.mutoe.com/2017/with-chrome-to-browse-the-web/fuck-ie.jpg" alt="fuck-ie"></p>
+<p>你是不是经常浏览网页时遇到以上类似的画面, 叫你换个浏览器, 本开开开心心的浏览网页非要换浏览器, 让人特别不爽.</p>
+<p>下面我来科普一下为什么网页开发者会这么做, 在普及这个知识前, 我先解读一下为什么 IE 浏览器在中国市场占有量这么大.</p>
+<h2 id="IE6-“网上冲浪”"><a href="#IE6-“网上冲浪”" class="headerlink" title="IE6 “网上冲浪”">IE6 “网上冲浪”</a></h2><p>在 10 多年前的互联网时代, 人们都在用家喻户晓的 XP 系统, 那时系统自带的浏览器是 Internet Explorer 6.0 也就是我们俗称的 IE6, 那个时代人们的电脑还都是 256M 内存, 好一点的也就 512M, 玩的游戏还是魔兽红警 CS 和传奇. 在 IE 一统江山的时代, 很少有人觉得 IE 有什么不对劲.</p>
+<p>今天 IE 被诟病得最多的速度和稳定性上面, 在那个时代都好像不是那么引人关注, 并不是说那个时代浏览器的速度和稳定性不重要, 而是因为没有可供对比的参照物.</p>
+<p>然而过了两年左右, 中国网民成爆发式增长, 中国用户的浏览环境也普遍是 WinXP + IE6, 那时候也有 chrome 和 firefox 浏览器, 但是作为一个普通的网民又有谁肯花费精力去习惯另外一个浏览器呢.</p>
+<span id="more"></span>
+
+<p>就这样又持续了两三年左右, IE6 浏览器再也承受不了互联网庞大的数据业务量和华丽丽的页面渲染了, 网民们经常浏览网页就会莫名卡死 ( 有七八年网龄的同学应该亲身经历过 ).本人也是在这个终于抛弃了 IE 浏览器.</p>
+<p>当时市场上有很多形形色色的浏览器, 比如火狐、世界之窗、搜狗浏览器和遨游浏览器, 这些浏览器用起来都比 IE 体验要好, 渐渐的 IE 在我的电脑里出现的次数越来越少了.</p>
+<h3 id="第一次接触-chrome-小插曲"><a href="#第一次接触-chrome-小插曲" class="headerlink" title="第一次接触 chrome 小插曲">第一次接触 chrome 小插曲</a></h3><p><img src="//static.mutoe.com/2017/with-chrome-to-browse-the-web/chrome.png" alt="chrome"></p>
+<p>第一次叫我安装 chrome 的时候, 我是拒绝的, 我是拒绝的!!! 他居然无声无息的安装在了不知道我电脑的哪个角落里 ( 用过 chrome 的应该都知道它的静默安装 ), 后来查找发现居然安装在我的 C 盘了, 这种情况怎么能忍?!</p>
+<p>打开这个叫做 chrome 的浏览器, 面对一个简洁得甚至可以说简陋的界面, 实在有点无从下手的感觉.</p>
+<p>简洁到什么程度呢, 没有菜单栏 ( 只有一个书签和扳手的按钮, 后来的版本就只剩下扳手了 ), 没有状态区, 没有标题栏 ( 也就是说, 在 chrome 浏览器上面, 你连它自己的名称 “chrome” 这几个字都找不到 ), 因为谷歌认为标题栏浪费空间, 干脆不要, 取而代之的是实用的标签栏.</p>
+<p> 工具按钮也只有三个: 前进、后退、刷新 &#x2F; 停止 ( 需要的话, 还能再加一个主页按钮 ), 再加上地址栏, 这就是全部… 在那时习惯了IE浏览器后, 面对这种极简风格的设计, 实在觉得这浏览器差劲的要死. 关掉浏览器就卸载了.</p>
+<p>到了 2011 年, 随着微软发布 IE9 浏览器和 win7 进入中国市场, 那些没有转移浏览习惯的用户终于能用上一个不再那么卡的 “新” 浏览器了 – IE9.</p>
+<p>其实 IE9 确实解决了当时微软 IE 浏览器的尴尬, 但是因为 IE9 宣布不支持 XP 系统导致还是有许多顽固不化的用户还再使用 XP + IE6, 可以理解, 毕竟 256M 的老机器跑 WIN7 确实有点牵强.</p>
+<p>2014 年 4 月, 微软宣布停止对 windows XP 支持和提供服务, 这意味着 XP 系统此后再也不会有安全补丁了, XP 系统也意味着寿终正寝. 2001 年 10 月出生的 WindowsXP 系统战斗了 12 年零 6 个月, 成为人类历史上服务时间最长的操作系统.</p>
+<p>换句话说, 微软终于舍弃了 IE6 这块庞大的鸡肋, 随着浏览器市场的解放, 人们终于迎来了 HTML5 时代.</p>
+<h2 id="HTML5-简洁-自由"><a href="#HTML5-简洁-自由" class="headerlink" title="HTML5 简洁 自由">HTML5 简洁 自由</a></h2><p>同年 10 月, 万维网联盟宣布发布 HTML5 标准规范, 第一次听说 HTML5 是 QQ 空间发布的新版 QQ 空间, 支持 HTML5 技术, 记不太清是什么时候了, 那时候我还不是一个程序猿, 应该是在此之前, 第一次进入新版 QQ 空间的时候眼前一亮</p>
+<p><img src="//static.mutoe.com/2017/with-chrome-to-browse-the-web/qzone.jpg" alt="qzone"></p>
+<p>有一种焕然一新的感觉, 感觉很清爽, 回想到第一次接触 chrome 浏览器, 那些所谓不适应没有菜单栏, 状态栏的, 菜单栏的按钮占地这么大, 平时又点过几次呢? 状态栏除了在网页卡住的时候会看一下, 又有什么时候会去关注呢? 真是讽刺.</p>
+<p>说了这么多, 现在, 回到开始的话题, 稳定性. 印象中, 我用 firefox 浏览器几乎没有怎么崩溃过, 倒是会经常遇到一些网页要求使用 IE 浏览器访问 ( 某行网上银行系统 ), 当时特别不理解, IE 就要淘汰了的浏览器怎么还有有开发者支持使用, 现在明白了原来是银行支付系统因为安全性使用了 ActiveX 技术, 这种技术是微软的专利, 而当时银行支付系统的开发者没有那么多经历维护经常更新的 chrome 和 firefox 浏览器, 只能舍弃小众用户 ( 现在你已经不用担心了, 我们已经进入了 HTML5 时代 ).</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结">小结</a></h2><p>言而总之, 分两个层面来说我们的问题, 为什么有些网站要求使用 chrome 浏览器来访问呢</p>
+<h3 id="用户层面"><a href="#用户层面" class="headerlink" title="用户层面">用户层面</a></h3><ul>
+<li>稳定性高, 浏览网页很少会卡死;</li>
+<li>界面清爽, 没有那么多无关浏览网页的杂项;</li>
+<li>速度快, 在看到一些华丽的页面不会卡顿, 网页渲染速度也很快;</li>
+</ul>
+<h3 id="技术层面"><a href="#技术层面" class="headerlink" title="技术层面">技术层面</a></h3><ul>
+<li>由于 IE 对网页渲染方式不同, 如果要兼容低版本 IE 浏览器会使网页开发者增加一倍以上的工作量;</li>
+<li>HTML5 技术使网页规范化, 能够敏捷快速的开发出华丽优美的页面;</li>
+<li>chrome 等 webkit 内核的浏览器解析脚本的速度远比 IE 内核的浏览器要快, 能够让页面更加生动而不必考虑太多性能的问题;</li>
+</ul>
+<p>了解了这些, 有时我们用 360 或者搜狗浏览器访问网页的时候也会提示我们更换为 chrome 浏览器, 其实大可不必, <strong>现在的搜狗浏览器和 360 浏览器都自带双内核</strong>, 当你遇到这个问题时只需要点击地址栏内右侧的兼容切换成极速即可, 浏览器会自动使用 webkit 内核重新将页面渲染一次, 也就不会出现要求更换浏览器的页面了.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Browser/" rel="tag"><i class="fa fa-tag"></i> Browser</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/the-principle-of-browsers-work/" rel="prev" title="点开一个网站浏览器背后究竟做了哪些事情">
+                  <i class="fa fa-angle-left"></i> 点开一个网站浏览器背后究竟做了哪些事情
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/deploy-hexo-website-to-self-server/" rel="next" title="将 Hexo 博客发布到自己的服务器上">
+                  将 Hexo 博客发布到自己的服务器上 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

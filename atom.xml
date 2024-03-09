@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>木头的博客</title>
+  
+  <subtitle>我是木头 有些想法 有点精力</subtitle>
+  <link href="https://blog.mutoe.com/atom.xml" rel="self"/>
+  
+  <link href="https://blog.mutoe.com/"/>
+  <updated>2024-02-28T12:00:42.000Z</updated>
+  <id>https://blog.mutoe.com/</id>
+  
+  <author>
+    <name>mutoe</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在 macOS 上安装 Docker Compose v2</title>
+    <link href="https://blog.mutoe.com/2024/install-docker-compose-v2-in-macos/"/>
+    <id>https://blog.mutoe.com/2024/install-docker-compose-v2-in-macos/</id>
+    <published>2024-02-28T12:00:42.000Z</published>
+    <updated>2024-02-28T12:00:42.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在 macOS 上很久了都没有用上 &lt;code&gt;docker compose&lt;/code&gt; 这个子命令，今天终于把它解决了特此记录一下以备后续之需。&lt;/p&gt;
+&lt;h2 id=&quot;1-找到适合你系统架构的镜像&quot;&gt;&lt;a href=&quot;#1-找到适合你系统架构的镜像&quot; class=&quot;h</summary>
+        
+      
+    
+    
+    
+    <category term="教程" scheme="https://blog.mutoe.com/categories/%E6%95%99%E7%A8%8B/"/>
+    
+    
+    <category term="Docker" scheme="https://blog.mutoe.com/tags/Docker/"/>
+    
+    <category term="Lima" scheme="https://blog.mutoe.com/tags/Lima/"/>
+    
+    <category term="Docker Compose" scheme="https://blog.mutoe.com/tags/Docker-Compose/"/>
+    
+    <category term="macOS" scheme="https://blog.mutoe.com/tags/macOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>给 NAS 上的应用配置域名并去除端口号</title>
+    <link href="https://blog.mutoe.com/2024/setup-domain-and-remove-port-for-nas-app/"/>
+    <id>https://blog.mutoe.com/2024/setup-domain-and-remove-port-for-nas-app/</id>
+    <published>2024-01-21T15:56:25.000Z</published>
+    <updated>2024-01-21T15:56:25.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;在上一篇文章 &lt;a href=&quot;/2024/deploy-gitea-on-nas/&quot;&gt;在 NAS 上部署 Gitea&lt;/a&gt; 中，我教大家如何在内网中部署 Gitea 服务。但是，我们在内网中访问 Gitea 时，需要使用 &lt;code&gt;http://192.168.5.5:4000&lt;/code&gt; 这样的地址，这样的地址不仅不美观，而且还需要记住端口号，不方便，甚至它还不是 HTTPS 的，也不安全。&lt;/p&gt;
+&lt;p&gt;那有没有什么办法可以让我们在内网中访问 Gitea 时，使用 &lt;code&gt;https://gitea.lan&lt;/code&gt; 这样的地址呢？答案是肯定的，我们可以使用 DNS 和反向代理来实现这个功能。&lt;/p&gt;
+&lt;h1 id=&quot;1-什么是-DNS&quot;&gt;&lt;a href=&quot;#1-什么是-DNS&quot; class=&quot;headerlink&quot; title=&quot;1. 什么是 DNS&quot;&gt;&lt;/a&gt;1. 什么是 DNS&lt;/h1&gt;&lt;p&gt;DNS 是 Domain Name System 的缩写，即域名系统。它的作用是将域名解析为 IP 地址，这样我们就可以通过域名访问网站了。&lt;/p&gt;
+&lt;p&gt;我们首先要做的一件事就是在 DNS 服务器中添加一条记录，将 &lt;code&gt;gitea.lan&lt;/code&gt; 解析到 &lt;code&gt;192.168.5.5&lt;/code&gt; 这个 IP 地址上。这样当我们访问这个域名时，就会将请求转发到我们的 NAS 服务器上对应的端口了。 &lt;/p&gt;
+&lt;p&gt;DNS 服务器是一个树形结构，当你输入一个域名时，DNS 服务器会从最底层的节点向上查找，直到根节点，然后返回对应的 IP 地址。每个节点都缓存有一堆域名和与其对应的 IP 地址。&lt;/p&gt;
+&lt;p&gt;例如，当我们访问 &lt;code&gt;https://gitea.lan&lt;/code&gt; 时，DNS 服务器会：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先从浏览器中尝试获取缓存的 IP 地址&lt;/li&gt;
+&lt;li&gt;如果没有缓存，就会向本机的 DNS 服务器发起请求尝试获取缓存的 IP 地址&lt;/li&gt;
+&lt;li&gt;如果本机的 DNS 服务器没有缓存，就会尝试向路由器发起请求尝试获取缓存的 IP 地址&lt;/li&gt;
+&lt;li&gt;如果路由器没有缓存，就会向上级 DNS 服务器（通常是运营商，如中国电信）发起请求尝试获取缓存的 IP 地址&lt;/li&gt;
+&lt;li&gt;… 以此类推，直到根 DNS 节点&lt;/li&gt;
+&lt;/ol&gt;</summary>
+    
+    
+    
+    <category term="教程" scheme="https://blog.mutoe.com/categories/%E6%95%99%E7%A8%8B/"/>
+    
+    
+    <category term="家庭网络" scheme="https://blog.mutoe.com/tags/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C/"/>
+    
+    <category term="NAS" scheme="https://blog.mutoe.com/tags/NAS/"/>
+    
+    <category term="群辉" scheme="https://blog.mutoe.com/tags/%E7%BE%A4%E8%BE%89/"/>
+    
+    <category term="Openwrt" scheme="https://blog.mutoe.com/tags/Openwrt/"/>
+    
+    <category term="DNS" scheme="https://blog.mutoe.com/tags/DNS/"/>
+    
+    <category term="反向代理" scheme="https://blog.mutoe.com/tags/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在 NAS 上部署 Gitea</title>
+    <link href="https://blog.mutoe.com/2024/deploy-gitea-on-nas/"/>
+    <id>https://blog.mutoe.com/2024/deploy-gitea-on-nas/</id>
+    <published>2024-01-21T08:11:25.000Z</published>
+    <updated>2024-01-21T08:11:25.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;处于某种原因，需要自己部署一个 Git 仓库管理工具来管理和部署一些奇怪的家庭服务，虽然 GitHub private repository 也可以用，但因为这些平台都中心化的，会受制于人，速度可可靠性也不太理想，在外网做家庭服务的持续部署也比较麻烦，所以就想到了自己部署一个 Git 仓库管理工具，想怎么玩就怎么玩。 &lt;/p&gt;
+&lt;p&gt;为什么不选择装 GitLab 而是 Gitea，因为 GitLab 的硬件要求太高了，而且我只是想要一个简单的 Git 仓库管理工具，不需要多人协作也不需要很多复杂的功能，Gitea 足够了，最低只需要 1 核和 2G 内存，所以选择了 Gitea。&lt;/p&gt;
+&lt;p&gt;虽然群辉 NAS 自带了 Gitea 的社区套件，之前也一直在用。但是它的版本已经落后于官方好几个版本了，所以这里选择自己用 Docker 部署一个最新版的 Gitea，也方便后续升级和折腾。&lt;/p&gt;
+&lt;p&gt;注：以下教程图示是群辉 NAS 的安装界面。如果你是其他 NAS 品牌的用户，可以参考自己对应品牌的 Docker 安装界面或是直接使用命令行或 &lt;a href=&quot;https://docs.gitea.com/zh-cn/installation/install-with-docker&quot;&gt;使用 Gitea 的官方 docker compose&lt;/a&gt; 进行安装，也可以参考我安装的思路。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="教程" scheme="https://blog.mutoe.com/categories/%E6%95%99%E7%A8%8B/"/>
+    
+    
+    <category term="Git" scheme="https://blog.mutoe.com/tags/Git/"/>
+    
+    <category term="Docker" scheme="https://blog.mutoe.com/tags/Docker/"/>
+    
+    <category term="家庭网络" scheme="https://blog.mutoe.com/tags/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C/"/>
+    
+    <category term="NAS" scheme="https://blog.mutoe.com/tags/NAS/"/>
+    
+    <category term="群辉" scheme="https://blog.mutoe.com/tags/%E7%BE%A4%E8%BE%89/"/>
+    
+    <category term="Gitea" scheme="https://blog.mutoe.com/tags/Gitea/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>人工智能、经济危机、隐私和我们</title>
+    <link href="https://blog.mutoe.com/2023/ai-economic-crisis-privacy-and-us/"/>
+    <id>https://blog.mutoe.com/2023/ai-economic-crisis-privacy-and-us/</id>
+    <published>2023-08-30T13:10:55.000Z</published>
+    <updated>2023-08-30T13:10:55.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;注：本文不会涉及任何算法，只通俗地分享自己的感悟，若有事实错误请直接批评指正，感谢大家。&lt;/p&gt;
+&lt;h1 id=&quot;0-序&quot;&gt;&lt;a href=&quot;#0-序&quot; class=&quot;headerlink&quot; title=&quot;0. 序&quot;&gt;&lt;/a&gt;0. 序&lt;/h1&gt;&lt;p&gt;最近深度体验了 AI 绘图 Stable Diffusion，结合正在发生的经济危机&amp;#x2F;裁员&amp;#x2F;通缩，我产生了一些思考：AI 大模型时代的到来，到底会淘汰哪些人？哪些领域会受到影响？AI 带来哪些隐私、道德和安全问题？作为受到直接影响的底层程序员&amp;#x2F;设计师&amp;#x2F;画师&amp;#x2F;写手，我们真的只能坐以待毙吗？&lt;/p&gt;
+&lt;p&gt;我的结论是：第三产业大部分领域都会受到影响 (实体产业影响较小)。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;第一产业是指农、林、牧、渔业。&lt;/p&gt;
+&lt;p&gt;第二产业是指采矿业，制造业，电力、燃气及水的生产和供应业，建筑业。&lt;/p&gt;
+&lt;p&gt;第三产业是指除第一、二产业以外的其他行业。第三产业包括：交通运输、仓储和邮政业，信息传输、计算机服务和软件业，批发和零售业，住宿和餐饮业，金融业，房地产业，租赁和商务服务业，科学研究、技术服务和地质勘查业，水利、环境和公共设施管理业，居民服务和其他服务业，教育，卫生、社会保障和社会福利业，文化、体育和娱乐业，公共管理和社会组织，国际组织。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;1-AI-绘图现在发展到什么程度了？&quot;&gt;&lt;a href=&quot;#1-AI-绘图现在发展到什么程度了？&quot; class=&quot;headerlink&quot; title=&quot;1. AI 绘图现在发展到什么程度了？&quot;&gt;&lt;/a&gt;1. AI 绘图现在发展到什么程度了？&lt;/h1&gt;&lt;p&gt;其实半年前（2023年3月左右）我就接触了 Stable Diffusion (一个开源的 AI 绘图项目)，那时候基于扩散模型的 AI 绘图才刚发展起来，对我有一定的冲击，毕竟这种通过文字转化为图像的方式是革命性的。
+但受限于显卡，只画了一些简单的内容，画出来的人也是比较挫。&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img width=&quot;360&quot; src=&quot;https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/sd1.5model.jpg&quot;&gt;
+  &lt;figcaption style=&quot;font-style: italic&quot;&gt;早期的 AI 绘图模型 (来自 Stable Diffusion 1.5 大模型)&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;p&gt;随着时间推移，各种 Chat 类应用，Code 补全类的 AI 工具层出不穷，我意识到 AI 时代已经来临，于是向老婆申请购买了一张二手的 3090 显卡，这张卡的优势在于有 24G 大显存，玩过 AI 绘图的小伙伴应该知道，显存越大，能画出来的原始图像分辨率就越高，训练时每一次迭代也可以同时训练更多图像。&lt;/p&gt;
+&lt;p&gt;拿到显卡后，我就陆续开始了对 AI 绘图的探索，先是沉溺与画各种漂亮妹子，然后绘制各种风格的图像，比如幻想风格、像素画风、游戏素材等图像。&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img width=&quot;360&quot; src=&quot;https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/majicmixRealistic.jpeg&quot; alt=&quot;真实系漂亮妹子&quot;&gt;
+  &lt;figcaption style=&quot;font-style: italic&quot;&gt;真实系风格 (来自 majicmix realistic 大模型)&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+  &lt;img width=&quot;360&quot; src=&quot;https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/majicmixLux.jpeg&quot;&gt;
+  &lt;figcaption style=&quot;font-style: italic&quot;&gt;奇幻风格 (来自 majicmix lux 大模型)&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+  &lt;img width=&quot;360&quot; src=&quot;https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/pixelArt.jpeg&quot;&gt;
+  &lt;figcaption style=&quot;font-style: italic&quot;&gt;像素风格 (来自 Pixel Art LoRa 模型)&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+  &lt;img width=&quot;640&quot; src=&quot;https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/game-resource.jpg&quot;&gt;
+  &lt;figcaption style=&quot;font-style: italic&quot;&gt;游戏素材 (左：Game Icon Research LoRa 模型 / 右：Character Design Sheet LoRa 模型)&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;后来不满足于画各种乱七八糟的东西，开始去各大网站搜罗 SD 应用方面的教程，陆续学习了照片高清放大、照片动漫化、AI 艺术字、光影重绘、换脸换装等各种应用。&lt;/p&gt;
+&lt;figure&gt;
+  &lt;img width=&quot;640&quot; src=&quot;https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/upscale.jpg&quot;&gt;
+  &lt;figcaption style=&quot;font-style: italic&quot;&gt;AI 高清放大 (SD 高清重绘)&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+  &lt;img width=&quot;&quot; src=&quot;https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/repaint-disney.jpg&quot;&gt;
+  &lt;figcaption style=&quot;font-style: italic&quot;&gt;真人转动漫风格 (Disney 大模型重绘)&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+  &lt;img width=&quot;480&quot; src=&quot;https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/ai-art-font.jpg&quot;&gt;
+  &lt;figcaption style=&quot;font-style: italic&quot;&gt;AI 艺术字 (ControlNet Depth 模型)&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+  &lt;img width=&quot;480&quot; src=&quot;https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/qrcode.jpg&quot;&gt;
+  &lt;figcaption style=&quot;font-style: italic&quot;&gt;创意二维码 (ControlNet QRCodeMonster 模型)&lt;/figcaption&gt;
+&lt;/figure&gt; 
+
+&lt;figure&gt;
+  &lt;img width=&quot;640&quot; src=&quot;https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/change-light.jpg&quot;&gt;
+  &lt;figcaption style=&quot;font-style: italic&quot;&gt;光影重绘 (ControlNet Tile 模型)&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;再后来又用爱人的照片做数据集，训练她自己的真人模型，效果也相当不错，她本人看到都惊叹于其相似度。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="随笔" scheme="https://blog.mutoe.com/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+    <category term="AI" scheme="https://blog.mutoe.com/tags/AI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Shell Script 学习笔记</title>
+    <link href="https://blog.mutoe.com/2023/shell-script-study-notes/"/>
+    <id>https://blog.mutoe.com/2023/shell-script-study-notes/</id>
+    <published>2023-04-24T08:33:59.000Z</published>
+    <updated>2023-04-24T08:33:59.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;这里记录了一些个人学习 Shell Script 时遇到的一些问题, 可以作为避免踩坑和速查手册. 如有疑问欢迎留言.&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="笔记" scheme="https://blog.mutoe.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Bash" scheme="https://blog.mutoe.com/tags/Bash/"/>
+    
+    <category term="Shell" scheme="https://blog.mutoe.com/tags/Shell/"/>
+    
+    <category term="Script" scheme="https://blog.mutoe.com/tags/Script/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>换了M1后，我的前端测试提速了10倍！</title>
+    <link href="https://blog.mutoe.com/2022/frontend-test-optimize-diary/"/>
+    <id>https://blog.mutoe.com/2022/frontend-test-optimize-diary/</id>
+    <published>2022-04-18T01:30:00.000Z</published>
+    <updated>2022-04-18T01:30:00.000Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;标题党，勿全信；&lt;br&gt;这是一篇关于前端单元测试的优化心得，讲述了一个中型团队坎坷的痛与泪的故事；&lt;br&gt;长文预警，建议当短篇小说看；&lt;br&gt;干货在末尾。  &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;就在前几天，我拿到了心心念念的 MacBook M1 Pro，上手第一件事就是跑一下项目上的前端测试，期待着久仰大名的 M1 处理器一显神威。&lt;/p&gt;
+&lt;p&gt;为什么这么着急用 M1 跑测试？这个故事要从半年前说起。&lt;/p&gt;
+&lt;h2 id=&quot;1-越来越痛的测试&quot;&gt;&lt;a href=&quot;#1-越来越痛的测试&quot; class=&quot;headerlink&quot; title=&quot;1. 越来越痛的测试&quot;&gt;&lt;/a&gt;1. 越来越痛的测试&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://static.mutoe.com/2022/frontend-test-optimize-diary/1-slowly-tests.png&quot;&gt;
+小半年前，项目规模越来越大，随着十几轮冲刺后，我们有两个前端库的代码量和测试也越来越多，于是出现了上面的对话&lt;/p&gt;
+&lt;p&gt;不知从什么时候开始，项目代码里的测试成了我们的痛点，推代码时会触发全量的测试，而在这推代码的10多分钟里，我是什么都做不了的，电脑卡的要命，不得不站起来去接杯水或上个厕所。&lt;/p&gt;
+&lt;p&gt;从某种角度来说，也挺好，能时不时的提醒我站起来活动活动，放松一下肩颈和眼睛，看看博客摸摸鱼（不是）。&lt;/p&gt;
+&lt;p&gt;但问题是 Pipeline 上的速度也是稳定慢，从开始 Build 到 Deploy to Dev，更是达到了离谱的 30 分钟左右，Pipeline 甚至还触发了客户设定的 300 小时&amp;#x2F;月的限流。&lt;/p&gt;
+&lt;h2 id=&quot;2-法外狂徒&quot;&gt;&lt;a href=&quot;#2-法外狂徒&quot; class=&quot;headerlink&quot; title=&quot;2. 法外狂徒&quot;&gt;&lt;/a&gt;2. 法外狂徒&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;https://static.mutoe.com/2022/frontend-test-optimize-diary/2-git-push-no-verify.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git push --no-verify&lt;/code&gt; 成了我们项目的常态。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="心得" scheme="https://blog.mutoe.com/categories/%E5%BF%83%E5%BE%97/"/>
+    
+    
+    <category term="JavaScript" scheme="https://blog.mutoe.com/tags/JavaScript/"/>
+    
+    <category term="Test" scheme="https://blog.mutoe.com/tags/Test/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>家庭网络折腾记</title>
+    <link href="https://blog.mutoe.com/2021/home-network-infra-notes/"/>
+    <id>https://blog.mutoe.com/2021/home-network-infra-notes/</id>
+    <published>2021-04-11T08:12:26.000Z</published>
+    <updated>2021-04-11T08:12:26.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;最近把家里的网络折腾了一下，整体用下来感觉还不错，这里记录下来分享给大家，大家一起学习交流~&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://static.mutoe.com/2021/home-network-infra-notes/infra.png&quot; alt=&quot;Infrastructure&quot;&gt;&lt;/p&gt;
+&lt;p&gt;痛点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;科学上网。现在家里的网络总是觉得有些不尽人意，本人最大的爱好就是周末宅在家里搞搞开源、打打游戏。遇到问题了 Google &amp;#x2F; StackOverflow 效率是比 Baidu 高，而每个设备自己科学上网比较繁琐，需要各自管理白名单，太麻烦…&lt;/li&gt;
+&lt;li&gt;NAS 访问慢。和爱人出去玩偶尔会拍一些照片和 Vlog，这些都是美好珍贵的记忆，目前存在自己的私有云上，想看了拿出来看看，照片列表加载缓慢，视频进度拖拉卡顿…&lt;/li&gt;
+&lt;li&gt;WIFI 信号。之前路由器是放在客厅，信号到卧室床头比较曲折，有时关门后甚至断网，网络体验极差…&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;折腾后：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;全屋设备科学上网。在软路由里根据 IP 地址分流，国外 IP 走代理，国内直连。终端无需单独开软件，无需在意是否国内外网站。&lt;/li&gt;
+&lt;li&gt;广告过滤。同上。&lt;/li&gt;
+&lt;li&gt;内网全千兆访问。访问 NAS 资源、各设备之间文件互传速度大幅提升，堪比本地访问。&lt;/li&gt;
+&lt;li&gt;Docker。开发时如果需要容器资源，内外网都可使用路由器的 Docker，节约开发机资源，目前资源是 4C8G。&lt;/li&gt;
+&lt;li&gt;数据安全。之前 NAS 是直接暴露在公网的，且没有开启 HTTP，现在公网访问内网设备需要 VPN，访问 NAS 强制 HTTPS。&lt;/li&gt;
+&lt;li&gt;扩大 WIFI 信号覆盖。未来搬去新家后智能设备增多，WIFI6 是必不可少的。出于成本考虑，WIFI6 AP 放在客厅，现有垃圾 AP 放在卧室。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;硬件改造成本共 1135 元&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;软路由： J4105，8G DDR4 + 64G SATA固态 咸鱼 750 元&lt;/li&gt;
+&lt;li&gt;交换机： 水星SG108C 塑料8口 JD 69元&lt;/li&gt;
+&lt;li&gt;AP： 华为AX3Pro 咸鱼 295 元&lt;/li&gt;
+&lt;li&gt;网线： 绿联6类线 0.5m x3 JD 21元&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;哭，现在设备各种涨价， ax3pro 暴涨 150 元，蹲了二周才蹲到低于 300 元的 AP，J4105 也涨了 100 多，不知道是不是受了这一波矿潮影响…&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;总之，想把网络环境做好，最大的变化就是没有变化，让用户感觉不到就成功了，只需要默默地提供稳定的服务就好~&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="心得" scheme="https://blog.mutoe.com/categories/%E5%BF%83%E5%BE%97/"/>
+    
+    
+    <category term="Docker" scheme="https://blog.mutoe.com/tags/Docker/"/>
+    
+    <category term="家庭网络" scheme="https://blog.mutoe.com/tags/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C/"/>
+    
+    <category term="Openwrt" scheme="https://blog.mutoe.com/tags/Openwrt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>React Vite 迁移指南</title>
+    <link href="https://blog.mutoe.com/2021/react-vite-migration/"/>
+    <id>https://blog.mutoe.com/2021/react-vite-migration/</id>
+    <published>2021-03-06T14:12:53.000Z</published>
+    <updated>2021-03-06T14:12:53.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;Vite2 发布有一段时间了，其内部使用了 ESBuild 进行打包，ESBuild 有着相对 Webpack 惊人的打包速度。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://static.mutoe.com/2021/react-vite-migration/esbuild-benchmark.svg&quot; alt=&quot;esbuild benchmark&quot;&gt;
+&lt;em&gt;&lt;a href=&quot;https://github.com/evanw/esbuild#why&quot;&gt;数据来自 github.com&amp;#x2F;evanw&amp;#x2F;esbuild&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;React 用户表示令人羡慕，不过 Vite 野心比较大，不止可以用来开发 Vue 项目，类似 Rollup，Vite2 可以使用插件来支持 React 项目。&lt;/p&gt;
+&lt;p&gt;这就巧了，手上刚好有一个 React 练习项目，使用 Create React App 创建并且进行过 Eject。接下来我们就用这个 React 项目来练练手吧，享受一下飞一般的构建速度！&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="教程" scheme="https://blog.mutoe.com/categories/%E6%95%99%E7%A8%8B/"/>
+    
+    
+    <category term="React" scheme="https://blog.mutoe.com/tags/React/"/>
+    
+    <category term="Vite" scheme="https://blog.mutoe.com/tags/Vite/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Bash Shell 学习笔记</title>
+    <link href="https://blog.mutoe.com/2020/bash-shell-study-notes/"/>
+    <id>https://blog.mutoe.com/2020/bash-shell-study-notes/</id>
+    <published>2020-06-16T15:44:01.000Z</published>
+    <updated>2020-06-16T15:44:01.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;这里记录了一些个人学习 Bash Shell 时遇到的一些问题, 可以作为避免踩坑和速查手册. 如有疑问欢迎留言.&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="笔记" scheme="https://blog.mutoe.com/categories/%E7%AC%94%E8%AE%B0/"/>
+    
+    
+    <category term="Linux" scheme="https://blog.mutoe.com/tags/Linux/"/>
+    
+    <category term="Bash" scheme="https://blog.mutoe.com/tags/Bash/"/>
+    
+    <category term="Shell Script" scheme="https://blog.mutoe.com/tags/Shell-Script/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>手把手带你实践 TDD Nestjs Realworld 项目 - 6. 编写 API 集成测试</title>
+    <link href="https://blog.mutoe.com/2020/TDD-nestjs-realworld-example-app-6/"/>
+    <id>https://blog.mutoe.com/2020/TDD-nestjs-realworld-example-app-6/</id>
+    <published>2020-05-04T04:16:42.000Z</published>
+    <updated>2020-05-04T04:16:42.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;第二章我们简单的介绍了下如何连接测试数据库，这篇我们将结合 TDD 来完整的实现注册和登录功能。（如果接下来我写的内容你已经做过，可以跳过该步）&lt;/p&gt;
+&lt;h1 id=&quot;1-编写第一个集成测试&quot;&gt;&lt;a href=&quot;#1-编写第一个集成测试&quot; class=&quot;headerlink&quot; title=&quot;1. 编写第一个集成测试&quot;&gt;&lt;/a&gt;1. 编写第一个集成测试&lt;/h1&gt;&lt;p&gt;按照 Nest 提供的示例 E2E 测试， 位于 &lt;code&gt;test/app.e2e-spec.ts&lt;/code&gt; 应该长这样&lt;/p&gt;
+&lt;figure class=&quot;highlight ts&quot;&gt;&lt;figcaption&gt;&lt;span&gt;test/app.e2e-spec.ts&lt;/span&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &amp;#123; &lt;span class=&quot;title class_&quot;&gt;Test&lt;/span&gt;, &lt;span class=&quot;title class_&quot;&gt;TestingModule&lt;/span&gt; &amp;#125; &lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;#x27;@nestjs/testing&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; * &lt;span class=&quot;keyword&quot;&gt;as&lt;/span&gt; request &lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;#x27;supertest&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &amp;#123; &lt;span class=&quot;title class_&quot;&gt;AppModule&lt;/span&gt; &amp;#125; &lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;#x27;./../src/app.module&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;title function_&quot;&gt;describe&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;#x27;AppController (e2e)&amp;#x27;&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;() =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; app&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;title function_&quot;&gt;beforeEach&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;async&lt;/span&gt; () =&amp;gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;moduleFixture&lt;/span&gt;: &lt;span class=&quot;title class_&quot;&gt;TestingModule&lt;/span&gt; = &lt;span class=&quot;keyword&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;Test&lt;/span&gt;.&lt;span class=&quot;title function_&quot;&gt;createTestingModule&lt;/span&gt;(&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;attr&quot;&gt;imports&lt;/span&gt;: [&lt;span class=&quot;title class_&quot;&gt;AppModule&lt;/span&gt;],&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;).&lt;span class=&quot;title function_&quot;&gt;compile&lt;/span&gt;()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    app = moduleFixture.&lt;span class=&quot;title function_&quot;&gt;createNestApplication&lt;/span&gt;()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;await&lt;/span&gt; app.&lt;span class=&quot;title function_&quot;&gt;init&lt;/span&gt;()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;title function_&quot;&gt;it&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;#x27;/ (GET)&amp;#x27;&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;() =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;title function_&quot;&gt;request&lt;/span&gt;(app.&lt;span class=&quot;title function_&quot;&gt;getHttpServer&lt;/span&gt;())&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      .&lt;span class=&quot;title function_&quot;&gt;get&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;#x27;/&amp;#x27;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      .&lt;span class=&quot;title function_&quot;&gt;expect&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;200&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      .&lt;span class=&quot;title function_&quot;&gt;expect&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;#x27;Hello World!&amp;#x27;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;现在是运行不了的，不过没关系，我们稍稍改造一下&lt;/p&gt;
+&lt;p&gt;首先我们测试一个用于检查健康的接口 &lt;code&gt;/hello&lt;/code&gt;, 无需导入整个 &lt;code&gt;AppModule&lt;/code&gt;, 只需导入 &lt;code&gt;AppController&lt;/code&gt; ，改造为下列的样子&lt;/p&gt;
+&lt;figure class=&quot;highlight ts&quot;&gt;&lt;figcaption&gt;&lt;span&gt;app.e2e-spec.ts&lt;/span&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &amp;#123; &lt;span class=&quot;title class_&quot;&gt;Test&lt;/span&gt;, &lt;span class=&quot;title class_&quot;&gt;TestingModule&lt;/span&gt; &amp;#125; &lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;#x27;@nestjs/testing&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &amp;#123; &lt;span class=&quot;title class_&quot;&gt;AppController&lt;/span&gt; &amp;#125; &lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;#x27;app.controller&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; * &lt;span class=&quot;keyword&quot;&gt;as&lt;/span&gt; request &lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&amp;#x27;supertest&amp;#x27;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;title function_&quot;&gt;describe&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;#x27;app module&amp;#x27;&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;() =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; app&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;title function_&quot;&gt;beforeAll&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;async&lt;/span&gt; () =&amp;gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;moduleFixture&lt;/span&gt;: &lt;span class=&quot;title class_&quot;&gt;TestingModule&lt;/span&gt; = &lt;span class=&quot;keyword&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;Test&lt;/span&gt;.&lt;span class=&quot;title function_&quot;&gt;createTestingModule&lt;/span&gt;(&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      &lt;span class=&quot;attr&quot;&gt;controllers&lt;/span&gt;: [&lt;span class=&quot;title class_&quot;&gt;AppController&lt;/span&gt;],&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;).&lt;span class=&quot;title function_&quot;&gt;compile&lt;/span&gt;()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    app = moduleFixture.&lt;span class=&quot;title function_&quot;&gt;createNestApplication&lt;/span&gt;()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;await&lt;/span&gt; app.&lt;span class=&quot;title function_&quot;&gt;init&lt;/span&gt;()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;title function_&quot;&gt;afterAll&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;async&lt;/span&gt; () =&amp;gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;await&lt;/span&gt; app.&lt;span class=&quot;title function_&quot;&gt;close&lt;/span&gt;()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;title function_&quot;&gt;it&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;#x27;/hello (GET)&amp;#x27;&lt;/span&gt;, &lt;span class=&quot;function&quot;&gt;() =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;title function_&quot;&gt;request&lt;/span&gt;(app.&lt;span class=&quot;title function_&quot;&gt;getHttpServer&lt;/span&gt;())&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      .&lt;span class=&quot;title function_&quot;&gt;get&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;#x27;/hello?name=world&amp;#x27;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      .&lt;span class=&quot;title function_&quot;&gt;expect&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;200&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;      .&lt;span class=&quot;title function_&quot;&gt;expect&lt;/span&gt;(&lt;span class=&quot;string&quot;&gt;&amp;#x27;Hello world!&amp;#x27;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;然后执行&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;yarn &lt;span class=&quot;built_in&quot;&gt;test&lt;/span&gt;:e2e&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/yarn-e2e-test.png&quot; alt=&quot;yarn e2e test&quot;&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="教程" scheme="https://blog.mutoe.com/categories/%E6%95%99%E7%A8%8B/"/>
+    
+    
+    <category term="Test" scheme="https://blog.mutoe.com/tags/Test/"/>
+    
+    <category term="Nestjs" scheme="https://blog.mutoe.com/tags/Nestjs/"/>
+    
+    <category term="TypeScript" scheme="https://blog.mutoe.com/tags/TypeScript/"/>
+    
+  </entry>
+  
+</feed>

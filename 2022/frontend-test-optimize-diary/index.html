@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="标题党，勿全信；这是一篇关于前端单元测试的优化心得，讲述了一个中型团队坎坷的痛与泪的故事；长文预警，建议当短篇小说看；干货在末尾。    就在前几天，我拿到了心心念念的 MacBook M1 Pro，上手第一件事就是跑一下项目上的前端测试，期待着久仰大名的 M1 处理器一显神威。 为什么这么着急用 M1 跑测试？这个故事要从半年前说起。 1. 越来越痛的测试 小半年前，项目规模越来越大，随着十几">
+<meta property="og:type" content="article">
+<meta property="og:title" content="换了M1后，我的前端测试提速了10倍！">
+<meta property="og:url" content="https://blog.mutoe.com/2022/frontend-test-optimize-diary/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="标题党，勿全信；这是一篇关于前端单元测试的优化心得，讲述了一个中型团队坎坷的痛与泪的故事；长文预警，建议当短篇小说看；干货在末尾。    就在前几天，我拿到了心心念念的 MacBook M1 Pro，上手第一件事就是跑一下项目上的前端测试，期待着久仰大名的 M1 处理器一显神威。 为什么这么着急用 M1 跑测试？这个故事要从半年前说起。 1. 越来越痛的测试 小半年前，项目规模越来越大，随着十几">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static.mutoe.com/2022/frontend-test-optimize-diary/1-slowly-tests.png">
+<meta property="og:image" content="https://static.mutoe.com/2022/frontend-test-optimize-diary/2-git-push-no-verify.png">
+<meta property="og:image" content="https://static.mutoe.com/2022/frontend-test-optimize-diary/3-slow-test-analysis.png">
+<meta property="og:image" content="https://static.mutoe.com/2022/frontend-test-optimize-diary/4-slowly-get-by-role.png">
+<meta property="og:image" content="https://static.mutoe.com/2022/frontend-test-optimize-diary/5-example-unit-test.png">
+<meta property="og:image" content="https://static.mutoe.com/2022/frontend-test-optimize-diary/6-unresolved-problem.png">
+<meta property="og:image" content="https://static.mutoe.com/2022/frontend-test-optimize-diary/7-m1-frighteningly-fast.png">
+<meta property="og:image" content="https://static.mutoe.com/2022/frontend-test-optimize-diary/%E6%9B%B9%E6%93%8D-%E4%B8%8D%E5%8F%AF%E8%83%BD.gif">
+<meta property="og:image" content="https://static.mutoe.com/2022/frontend-test-optimize-diary/8-the-fast-test-result.png">
+<meta property="og:image" content="https://static.mutoe.com/2022/frontend-test-optimize-diary/9-compare-macbooks.png">
+<meta property="article:published_time" content="2022-04-18T01:30:00.000Z">
+<meta property="article:modified_time" content="2022-04-18T01:30:00.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Test">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.mutoe.com/2022/frontend-test-optimize-diary/1-slowly-tests.png">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2022/frontend-test-optimize-diary/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2022/frontend-test-optimize-diary/","path":"/2022/frontend-test-optimize-diary/","title":"换了M1后，我的前端测试提速了10倍！"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>换了M1后，我的前端测试提速了10倍！ | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%B6%8A%E6%9D%A5%E8%B6%8A%E7%97%9B%E7%9A%84%E6%B5%8B%E8%AF%95"><span class="nav-text">1. 越来越痛的测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%B3%95%E5%A4%96%E7%8B%82%E5%BE%92"><span class="nav-text">2. 法外狂徒</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%BF%A1%E4%BB%B0%E5%B4%A9%E5%A1%8C%E4%BA%86"><span class="nav-text">3. 信仰崩塌了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%B8%96%E4%B8%8A%E6%97%A0%E9%9A%BE%E4%BA%8B%EF%BC%8C%E5%8F%AA%E8%A6%81%E8%82%AF%E6%94%BE%E5%BC%83"><span class="nav-text">4. 世上无难事，只要肯放弃</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%A7%A3%E5%86%B3%E4%BA%86%EF%BC%8C%E4%BD%86%E6%B2%A1%E6%9C%89%E5%AE%8C%E5%85%A8%E8%A7%A3%E5%86%B3"><span class="nav-text">5. 解决了，但没有完全解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%BF%83%E5%BF%83%E5%BF%B5%E5%BF%B5%E7%9A%84-M1"><span class="nav-text">6. 心心念念的 M1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E6%B0%B4%E8%90%BD%E7%9F%B3%E5%87%BA"><span class="nav-text">7. 水落石出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E5%8F%8D%E6%80%9D"><span class="nav-text">8. 反思</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2022/frontend-test-optimize-diary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="换了M1后，我的前端测试提速了10倍！ | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          换了M1后，我的前端测试提速了10倍！<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/frontend-test-optimize-diary.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-18 09:30:00" itemprop="dateCreated datePublished" datetime="2022-04-18T09:30:00+08:00">2022-04-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>标题党，勿全信；<br>这是一篇关于前端单元测试的优化心得，讲述了一个中型团队坎坷的痛与泪的故事；<br>长文预警，建议当短篇小说看；<br>干货在末尾。  </p>
+</blockquote>
+<p>就在前几天，我拿到了心心念念的 MacBook M1 Pro，上手第一件事就是跑一下项目上的前端测试，期待着久仰大名的 M1 处理器一显神威。</p>
+<p>为什么这么着急用 M1 跑测试？这个故事要从半年前说起。</p>
+<h2 id="1-越来越痛的测试"><a href="#1-越来越痛的测试" class="headerlink" title="1. 越来越痛的测试">1. 越来越痛的测试</a></h2><p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/1-slowly-tests.png">
+小半年前，项目规模越来越大，随着十几轮冲刺后，我们有两个前端库的代码量和测试也越来越多，于是出现了上面的对话</p>
+<p>不知从什么时候开始，项目代码里的测试成了我们的痛点，推代码时会触发全量的测试，而在这推代码的10多分钟里，我是什么都做不了的，电脑卡的要命，不得不站起来去接杯水或上个厕所。</p>
+<p>从某种角度来说，也挺好，能时不时的提醒我站起来活动活动，放松一下肩颈和眼睛，看看博客摸摸鱼（不是）。</p>
+<p>但问题是 Pipeline 上的速度也是稳定慢，从开始 Build 到 Deploy to Dev，更是达到了离谱的 30 分钟左右，Pipeline 甚至还触发了客户设定的 300 小时&#x2F;月的限流。</p>
+<h2 id="2-法外狂徒"><a href="#2-法外狂徒" class="headerlink" title="2. 法外狂徒">2. 法外狂徒</a></h2><p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/2-git-push-no-verify.png"></p>
+<p><code>git push --no-verify</code> 成了我们项目的常态。</p>
+<span id="more"></span>
+
+<p>有时 QA 小伙伴急着验证某功能、或者我做了好几天的卡准备 Desk Check 却发现一个小问题时，我花了 10 分钟定位并解决了代码，然后推代码触发 git hooks 跑测试，保守计算10min，然后 pipeline 在不用排队的情况下 30min。一切顺利，在我推代码后的 40min 左右才能在环境上看到生效的代码。</p>
+<p>而最坏情况下，我将在 10min 后发现某个看起来不相关的测试挂了或覆盖率不达标，修好后再来 10min，推上去后发现 Pipeline 被限流，在仅有 1 个 agent 可用的情况下需要排队（通常发生在月末），这又是 1-30min 左右的等待，排好队后是 30 分钟 build。这将会是 1 小时左右的反馈周期，哪怕我可能只用了几分钟来定位并修复问题，这效率低的简直让人抓狂。</p>
+<p>而本地联调也有一些问题，在微服务的环境下，想要本地联调需要至少启动1个前端，1个BFF，3个后端服务，让我本就垃圾的电脑更是负重不堪，电脑经常卡的像是在播放 PPT。</p>
+<p>聪明的我想到了一个办法，艺高人胆大，我可以在 <code>--no-verify</code> 后在本地同时跑测试（危险动作，请勿模仿），本地挂了就立马停掉 Pipeline，让本地测试和 Pipeline 并行起来，能节约个10多分钟。但人在河边走，哪有不湿鞋，偶尔会 block 其他小伙伴的部署，这使我无地自容。</p>
+<p>于是我们在 <ruby>Tech Huddle<rt>技术研讨会</rt></ruby> 上几次提出此问题，大家提出了一些解决方案：</p>
+<ul>
+<li>从代码层面找出跑得慢的问题</li>
+<li>等着换性能强劲的 M1</li>
+<li>申请云端机器来跑测试</li>
+</ul>
+<p>当时，换 M1 是不可能换的，向 TechOps 同事询问，啥时候能换 M1 呀，啥时候，啥时候……我都觉得自己有点烦，但还是忍不住想问，谁能经得住 M1 的诱惑呢 😍</p>
+<p>这条路是暂时行不通了，同时我们在分头寻找其他解决办法。组里一位大佬为我们申请了 AWS 经费，这给了我们实现选项 3 的一些可能。不过大家似乎觉得麻烦，机房在国外，有延迟，体验也不好，有人用了一下后就没怎么用了。</p>
+<p>代码层面，项目上前来支援的一位前端大佬开始从代码层面分析问题，某一个测试文件从开始到跑完，竟然会花到50、60秒（大佬还贴心的用 Excel 来跟踪跑的慢的测试）</p>
+<p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/3-slow-test-analysis.png"></p>
+<p>经过大佬的一番研究，竟然发现了……</p>
+<h2 id="3-信仰崩塌了"><a href="#3-信仰崩塌了" class="headerlink" title="3. 信仰崩塌了">3. 信仰崩塌了</a></h2><p>项目上的测试一直选用的是 Jest + React Testing Library，初期我们对 Enzyme or Testing Library 的选型也有过一些研究，最终我们选择了偏向黑盒的 Testing Library。</p>
+<p>而我则完全 Follow Testing Library 的思想，使用 <code>fireEvent</code> 模拟用户的点击、输入行为，好处不言而喻，为重构代码带来了很多便利。</p>
+<p>而为了满足可访问性的要求，我还建议组员使用 <code>getByRole</code> 来获取元素，这样既可以增强可访问性，养成好习惯，也可以按照 Testing Library 的思想来模拟用户的寻找行为而不是使用 <code>data-testid</code> 来获取 DOM。</p>
+<p>问题就出在这 <code>getByRole</code> 上。经过大佬的测试，把这些测试其中的 <code>getByRole</code> 换成了 <code>getByTestId</code>，瞬间快了不少。可以在上图看到，在她的电脑上提升比较大的已经从 92s 缩短到了 19s，也就出现了第一张图中提到的 “竟然能在 600s 内跑完”。而在我的电脑上也表现不错（图里从开始的 600s 到修改前的 377s 的提速用了一些不方便透露的黑魔法）</p>
+<p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/4-slowly-get-by-role.png"></p>
+<p>啊！我的 <code>getByRole</code>，一直以来的信仰，崩塌了。</p>
+<p>以后就都得回到给元素加 <code>data-testid</code> 的时代了吗？</p>
+<p>不甘心的我又找到了一个叫做 <code>getByLabelText</code> 的方法，也可以根据 DOM 中声明的 <code>aria-label</code> 来查找元素，除了参数列表不一样，查找性能是比 <code>getByRole</code> 高一些。</p>
+<p>我已经不知道前端项目的测试是不是都是这样了。于是我在公司前端社区和内部论坛向大家调查了一下，结果是大家项目的测试都不会这么慢，区别是有些测试跑得快的项目组，他们没有测 TSX。</p>
+<p>那也就是说，测试时虚拟 DOM 的渲染会让效率降低？</p>
+<p>于是我和项目组的小伙伴在很长的一段时间里都认为：“Testing Library 的思想很不错，但太慢了，如果有下个项目，我们还是会选择 Enzyme，测 shallow mount 一定会比 render dom tree 快”。</p>
+<p>但，真的是这样吗？</p>
+<h2 id="4-世上无难事，只要肯放弃"><a href="#4-世上无难事，只要肯放弃" class="headerlink" title="4. 世上无难事，只要肯放弃">4. 世上无难事，只要肯放弃</a></h2><p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/5-example-unit-test.png"></p>
+<p>在正则+全局替换掉 <code>getByRole</code> 后，我们的测试快了一些。不过感觉还是不够，只能这样了吗？</p>
+<p>随后我深入进行了一番研究，发现单个测试用例不慢，只有几十毫秒。它慢在从执行命令开始，到第一个测试用例开始执行的这段时间很久。于是我进行了一些简单的分析：</p>
+<ul>
+<li>项目用的语言是 TypeScript，要交给 Jest执行需要一个编译的步骤；</li>
+<li>启动测试前有一个初始化测试环境的过程，这个脚本位于 setupTest.ts 中；</li>
+<li>测 TSX 时需要一个虚拟 DOM 环境，启动这个环境需要耗时；</li>
+</ul>
+<p>以上就是从按下按键到测试实际开始执行中大致执行的步骤，按照上面的清单，我：</p>
+<ul>
+<li>先是替换了 <code>ts-jest</code> 改用 <code>swc-jest</code> 来编译 TS，无果；</li>
+<li>然后在 <code>setupTest.ts</code> 的第一行和最后一行打了时间戳，发现第一行开始时已经是十几秒后了，不是这个原因；</li>
+<li>是虚拟 DOM 的原因吗？把 <code>jest-environment-jsdom-sixteen</code> 换成 <code>jest-dom</code>，结果测试都跑不起来了……</li>
+</ul>
+<p>看来只有不测 TSX 了，遂放弃。</p>
+<h2 id="5-解决了，但没有完全解决"><a href="#5-解决了，但没有完全解决" class="headerlink" title="5. 解决了，但没有完全解决">5. 解决了，但没有完全解决</a></h2><p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/6-unresolved-problem.png"></p>
+<p>就这样将就了几个月，团队里另一位前端大佬忍不了了，抽时间写了一份 Git hook 脚本，用于 push 前检查代码的改动影响到的相关文件，然后利用 Jest 的 <code>findRelatedTests</code> 功能来找出相关文件的相关测试，达到增量跑测试的目的。</p>
+<p>我试用了一下，体验很棒，在我改一些纯文本的静态文件时，没有找到相关的测试文件（我们规定了静态内容不测），会自动帮我跳过测试。</p>
+<p>而当我改动了某个 Hook 文件时，这位大佬的脚本会找到所有涉及到这个 Hook 的组件，和所有用到这个组件的其他组件，然后传递给 Jest，Jest 帮我找到这些文件的相关测试，最后只用跑十几个测试文件就可以推代码了。</p>
+<p>这让痛苦万分的我们从以前每次都要跑 1300 多个 case 变为了只用跑几十个 case，算是巨大的进步了。</p>
+<p>本地推代码的问题解决了，但没有完全解决。几十个测试也是要跑几分钟的，同样的，期间什么也做不了，CI 上也是一样的需要缓慢的跑全量测试。</p>
+<p>不过本地推代码的问题是解决了一些，稍微减缓了一点我使用 <code>--no-verify</code> 的心理负担，感觉还是不错 😌</p>
+<h2 id="6-心心念念的-M1"><a href="#6-心心念念的-M1" class="headerlink" title="6. 心心念念的 M1">6. 心心念念的 M1</a></h2><p>随着时间一步步推移，眼看就要到 4 月换 M1 的日子了。（公司电脑 3 年一换，4月份该换新款 M1 了）</p>
+<p>4月，度日如年。</p>
+<p>终于，一天下午收到了公司设备管理部门通知我领新电脑的邮件！我的将死之心重新被点燃！我要赶紧设置好环境，期待着在3分钟内跑完项目的测试。</p>
+<p>经过一下午和晚上的忙碌，我终于在晚上 11 点下载好了项目代码，配置好了环境。拿出下午在旧电脑跑的测试截图，准备好测试，在新的 M1 上按下了 Enter 键。</p>
+<p>然而，测试还没跑完，我的心已经凉了一半。时间已经过去了5分钟，400个测试文件才跑了一半。而测试跑完时，10分钟已经过去了。</p>
+<p>快得吓人？</p>
+<p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/7-m1-frighteningly-fast.png"></p>
+<p>我在期待什么？</p>
+<p>故事还没结束。</p>
+<p>在第二天的工作中，我明显感觉到启动环境和索引代码的速度比以往快了不少，切换 APP 也如丝般顺滑。</p>
+<p>组里的一位数据大佬拿着他的祖传脚本，说要与我的 M1 一较高下，结果同样的代码，在他的18款 Macbook Pro 上跑了 4 分半，而在我的 M1 上只花了 2 分多，整整有一倍的性能差距。</p>
+<p>以上种种事实，让我觉得事情没有那么简单。</p>
+<h2 id="7-水落石出"><a href="#7-水落石出" class="headerlink" title="7. 水落石出">7. 水落石出</a></h2><p>“有没有一种可能，是我们的代码写的太垃圾了？”</p>
+<p>“不可能，绝对不可能！[狗头] ”</p>
+<p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/%E6%9B%B9%E6%93%8D-%E4%B8%8D%E5%8F%AF%E8%83%BD.gif"></p>
+<p>于是我拿出了我年前写的一份开源代码，技术栈差不太多，跑了一次测试，那测试快的如丝般顺滑。</p>
+<p>我不由自主的开始吐槽，念叨着“我们这代码，乔布斯活过来都拯救不了。” 这发言引来了同桌的围观，我们就对那份代码开始了一步步的探索之旅。</p>
+<p>首先观察了依赖的版本，不一致。遂调整成一致的版本，依旧龟速。然后观察了 Jest 的配置，不一致。遂调整成一致，依旧龟速。</p>
+<p>于是我将项目中的一个测试文件复制到了那个项目中，把那个组件用到的依赖给新项目装上，发现新项目的测试也变慢了。</p>
+<p>哼，事情开始变得有趣了起来 😏</p>
+<p>我和同桌都觉得很有意思，于是我们决定将那个示例组件中的疑点代码逐步移除，看看到底是我们的什么垃圾代码导致的问题。</p>
+<p>这个文件的测试总共花费了 20s。我们先是移除了一个第三方幻灯片组件，无果。随后移除了一个看起来内部很复杂的 Hook，依旧无果，这时代码里只剩一些 <code>if</code> <code>else</code> 渲染分支了。</p>
+<p>我们索性删除所有代码，直接 <code>return</code> 了一个空 <code>div</code>，这次测试在 3s 就完成了。情理之中，意料之外。</p>
+<p>这让我们的将死之心泛起了一大片浪花，我们有救了！！！</p>
+<p>撤销代码！ 最后没有删掉的那个代码是 Material UI 的 <code>Button</code>，<code>Button</code> 内还有一个 Material UI 的 <code>Icon</code>。删掉 <code>Icon</code>，再跑。</p>
+<p>3s！</p>
+<p>随后我们将项目中的图标库使用 Jest 代理掉（<code>moduleNameMapper</code>），所有图标返回一个空的 <code>svg</code> 元素。</p>
+<p>于是</p>
+<p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/8-the-fast-test-result.png"></p>
+<p>此刻，伴随着颤抖的双手，激动的心情，我想哭得心都有了，太久没有见到过项目如此丝滑的测试了！</p>
+<p>358 个文件，2106 个测试，61.98 秒！</p>
+<p>这才是单元测试应该有的速度！</p>
+<p>Pipeline 的速度也由 27 分钟降到了 15 分钟左右！</p>
+<p>信仰捡起来！Testing Library 吹起来！说什么不测 TSX 抽 Hook？TSX 就该测！<code>getByRole</code> 什么的影响不大，用起来！</p>
+<p>所以 M1 到底快不快？</p>
+<p>代码推上去后，同桌和其他前端小伙伴也迫不及待的也跑起了测试，在他们的电脑上却要花费 120s 左右。</p>
+<p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/9-compare-macbooks.png"></p>
+<p>快得吓人。</p>
+<h2 id="8-反思"><a href="#8-反思" class="headerlink" title="8. 反思">8. 反思</a></h2><p>困扰了项目组半年之久的问题，竟然是因为一个图标库。</p>
+<p><strong>我不知道。不知道它是什么时候被引入的。</strong> 或许是 1 年前，或许是更久。但这不重要，重要的是代码少的时候你感觉不出，代码量变大时才会越来越痛。</p>
+<p>问题的原因和推导的过程并不复杂，也不难找到原因，但问题是我为什么没有早点想到这个办法？</p>
+<p><strong>我不知道。不知道为什么没有早点想到这个办法。</strong> 或许是我时常在想 ”磨刀不误砍柴工“，我又在想 “想不通的就不要去想了，明天就想通了“，到底是后者胜利了。</p>
+<p>又或许是温水煮青蛙，期间我甚至已经没有去想，正常的测试应该是怎样的。我尝试去找原因，找到了但又没有找到，最后只将希望寄托在 M1 上。最后即使是快得吓人的 M1 也于事无补，才回归到了代码本身正视代码问题。</p>
+<p><strong>我不知道。不知道如果不换 M1，我会不会带着崩塌的信仰，到下个项目鼓吹 Enzyme 贬低 Testing Library。</strong></p>
+<p>完。</p>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结">总结</a></h2><p>如果发现项目前端测试慢（参考速度 2100 个测试 60 ~ 120 秒左右），可以从以下几个方面着手优化</p>
+<ul>
+<li>找出一个慢的测试，连带组件放到新建的项目里试试，然后逐步的排查；</li>
+<li>编写脚本，找到 <code>git origin/master</code> 和 <code>HEAD</code> 间的文件变动，然后利用 Jest 的 <code>findRelatedTests</code> 功能，增量测试；</li>
+<li>如果用了 Testing Library 的 <code>getByRole</code>，可以尝试替换为 <code>getByLabelText</code>，不丢失可访问性的同时，可能会有奇效；</li>
+<li>在 <code>setupTest</code> 中打一些时间戳，排查初始化测试环境的问题；</li>
+<li>更换 <code>ts-jest</code> 为 <code>swc-jest</code>，SWC 是一个基于 Rust 的高性能 TypeScript 编译器套件，生产环境没试过；</li>
+<li>放弃测 UI 组件，严格控制 UI 组件内不能有复杂逻辑，这点可以通过设置 Coverage 针对文件类型生效；</li>
+<li>修改测试策略，不测不重要或代价大收益低的东西，比如纯文本、绘制逻辑、第三方库；</li>
+<li>打开 Activity Monitor (或 windows 下的任务管理器) 然后跑测试，看看机器里什么进程在大量占用内存和 CPU，可能会有新发现；</li>
+<li>在别的机器上跑测试，比如项目的 Monitor 或客户的云机器，注意安全要求；</li>
+<li>向领导申请换 M1，快得吓人。</li>
+</ul>
+<p>最后感谢项目里外为此作出贡献的大佬们：Yue、Xin、Yuexie、Yi、Qirong</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"><i class="fa fa-tag"></i> JavaScript</a>
+              <a href="/tags/Test/" rel="tag"><i class="fa fa-tag"></i> Test</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/home-network-infra-notes/" rel="prev" title="家庭网络折腾记">
+                  <i class="fa fa-angle-left"></i> 家庭网络折腾记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/shell-script-study-notes/" rel="next" title="Shell Script 学习笔记">
+                  Shell Script 学习笔记 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

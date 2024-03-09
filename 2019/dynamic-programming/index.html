@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="什么是动态规划动态规划（DP, Dynamic Programming） 一句话总结：在求解一个复杂问题时，将其分解为若干个简单问题。通过求解简单问题的最优解，来找到目标问题的最优解。 动态规划能做什么常见问题  求解斐波那契数列第 N 项 (Leetcode 509. Fibonacci Number) 背包问题 阶梯问题 (Leetcode 70. Climbing Stairs) 硬币问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划：从入门到放弃">
+<meta property="og:url" content="https://blog.mutoe.com/2019/dynamic-programming/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="什么是动态规划动态规划（DP, Dynamic Programming） 一句话总结：在求解一个复杂问题时，将其分解为若干个简单问题。通过求解简单问题的最优解，来找到目标问题的最优解。 动态规划能做什么常见问题  求解斐波那契数列第 N 项 (Leetcode 509. Fibonacci Number) 背包问题 阶梯问题 (Leetcode 70. Climbing Stairs) 硬币问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-02-25T13:57:14.000Z">
+<meta property="article:modified_time" content="2019-02-25T13:57:14.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="Dynamic Programming">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2019/dynamic-programming/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2019/dynamic-programming/","path":"/2019/dynamic-programming/","title":"动态规划：从入门到放弃"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>动态规划：从入门到放弃 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-text">什么是动态规划</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-text">动态规划能做什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%B1%82%E8%A7%A3%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E9%97%AE%E9%A2%98"><span class="nav-text">怎么求解动态规划问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E7%8A%B6%E6%80%81%E2%80%9D%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">“状态”是什么</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Golang"><span class="nav-text">Golang</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#main"><span class="nav-text">main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unit-test"><span class="nav-text">unit test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Leetcode-result"><span class="nav-text">Leetcode result</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E7%BA%A7-DP-%E9%97%AE%E9%A2%98"><span class="nav-text">初级 DP 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Golang-%E5%AE%9E%E7%8E%B0"><span class="nav-text">Golang 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#main-O-n-2"><span class="nav-text">main $O(n^2)$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unit-test-1"><span class="nav-text">unit test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Leetcode-result-1"><span class="nav-text">Leetcode result</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E7%BA%A7-DP-%E9%97%AE%E9%A2%98"><span class="nav-text">中级 DP 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Golang-%E5%AE%9E%E7%8E%B0-1"><span class="nav-text">Golang 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#main-1"><span class="nav-text">main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unit-test-2"><span class="nav-text">unit test</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Leetcode-result-2"><span class="nav-text">Leetcode result</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E9%AB%98%E7%BA%A7-DP-%E9%97%AE%E9%A2%98"><span class="nav-text">中高级 DP 问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Golang-%E5%AE%9E%E7%8E%B0-2"><span class="nav-text">Golang 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#main-2"><span class="nav-text">main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unit-test-3"><span class="nav-text">unit test</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-text">参考链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2019/dynamic-programming/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="动态规划：从入门到放弃 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          动态规划：从入门到放弃<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/dynamic-programming.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-02-25 21:57:14" itemprop="dateCreated datePublished" datetime="2019-02-25T21:57:14+08:00">2019-02-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="什么是动态规划"><a href="#什么是动态规划" class="headerlink" title="什么是动态规划">什么是动态规划</a></h1><p>动态规划（DP, Dynamic Programming）</p>
+<p>一句话总结：<strong>在求解一个复杂问题时，将其分解为若干个简单问题。通过求解简单问题的最优解，来找到目标问题的最优解。</strong></p>
+<h1 id="动态规划能做什么"><a href="#动态规划能做什么" class="headerlink" title="动态规划能做什么">动态规划能做什么</a></h1><p>常见问题</p>
+<ul>
+<li>求解斐波那契数列第 N 项 (<a target="_blank" rel="noopener" href="https://leetcode.com/problems/fibonacci-number/">Leetcode 509. Fibonacci Number</a>)</li>
+<li>背包问题</li>
+<li>阶梯问题 (<a target="_blank" rel="noopener" href="https://leetcode.com/problems/climbing-stairs/">Leetcode 70. Climbing Stairs</a>)</li>
+<li>硬币问题 (<a target="_blank" rel="noopener" href="https://leetcode.com/problems/coin-change/">Leetcode 322. Coin Change</a>)</li>
+</ul>
+<h1 id="怎么求解动态规划问题"><a href="#怎么求解动态规划问题" class="headerlink" title="怎么求解动态规划问题">怎么求解动态规划问题</a></h1><p>我们通过一个例子来了解一下DP的基本原理。</p>
+<p>首先，我们要找到某个状态的最优解，然后在它的帮助下，找到下一个状态的最优解。</p>
+<p>如硬币问题的例子</p>
+<blockquote>
+<p><em>硬币问题：如果我们有面值为1元、3元和5元的硬币若干枚，如何用最少的硬币凑够11元？</em></p>
+</blockquote>
+<span id="more"></span>
+
+<p>首先我们将该问题分解为</p>
+<ol>
+<li>如何用最少的硬币凑够0元?</li>
+<li>如何用最少的硬币凑够1元?</li>
+<li>如何用最少的硬币凑够2元?</li>
+<li>…</li>
+<li>如何用最少的硬币凑够11元?</li>
+</ol>
+<h2 id="“状态”是什么"><a href="#“状态”是什么" class="headerlink" title="“状态”是什么">“状态”是什么</a></h2><p>“状态”用来描述该问题的子问题的解。</p>
+<p>显然，第1个问题第解是0，我们只需要0个硬币就能凑够0元。</p>
+<p><strong>我们用 $d(i)&#x3D;j$ 来表示凑够 $i$ 元至少需要 $j$ 个硬币</strong></p>
+<p>第1个问题即</p>
+<p>$$d(0)&#x3D;0$$</p>
+<p>我们在解决第2个问题时（如何用最少的硬币凑够1元?），我们可以结合第1个问题第最优解，来解出第2个问题。</p>
+<p>凑出1元时，我们可选的硬币只有1元硬币，我们只需挑选1个1元硬币，结合第1个问题第最优解即可求出第2个问题，即</p>
+<p>$$d(1)&#x3D;d(1-1)+1&#x3D;d(0)+1&#x3D;0+1&#x3D;1$$</p>
+<p>同理，凑出2元时，我们仍然只有1元硬币可用，于是再挑选1个1元硬币，结合第二个问题第最优解来求出第三个问题，即</p>
+<p>$$d(2)&#x3D;d(2-1)+1&#x3D;d(1)+1&#x3D;1+1&#x3D;2$$</p>
+<p>凑出3元时，我们多了一种3元硬币可选，于是我们就有2种方案可选：</p>
+<ol>
+<li>拿起1元硬币</li>
+</ol>
+<p>  如果我们拿起1元硬币，我们的目标就变成了：凑够3-1元需要的最少硬币数量，即</p>
+<p>  $$d(3)&#x3D;d(3-1)+1&#x3D;d(2)+1&#x3D;2+1&#x3D;3$$</p>
+<ol start="2">
+<li>拿起3元硬币</li>
+</ol>
+<p>  如果我们拿起3元硬币，我们的目标就变成：凑够3-3&#x3D;0元需要的最少硬币数量，即</p>
+<p>  $$d(3)&#x3D;d(3-3)+1&#x3D;d(0)+1&#x3D;0+1&#x3D;1$$</p>
+<p>所以我们得到</p>
+<p>$$d(3)&#x3D;\min\{d(3-1)+1, d(3-3)+1\}$$</p>
+<hr>
+<p>从上面的演算中，我们抽出两个概念：<strong>状态</strong> 和 <strong>状态转移方程</strong>。</p>
+<p>上文中 $d(i)$ 表示凑够 $i$ 元需要的最少硬币数量，我们定义为该问题的“状态”。</p>
+<p>我们最终要求解的问题可以用这个状态来表示： $d(3)$ 即凑够3元最少需要多少硬币。</p>
+<p>状态转移方程就是</p>
+<p>$$d(3)&#x3D;\min\{d(3-1)+1, d(3-3)+1\}$$</p>
+<p>它描述了状态之间时如何转移的，我们对它抽象化</p>
+<p>$$d(i)&#x3D;\min\{d(i-v_j)+1\}$$</p>
+<p>其中 $i-v_j \geq 0$, $v_j$ 表示第 $j$ 个硬币的面值</p>
+<hr>
+<p>有了状态和状态转移方程，这个问题基本上就解决了</p>
+<p>下面是当 i 从 0 到 11 时到解</p>
+<table>
+<thead>
+<tr>
+<th>$i$</th>
+<th>$j$</th>
+<th>$v_j$ ($\min\{d(i-v_j)\}$)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>-</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1 (0)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>1 (1)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>3 (0)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>1 (3)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>5 (0)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2</td>
+<td>3 (3)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>3</td>
+<td>1 (6)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>2</td>
+<td>3 (5)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>3</td>
+<td>1 (8)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>2</td>
+<td>5 (5)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>3</td>
+<td>1 (10)</td>
+</tr>
+</tbody></table>
+<p>可以得到，要凑够11元至少需要3枚硬币</p>
+<p>$$ d(11)&#x3D;d(10)+1&#x3D;d(5)+1+1&#x3D;d(0)+1+1+1&#x3D;3 $$</p>
+<p>BB 这么多没用， Show your code !</p>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现">代码实现</a></h1><blockquote>
+<p>Leetcode 322. Coin Change</p>
+</blockquote>
+<h2 id="Golang"><a href="#Golang" class="headerlink" title="Golang">Golang</a></h2><h3 id="main"><a href="#main" class="headerlink" title="main">main</a></h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CoinChange: coins 硬币, amount 期望的金额, 返回最少需要的硬币数量，如果不可解返回-1</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CoinChange</span><span class="params">(coins []<span class="type">int</span>, amount <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">  dp := <span class="built_in">make</span>([]<span class="type">int</span>, amount+<span class="number">1</span>)</span><br><span class="line">  dp[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= amount; i++ &#123;</span><br><span class="line">    dp[i] = amount + <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> _, coin := <span class="keyword">range</span> coins &#123;</span><br><span class="line">      <span class="keyword">if</span> coin &lt;= i &amp;&amp; dp[i-coin] != <span class="number">-1</span> &amp;&amp; dp[i-coin]+<span class="number">1</span> &lt; dp[i] &#123;</span><br><span class="line">        dp[i] = dp[i-coin] + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> dp[i] &gt; amount &#123;</span><br><span class="line">      dp[i] = <span class="number">-1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dp[amount]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="unit-test"><a href="#unit-test" class="headerlink" title="unit test">unit test</a></h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestCoinCharge</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">  <span class="keyword">type</span> args <span class="keyword">struct</span> &#123;</span><br><span class="line">    coins  []<span class="type">int</span></span><br><span class="line">    amount <span class="type">int</span></span><br><span class="line">  &#125;</span><br><span class="line">  tests := []<span class="keyword">struct</span> &#123;</span><br><span class="line">    name <span class="type">string</span></span><br><span class="line">    args args</span><br><span class="line">    want <span class="type">int</span></span><br><span class="line">  &#125;&#123;</span><br><span class="line">    &#123;<span class="string">&quot;[2] =&gt; 3&quot;</span>, args&#123;[]<span class="type">int</span>&#123;<span class="number">2</span>&#125;, <span class="number">3</span>&#125;, <span class="number">-1</span>&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;[2] =&gt; 4&quot;</span>, args&#123;[]<span class="type">int</span>&#123;<span class="number">2</span>&#125;, <span class="number">4</span>&#125;, <span class="number">2</span>&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;[1,2,5] =&gt; 11&quot;</span>, args&#123;[]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>&#125;, <span class="number">11</span>&#125;, <span class="number">3</span>&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;[1,3,5] =&gt; 11&quot;</span>, args&#123;[]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>&#125;, <span class="number">11</span>&#125;, <span class="number">3</span>&#125;,</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> _, tt := <span class="keyword">range</span> tests &#123;</span><br><span class="line">    t.Run(tt.name, <span class="function"><span class="keyword">func</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">      <span class="keyword">if</span> got := CoinCharge(tt.args.coins, tt.args.amount); got != tt.want &#123;</span><br><span class="line">        t.Errorf(<span class="string">&quot;CoinCharge() = %v, want %v&quot;</span>, got, tt.want)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Leetcode-result"><a href="#Leetcode-result" class="headerlink" title="Leetcode result">Leetcode result</a></h3><pre><code>Runtime: 8 ms, faster than 99.26% of Go online submissions for Coin Change.
+</code></pre>
+<h1 id="初级-DP-问题"><a href="#初级-DP-问题" class="headerlink" title="初级 DP 问题">初级 DP 问题</a></h1><p>上面的内容完成了，接下来我们来看一个较为复杂的 DP 问题：LIS，我们通过这个问题来找到这个问题的状态和状态转移方程。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/longest-increasing-subsequence/">Leetcode 300. Longest Increasing Subsequence</a><br><em>LIS: 有一个序列有 N 个数，A[1],A[2],…,A[N]. 求出其最长递增子序列的长度。</em></p>
+</blockquote>
+<p>我们将这个问题分解，一个序列有 $i$ 个数 A[1],A[2],…,A[i], 其中 $i \lt N$. </p>
+<p>那么这个问题就变成了一个子问题，然后我们定义 $d(i)$, 表示前 $i$ 个数中以 $A[i]$ 结尾的最长递增子序列的长度。</p>
+<p>当 $i\to N$ 时，我们把 $d(1)$ 到 $d(N)$ 都计算出来，我们要找的答案就是这里面最大的一个。</p>
+<p>状态找到了，下一步来找状态转移方程。举个例子，我们要求的这 N 个数的序列是：</p>
+<pre><code>5, 3, 4, 8, 6, 7
+</code></pre>
+<p>根据上面的状态，我们得到</p>
+<p>$d(1)&#x3D;1$ (5) &#x2F;&#x2F; 5前面没有比它小的 $d(1)&#x3D;1$</p>
+<p>$d(2)&#x3D;1$ (3) &#x2F;&#x2F; 3前面没有比它小的 $d(2)&#x3D;1$</p>
+<p>$d(3)&#x3D;2$ (3 4) &#x2F;&#x2F; 4前面有1个比它小的，所以 $d(3)&#x3D;d(2)+1&#x3D;2$</p>
+<p>$d(4)&#x3D;3$ (3 4 8) &#x2F;&#x2F; 8前面比他小的有3个数, 所以 $d(4)&#x3D;\max\{d(1), d(2), d(3)\}+1&#x3D;3$</p>
+<p>$d(5)&#x3D;3$ (3 4 6) &#x2F;&#x2F; 6前面比他小的有3个数，所以 $d(5)&#x3D;\max\{d(1), d(2), d(3)\}+1&#x3D;3$</p>
+<p>$d(6)&#x3D;4$ (3 4 6 7) &#x2F;&#x2F; 7前面比他小的有4个数，所以 $d(6)&#x3D;\max\{d(1), d(2), d(4), d(5)\}+1&#x3D;4$</p>
+<hr>
+<p>根据 $d(i)$ 和 $d(i-1)$ 我们可以得到</p>
+<p>$$ d(i)&#x3D; \max\{1, d(j)+1\} (j \lt i, A[j] \lt A[i]) $$</p>
+<p>解释一下，要找到 $d(i)$, 我们要先找到所有 $A[j]$ 小于 $A[i]$ 的数，分别是 $1 \to j$，并且，
+然后找到他们中最大的那一个 $d(j)$, 加上1, 就得到了我们想要的序列 $1 \to i$ 的LIS长度 $d(i)$ 了。</p>
+<h2 id="Golang-实现"><a href="#Golang-实现" class="headerlink" title="Golang 实现">Golang 实现</a></h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/longest-increasing-subsequence/">Leetcode 300. Longest Increasing Subsequence</a>  </p>
+</blockquote>
+<h3 id="main-O-n-2"><a href="#main-O-n-2" class="headerlink" title="main $O(n^2)$">main $O(n^2)$</a></h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">lengthOfLIS</span><span class="params">(nums []<span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">  dp := <span class="built_in">make</span>([]<span class="type">int</span>, <span class="built_in">len</span>(nums))</span><br><span class="line">  maxLen := <span class="number">0</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> i, num := <span class="keyword">range</span> nums &#123;</span><br><span class="line">    dp[i] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> j := <span class="number">0</span>; j &lt; i; j++ &#123;</span><br><span class="line">      <span class="keyword">if</span> nums[j] &lt; num &amp;&amp; dp[j]+<span class="number">1</span> &gt; dp[i] &#123;</span><br><span class="line">        dp[i] = dp[j] + <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> dp[i] &gt; maxLen &#123;</span><br><span class="line">      maxLen = dp[i]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> maxLen</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="unit-test-1"><a href="#unit-test-1" class="headerlink" title="unit test">unit test</a></h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Test_lengthOfLIS</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">  <span class="keyword">type</span> args <span class="keyword">struct</span> &#123;</span><br><span class="line">    nums []<span class="type">int</span></span><br><span class="line">  &#125;</span><br><span class="line">  tests := []<span class="keyword">struct</span> &#123;</span><br><span class="line">    name <span class="type">string</span></span><br><span class="line">    args args</span><br><span class="line">    want <span class="type">int</span></span><br><span class="line">  &#125;&#123;</span><br><span class="line">    &#123;<span class="string">&quot;4&quot;</span>, args&#123;[]<span class="type">int</span>&#123;<span class="number">10</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">101</span>, <span class="number">18</span>&#125;&#125;, <span class="number">4</span>&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;4&quot;</span>, args&#123;[]<span class="type">int</span>&#123;<span class="number">10</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">101</span>, <span class="number">18</span>&#125;&#125;, <span class="number">4</span>&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;6&quot;</span>, args&#123;[]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">6</span>&#125;&#125;, <span class="number">6</span>&#125;,</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> _, tt := <span class="keyword">range</span> tests &#123;</span><br><span class="line">    t.Run(tt.name, <span class="function"><span class="keyword">func</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">      <span class="keyword">if</span> got := lengthOfLIS(tt.args.nums); got != tt.want &#123;</span><br><span class="line">        t.Errorf(<span class="string">&quot;lengthOfLIS() = %v, want %v&quot;</span>, got, tt.want)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Leetcode-result-1"><a href="#Leetcode-result-1" class="headerlink" title="Leetcode result">Leetcode result</a></h3><pre><code>Runtime: 8 ms, faster than 69.34% of Go online submissions for Longest Increasing Subsequence.
+Memory Usage: 2.3 MB, less than 95.45% of Go online submissions for Longest Increasing Subsequence.
+</code></pre>
+<p>看答案是有更快的算法的（0ms $O(n \log n)$），但并不是使用的动态规划来解决,</p>
+<h1 id="中级-DP-问题"><a href="#中级-DP-问题" class="headerlink" title="中级 DP 问题">中级 DP 问题</a></h1><p>接下来来看看如何解决二维的 DP 问题。</p>
+<blockquote>
+<p>一个平面上有 M*N 个格子，每个格子中都放有一定量的苹果🍎。
+  从左上角开始，每一步只能往下或者往右走，每走到一个格子上就把格子里的苹果收集起来，
+  这样下去，你最多能收集多少个苹果？</p>
+</blockquote>
+<p>这个问题也是一样的思路，第一步找到问题的“状态”，第二部找到“状态转移方程”。</p>
+<p>我们用 $S[i][j]$ 表示我们走到 $(i, j)$ 这个格子时我们最多能拿到多少苹果， $S[i][j]$ 就是我们的“状态”</p>
+<p>我们注意到，要到达一个格子，我们只有两种方法：从上面来或从左边来。
+那么只要我们找到从上面或者左边来的那一个最多拿到多少苹果，我们就能知道当前格子最多能拿到多少苹果，
+这样我们就得到了状态转移方程</p>
+<p>$$ S[i][j] &#x3D; A[i][j] + \max\{S[i-1][j], S[i][j-1]\} $$</p>
+<p>其中 $i$ 代表行， $j$ 代表列，下标均从 0 开始，$A[i][j]$ 代表 $(i, j)$ 处的苹果数。</p>
+<hr>
+<p>例如我们以 $\begin{bmatrix} [1&amp;2&amp;3], \\ [4&amp;5&amp;6], \\ [7&amp;8&amp;9], \end{bmatrix}$ 为例</p>
+<p>我们在求 $S[1][1]$ 时，需要先求出 $S[0][1]$ 和 $S[1][]0$，然后比较他们取大，然后加上 $A[1][1]$ 上的数即可，即</p>
+<p>$$ S[1][1] &#x3D; A[1][1] + \max\{S[1][0], S[0][1]\} $$</p>
+<p>又</p>
+<p>$$ S[1][0] &#x3D; A[1][0] + S[0][0] &#x3D; 4 + 1 &#x3D; 5 $$
+$$ S[0][1] &#x3D; A[0][1] + S[0][0] &#x3D; 2 + 1 &#x3D; 3 $$</p>
+<p>所以</p>
+<p>$$ S[1][1] &#x3D; A[1][1] + S[1][0] &#x3D; 5 + 5 &#x3D; 10 $$</p>
+<h2 id="Golang-实现-1"><a href="#Golang-实现-1" class="headerlink" title="Golang 实现">Golang 实现</a></h2><blockquote>
+<p>Leetcode 64. Minimum Path Sum</p>
+</blockquote>
+<p>该题与示例题目相反，求的时路径上的最小值</p>
+<h3 id="main-1"><a href="#main-1" class="headerlink" title="main">main</a></h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">min</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> x &gt; y &#123;</span><br><span class="line">    <span class="keyword">return</span> y</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">minPathSum</span><span class="params">(grid [][]<span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">  row := <span class="built_in">len</span>(grid)</span><br><span class="line">  col := <span class="built_in">len</span>(grid[<span class="number">0</span>])</span><br><span class="line">  <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; row; i++ &#123;</span><br><span class="line">    <span class="keyword">for</span> j := <span class="number">0</span>; j &lt; col; j++ &#123;</span><br><span class="line">      <span class="keyword">if</span> i == <span class="number">0</span> &amp;&amp; j == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> i == <span class="number">0</span> &#123;</span><br><span class="line">        grid[i][j] += grid[i][j<span class="number">-1</span>]</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> j == <span class="number">0</span> &#123;</span><br><span class="line">        grid[i][j] += grid[i<span class="number">-1</span>][j]</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        grid[i][j] += min(grid[i<span class="number">-1</span>][j], grid[i][j<span class="number">-1</span>])</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> grid[row<span class="number">-1</span>][col<span class="number">-1</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="unit-test-2"><a href="#unit-test-2" class="headerlink" title="unit test">unit test</a></h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Test_minPathSum</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">  <span class="keyword">type</span> args <span class="keyword">struct</span> &#123;</span><br><span class="line">    grid [][]<span class="type">int</span></span><br><span class="line">  &#125;</span><br><span class="line">  tests := []<span class="keyword">struct</span> &#123;</span><br><span class="line">    name <span class="type">string</span></span><br><span class="line">    args args</span><br><span class="line">    want <span class="type">int</span></span><br><span class="line">  &#125;&#123;</span><br><span class="line">    &#123;<span class="string">&quot;7&quot;</span>, args&#123;[][]<span class="type">int</span>&#123;</span><br><span class="line">      &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">1</span>&#125;,</span><br><span class="line">      &#123;<span class="number">1</span>, <span class="number">5</span>, <span class="number">1</span>&#125;,</span><br><span class="line">      &#123;<span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>&#125;,</span><br><span class="line">    &#125;&#125;, <span class="number">7</span>&#125;,</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> _, tt := <span class="keyword">range</span> tests &#123;</span><br><span class="line">    t.Run(tt.name, <span class="function"><span class="keyword">func</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">      <span class="keyword">if</span> got := minPathSum(tt.args.grid); got != tt.want &#123;</span><br><span class="line">        t.Errorf(<span class="string">&quot;minPathSum() = %v, want %v&quot;</span>, got, tt.want)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Leetcode-result-2"><a href="#Leetcode-result-2" class="headerlink" title="Leetcode result">Leetcode result</a></h3><pre><code>Runtime: 8 ms, faster than 100.00% of Go online submissions for Minimum Path Sum.
+Memory Usage: 3.9 MB, less than 95.45% of Go online submissions for Minimum Path Sum.
+</code></pre>
+<p>非常高效的算法，时间 $O(m*n)$, 空间 $O(1)$，空间上利用了给定的数组，进行累加。
+如果不能修改原数组的话新建一个等长的二维数组即可。</p>
+<h1 id="中高级-DP-问题"><a href="#中高级-DP-问题" class="headerlink" title="中高级 DP 问题">中高级 DP 问题</a></h1><p>接下来说非常经典的背包问题</p>
+<blockquote>
+<p>背包问题：给定一组物品，每种物品都有自己的重量和价格，在限定的总重量内，我们如何选择，才能使得物品的总价格最高。</p>
+</blockquote>
+<p>我们有 $n$ 种物品，物品 $j$ 的重量为 $w_j$，价格为 $p_j$，我们认为所有物品的重量和价格都是非负的。
+背包所能承受的最大重量为 $W$。</p>
+<ul>
+<li><p>如果限定每种物品只能选择 0 个或者 1 个，则问题称为 <strong>0-1背包问题</strong>，可表示为 
+$\text{最大化:} \sum_{j&#x3D;1}^n p_j x_j$
+$\text{受限于:} \sum_{j&#x3D;1}^n w_j x_j \leq W, x_j \in \{0, 1\}$</p>
+</li>
+<li><p>如果限定物品 $j$ 最多只能选择 $b_j$ 个，则问题称为<strong>有界背包问题</strong>，可表示为
+$最大化: \sum_{j&#x3D;1}^n p_j x_j$
+$受限于: \sum_{j&#x3D;1}^n w_j x_j \leq W, x_j \in \{0, 1, …, b_j\}$</p>
+</li>
+<li><p>如果不限定每种物品的数量，则问题称为<strong>无界背包问题</strong></p>
+</li>
+</ul>
+<p>各类复杂的背包问题都可以变换为简单的0-1背包问题进行求解</p>
+<hr>
+<p>假设我们有 5 件物品，他们的 <code>[重量, 价值]</code> 分别为 <code>[5, 12], [4, 3], [7, 10], [2, 3], [6, 6]</code>，求出背包容量为 13 时的最优解.</p>
+<p>首先我们定义状态 $d(i, j)$ 表示前 $i$ 个物品装入剩余体积为 j 的背包里能达到的最大价值.<br>背包的总容量为 $W$, 物品的总数量为 $N$ 第 $i$ 个物品的重量为 $W_i$, 价值为 $V_i$（注意索引 $i$ 是从 $0$ 开始的）</p>
+<p>我们把问题拆解成</p>
+<ol>
+<li>5 个物品放入背包容量为 0 的最优解</li>
+<li>5 个物品放入背包容量为 1 的最优解</li>
+<li>5 个物品放入背包容量为 2 的最优解</li>
+<li>…</li>
+<li>5 个物品放入背包容量为 13 的最优解</li>
+</ol>
+<ul>
+<li><p>情况 <code>1.</code> 显然，背包容量为 0 时没有东西能放入，即 $d(5, 0) &#x3D; 0$，以此类推 $d(i, 0) &#x3D; 0, i \in \{0, 1, …, N \}$</p>
+</li>
+<li><p>情况 <code>2.</code> 背包容量为 1 时也没有东西能放入，因为 $W_i &lt; j &#x3D; 1, i \in \{0,4\}$ 也不存在</p>
+</li>
+<li><p>当 $j&#x3D;2$ 时，存在 $W_i &lt; j &#x3D; 2$，此时 $i-1&#x3D;2$，为 <code>[2, 3]</code> 这个物品，即 $d(5, 2) &#x3D; V_3 &#x3D; 3$</p>
+</li>
+<li><p>当 $j&#x3D;3$ 时，同上， $d(5, 3) &#x3D; d(5, 2) &#x3D; 3$</p>
+</li>
+<li><p>当 $j&#x3D;4$ 时，情况稍微复杂一点，我们可以再次拆解这个子问题</p>
+<ol>
+<li>前 0 个物品放入背包容量为 4 的最优解</li>
+<li>前 1 个物品放入背包容量为 4 的最优解</li>
+<li>…</li>
+<li>前 5 个物品放入背包容量为 4 的最优解</li>
+</ol>
+<ul>
+<li><p>情况 <code>i.</code> 显然，没有物品放入时，价值也为0，即 $d(0, 4) &#x3D; 0$, 以此类推 $d(0, j) &#x3D; 0, j \in \{0, 1, …, W\}$</p>
+</li>
+<li><p>情况 <code>ii.</code> 也不存在 $W_i &lt; j &#x3D; 4, i \in \{0, 1\}$，故 $d(1, 4) &#x3D; 0$</p>
+</li>
+<li><p>当 $i&#x3D;2$ 时，存在 $W_i &lt; j &#x3D; 4, i \in \{0, 1, 2\}$，此时 $i-1 &#x3D; 1$，即 $d(2, 4) &#x3D; V_1 &#x3D; 3$</p>
+</li>
+<li><p>$i&#x3D;3$ 时，同上，$d(3, 4) &#x3D; d(2, 4) &#x3D; 3$</p>
+</li>
+<li><p>$i&#x3D;4$ 时，我们考虑是否要将 $i-1&#x3D;3$ 的物品放入背包中
+如果不放入 $d(4, 4) &#x3D; d(3, 4) &#x3D; 3$
+如果放入则 $d(4, 4) &#x3D; d(3, j - W_{i-1}) + V_{i-1} &#x3D; d(3, 2) + 3 &#x3D; 0 + 3 &#x3D; 3$</p>
+<blockquote>
+<p>对于这种情况的解释，如我我们考虑前 i 个物品的最优解，则就是在求是否要将第 $i-1$ 个物品放入背包中取得的最优解</p>
+</blockquote>
+<p>于是 $d(4,4) &#x3D; \max\{d(3, 4), d(3, 2) + 3\} &#x3D; \max\{3, 3\} &#x3D; 3$</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>按照以上推理，我们可以得出状态转移方程</p>
+<p>$$ d(i, j) &#x3D; 
+  \begin{cases}
+    0, &amp; \text{if $i&#x3D;0$ or $j&#x3D;0$} \\
+    d(i-1, j), &amp; \text{if $d(i-1, j) &gt; d(i-1, j-W_{i-1}) + V_{i-1}$} \\
+    d(i-1, j-W_{i-1}) + V_{i-1}, &amp; \text{otherwise} \\
+  \end{cases} 
+$$</p>
+<h2 id="Golang-实现-2"><a href="#Golang-实现-2" class="headerlink" title="Golang 实现">Golang 实现</a></h2><p>以上面的例子为例</p>
+<h3 id="main-2"><a href="#main-2" class="headerlink" title="main">main</a></h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">backpack</span><span class="params">(w, v []<span class="type">int</span>, W <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">  size := <span class="built_in">len</span>(w)</span><br><span class="line">  dp := <span class="built_in">make</span>([][]<span class="type">int</span>, W+<span class="number">1</span>)</span><br><span class="line">  <span class="keyword">for</span> j := <span class="number">0</span>; j &lt;= W; j++ &#123;</span><br><span class="line">    dp[j] = <span class="built_in">make</span>([]<span class="type">int</span>, size+<span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> j := <span class="number">1</span>; j &lt;= W; j++ &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= size; i++ &#123;</span><br><span class="line">      weight := w[i<span class="number">-1</span>]</span><br><span class="line">      <span class="keyword">if</span> weight &gt; j &#123;</span><br><span class="line">        dp[j][i] = dp[j][i<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">      &#125;</span><br><span class="line">      dp[j][i] = dp[j-weight][i<span class="number">-1</span>] + v[i<span class="number">-1</span>]</span><br><span class="line">      <span class="keyword">if</span> dp[j][i<span class="number">-1</span>] &gt; dp[j][i] &#123;</span><br><span class="line">        dp[j][i] = dp[j][i<span class="number">-1</span>]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dp[W][size]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="unit-test-3"><a href="#unit-test-3" class="headerlink" title="unit test">unit test</a></h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Test_backpack</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">  <span class="keyword">type</span> args <span class="keyword">struct</span> &#123;</span><br><span class="line">    w []<span class="type">int</span></span><br><span class="line">    v []<span class="type">int</span></span><br><span class="line">    W <span class="type">int</span></span><br><span class="line">  &#125;</span><br><span class="line">  tests := []<span class="keyword">struct</span> &#123;</span><br><span class="line">    name <span class="type">string</span></span><br><span class="line">    args args</span><br><span class="line">    want <span class="type">int</span></span><br><span class="line">  &#125;&#123;</span><br><span class="line">    &#123;<span class="string">&quot;13&quot;</span>, args&#123;</span><br><span class="line">      []<span class="type">int</span>&#123;<span class="number">5</span>, <span class="number">4</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">6</span>&#125;,</span><br><span class="line">      []<span class="type">int</span>&#123;<span class="number">12</span>, <span class="number">3</span>, <span class="number">10</span>, <span class="number">3</span>, <span class="number">6</span>&#125;,</span><br><span class="line">      <span class="number">13</span>&#125;, <span class="number">22</span>&#125;,</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> _, tt := <span class="keyword">range</span> tests &#123;</span><br><span class="line">    t.Run(tt.name, <span class="function"><span class="keyword">func</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">      <span class="keyword">if</span> got := backpack(tt.args.w, tt.args.v, tt.args.W); got != tt.want &#123;</span><br><span class="line">        t.Errorf(<span class="string">&quot;backpack() = %v, want %v&quot;</span>, got, tt.want)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接">参考链接</a></h1><ul>
+<li><a target="_blank" rel="noopener" href="http://www.hawstein.com/posts/dp-novice-to-advanced.html">《动态规划：从新手到专家》 - Hawstein</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.hawstein.com/posts/dp-knapsack.html">《动态规划之背包问题（一）》 - Hawstein</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98">背包问题 - (维基百科)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30959069">《0-1背包问题的动态规划算法》 - 知乎·Bat特白</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Dynamic-Programming/" rel="tag"><i class="fa fa-tag"></i> Dynamic Programming</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/compare-filter-vs-splice-in-javascript/" rel="prev" title="比较 javascript 中 filter 和 splice 删除数组的性能">
+                  <i class="fa fa-angle-left"></i> 比较 javascript 中 filter 和 splice 删除数组的性能
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/copy-content-to-clipboard-in-javascript/" rel="next" title="用 Javascript 将内容复制到剪贴板">
+                  用 Javascript 将内容复制到剪贴板 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

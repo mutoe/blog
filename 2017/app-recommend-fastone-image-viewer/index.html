@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="写在前面: 应用推荐的相关文章其实一直想做, 因为我自己用的一些软件或应用都非常小众, 感觉很轻量 &#x2F; 实用, 不像 360 全家桶那些应用浓重的商业气味. 这类软件知道的人不多, 介绍给朋友时他们总有种 “你哪来这么多有意思的软件啊!” 的感觉, 所以写下这个系列的文章, 让这类软件让更多的人知道, 支持作者, 支持优质应用 ! 我先慢慢积累一些推荐, 后面我会做成一个应用小仓库之类的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FastStone Image Viewer - 轻量级图像查看器">
+<meta property="og:url" content="https://blog.mutoe.com/2017/app-recommend-fastone-image-viewer/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="写在前面: 应用推荐的相关文章其实一直想做, 因为我自己用的一些软件或应用都非常小众, 感觉很轻量 &#x2F; 实用, 不像 360 全家桶那些应用浓重的商业气味. 这类软件知道的人不多, 介绍给朋友时他们总有种 “你哪来这么多有意思的软件啊!” 的感觉, 所以写下这个系列的文章, 让这类软件让更多的人知道, 支持作者, 支持优质应用 ! 我先慢慢积累一些推荐, 后面我会做成一个应用小仓库之类的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static.mutoe.com/2017/app-recommend-fastone-image-viewer/faststone.jpg">
+<meta property="og:image" content="https://static.mutoe.com/2017/app-recommend-fastone-image-viewer/viewer.jpg">
+<meta property="og:image" content="https://static.mutoe.com/2017/app-recommend-fastone-image-viewer/view-top-down.jpg">
+<meta property="og:image" content="https://static.mutoe.com/2017/app-recommend-fastone-image-viewer/view-left-right.jpg">
+<meta property="og:image" content="https://static.mutoe.com/2017/app-recommend-fastone-image-viewer/compression.png">
+<meta property="og:image" content="https://static.mutoe.com/2017/app-recommend-fastone-image-viewer/link.png">
+<meta property="og:image" content="https://static.mutoe.com/2017/app-recommend-fastone-image-viewer/quit.png">
+<meta property="og:image" content="https://static.mutoe.com/2017/app-recommend-fastone-image-viewer/setting.png">
+<meta property="article:published_time" content="2017-03-21T16:27:19.000Z">
+<meta property="article:modified_time" content="2017-03-21T16:27:19.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="应用推荐">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.mutoe.com/2017/app-recommend-fastone-image-viewer/faststone.jpg">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2017/app-recommend-fastone-image-viewer/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2017/app-recommend-fastone-image-viewer/","path":"/2017/app-recommend-fastone-image-viewer/","title":"FastStone Image Viewer - 轻量级图像查看器"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>FastStone Image Viewer - 轻量级图像查看器 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#FastStone-Image-Viewer"><span class="nav-text">FastStone Image Viewer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%BA%94%E7%94%A8%E7%AE%80%E4%BB%8B"><span class="nav-text">1. 应用简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%8A%9F%E8%83%BD%E6%A6%82%E8%BF%B0"><span class="nav-text">2. 功能概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E6%B5%8F%E8%A7%88"><span class="nav-text">图片浏览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91"><span class="nav-text">图片编辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2%E5%8F%8A%E5%8E%8B%E7%BC%A9"><span class="nav-text">图像格式转换及压缩</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="nav-text">3. 使用技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%9B%BE%E7%89%87%E9%BB%98%E8%AE%A4%E6%89%93%E5%BC%80%E6%96%B9%E5%BC%8F"><span class="nav-text">修改图片默认打开方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%80%E5%87%BA%E8%BD%AF%E4%BB%B6%E6%97%B6%E5%8F%96%E6%B6%88%E7%A1%AE%E8%AE%A4%E6%8F%90%E7%A4%BA"><span class="nav-text">退出软件时取消确认提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%BA%E5%A4%A7%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%9F%E8%83%BD"><span class="nav-text">强大的自定义功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%90%8C%E7%B1%BB%E8%BD%AF%E4%BB%B6"><span class="nav-text">4. 同类软件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Adobe-Bridge"><span class="nav-text">Adobe Bridge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ACDSee"><span class="nav-text">ACDSee</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%8E%E5%9B%BE%E7%9C%8B%E7%9C%8B"><span class="nav-text">美图看看</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80"><span class="nav-text">下载地址</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2017/app-recommend-fastone-image-viewer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="FastStone Image Viewer - 轻量级图像查看器 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          FastStone Image Viewer - 轻量级图像查看器<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/app-recommend-fastone-image-viewer.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-03-22 00:27:19" itemprop="dateCreated datePublished" datetime="2017-03-22T00:27:19+08:00">2017-03-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>写在前面:</strong>
+应用推荐的相关文章其实一直想做, 因为我自己用的一些软件或应用都非常小众, 感觉很轻量 &#x2F; 实用, 不像 360 全家桶那些应用浓重的商业气味. 这类软件知道的人不多, 介绍给朋友时他们总有种 “你哪来这么多有意思的软件啊!” 的感觉, 所以写下这个系列的文章, 让这类软件让更多的人知道, 支持作者, 支持优质应用 !</p>
+<p>我先慢慢积累一些推荐, 后面我会做成一个应用小仓库之类的东西, 推荐一些小众的、轻量的、实用性非常高的应用程序。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="FastStone-Image-Viewer"><a href="#FastStone-Image-Viewer" class="headerlink" title="FastStone Image Viewer">FastStone Image Viewer</a></h2><p><img src="//static.mutoe.com/2017/app-recommend-fastone-image-viewer/faststone.jpg" alt="faststone"></p>
+<p><a target="_blank" rel="noopener" href="http://www.faststone.org/">http://www.faststone.org/</a> (需翻墙)</p>
+<h2 id="1-应用简介"><a href="#1-应用简介" class="headerlink" title="1. 应用简介">1. 应用简介</a></h2><p>运行平台 : Win 7&#x2F;8&#x2F;10
+是否付费 : 完全免费
+应用大小 : 6.4 M
+中文支持 : 官方支持
+安装方式 : 注册安装 (需管理员权限)</p>
+<h2 id="2-功能概述"><a href="#2-功能概述" class="headerlink" title="2. 功能概述">2. 功能概述</a></h2><p>在一些内存只有 2GB 或 4GB 的电脑程序开多了就显得有些吃力, 对于一些文字工作者来说, 在文章中使用图片还是比较频繁的, 这时候你开着浏览器打开几个网页, 一个 WORD 程序, 听着音乐, 用 ACDSee \ Bridge \ 美图看看 甚至 windows 图片查看器找些配图, 再开个 Photoshop, 你的电脑肯定已经开始有些卡顿了.</p>
+<p>我相信你一定需要一款轻量级的软件, 最好还附带一些简单的编辑功能. FastStone Image Viewer 这款软件就适用于这种场景.</p>
+<p><em>以下内容均在虚拟机中运行并演示.</em></p>
+<h3 id="图片浏览"><a href="#图片浏览" class="headerlink" title="图片浏览">图片浏览</a></h3><p>作为一个图像管理器, 图片浏览应该是最基本的功能了. FastStone 的主界面虽然不是那么美观, 但中规中矩, 基本功能应有尽有.</p>
+<p><img src="//static.mutoe.com/2017/app-recommend-fastone-image-viewer/viewer.jpg" alt="图片浏览"></p>
+<p>在全屏浏览模式下, 鼠标移至屏幕顶部可显示当前文件夹下的图片概览, 底部可显示导航及一些小工具快捷方式.</p>
+<p><img src="//static.mutoe.com/2017/app-recommend-fastone-image-viewer/view-top-down.jpg" alt="顶部和底部小工具"></p>
+<p>左侧显示比较全面的对图片的调整操作, 而右侧则能看到当前图像的一些元数据及直方图等数据.</p>
+<p><img src="//static.mutoe.com/2017/app-recommend-fastone-image-viewer/view-left-right.jpg" alt="左边和右边小工具"></p>
+<h3 id="图片编辑"><a href="#图片编辑" class="headerlink" title="图片编辑">图片编辑</a></h3><p>如上图左侧工具栏所示, 这款软件能进行图片旋转、调整尺寸&#x2F;画布大小、裁切、模糊、调色、降噪等基本功能, 软件还带了一些简单的图片滤镜, 如素描 &#x2F; 浮雕 &#x2F; 移轴模糊等.</p>
+<h3 id="图像格式转换及压缩"><a href="#图像格式转换及压缩" class="headerlink" title="图像格式转换及压缩">图像格式转换及压缩</a></h3><p>这项功能的强大也是我在众多图像浏览软件里选择这款软件的原因之一, 压缩效率可谓之高.
+一个 1080P 大小 PNG 格式的截图大约在 1M 左右 (这取决于画面复杂程度), 经过软件转换格式压缩后, 能基本 “无损” 压缩至一半大小, 在一些情况下还会有惊喜 !</p>
+<p><img src="//static.mutoe.com/2017/app-recommend-fastone-image-viewer/compression.png" alt="图像压缩"></p>
+<p>软件也支持批量操作, 对于一类的图片能非常方便的进行图片编辑中的__所有操作__ !</p>
+
+
+<h2 id="3-使用技巧"><a href="#3-使用技巧" class="headerlink" title="3. 使用技巧">3. 使用技巧</a></h2><h3 id="修改图片默认打开方式"><a href="#修改图片默认打开方式" class="headerlink" title="修改图片默认打开方式">修改图片默认打开方式</a></h3><p>我在虚拟机中安装完毕后双击图片打开居然还是用的原来的图片浏览器, 原来软件默认没有注册打开方式. 我们进入设置页面, 文件关联选项卡下面点击全选即可.</p>
+<p><img src="//static.mutoe.com/2017/app-recommend-fastone-image-viewer/link.png" alt="默认打开方式"></p>
+<h3 id="退出软件时取消确认提示"><a href="#退出软件时取消确认提示" class="headerlink" title="退出软件时取消确认提示">退出软件时取消确认提示</a></h3><p>默认情况下按 ESC 退出程序时会弹出一个小对话框, 勾选 ‘不再显示次对话框’ 即可.</p>
+<p><img src="//static.mutoe.com/2017/app-recommend-fastone-image-viewer/quit.png" alt="退出确认"></p>
+<h3 id="强大的自定义功能"><a href="#强大的自定义功能" class="headerlink" title="强大的自定义功能">强大的自定义功能</a></h3><p>软件的设置页面提供了非常多的选项, 每个人可以根据自己的使用习惯进行调整, 不要被这么多文字及选项吓到了, 磨刀不误砍柴工, 花 10 分钟来了解这个软件可为日后的使用节约大把的时间.</p>
+<p><img src="//static.mutoe.com/2017/app-recommend-fastone-image-viewer/setting.png" alt="设置页面"></p>
+<p>无论你是一个电脑小白, 还是一个资深极客, 你都__不应该错过每款软件的设置页面__, 别不相信, 一些 “微不足道” 的细节足以改变一款软件的使用寿命.</p>
+<h2 id="4-同类软件"><a href="#4-同类软件" class="headerlink" title="4. 同类软件">4. 同类软件</a></h2><p>简单评价一下我使用过的其他图像浏览(图像管理)工具.</p>
+<h3 id="Adobe-Bridge"><a href="#Adobe-Bridge" class="headerlink" title="Adobe Bridge">Adobe Bridge</a></h3><p>如果你是一个从事设计类的工作者, 那这款软件你不应该错过. 它是属于 Adobe 全家桶中的一员, 能完美兼容 Photoshop &#x2F; Illustrator 等软件.
+它还有一个特点, 就是它可以给每张图片设置若干标签, 这样当你图片比较多时, 想选出与某主题相关的照片就方便许多了. 这项功能似乎是写在图像元数据中的, 也就是说, 只要你是用 Adobe 系列的软件, 标签就不会丢失.</p>
+<h3 id="ACDSee"><a href="#ACDSee" class="headerlink" title="ACDSee">ACDSee</a></h3><p>这款软件是 Google 旗下的一款图像浏览器, 在很早的时候用过很久, 可以很方便的管理计算机内的图片.
+但这款软件大版本迭代太快了, 随着时间推进, 占用资源越来越多, 甚至还需要付费使用, 让我不得不放弃使用这款软件.</p>
+<h3 id="美图看看"><a href="#美图看看" class="headerlink" title="美图看看">美图看看</a></h3><p>这款软件最开始是美图秀秀绑在我电脑上的, 但用起来似乎还不错, 在较老的一些机器上也能比较流畅的运行.
+最主要的是界面也比较美观, 在使用 FastStone 之前我就是一直在使用这款图像浏览器, 以至于后面卸载了美图秀秀之后还专门下载了这款软件的独立版本.
+这款软件同样也有批量重命名和处理的功能, 但不如 FastStone 那样强大, 如果你比较__在乎软件的外观并且不是经常用来批量处理图片__, 这款软件也推荐给你.</p>
+<p>如果你也想看其他同类软件的横评, 请在下方评论区留言, 我看到后会尽量使用一段时间并简单分享.</p>
+<h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址">下载地址</a></h2><p><strong>网盘分流</strong>
+<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1o82Sj4A">百度网盘</a>
+<a target="_blank" rel="noopener" href="https://mega.nz/#!PthzGbDL!HHkgZEKrarL66OQlr5h_gtN_68ecjTtHJU0tzFpctPY">MEGA网盘</a>
+<em>更新日期 2017-3-22 软件版本 6.2
+安装包大小: 6.37 MB 安装后大小: 15.8 MB</em></p>
+<p><strong>其他渠道</strong>
+<a target="_blank" rel="noopener" href="http://xiazai.zol.com.cn/detail/10/99979.shtml">ZOL软件</a>
+<a target="_blank" rel="noopener" href="http://download.pchome.net/multimedia/viewer/detail-19822.html">PCHOME</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BA%94%E7%94%A8%E6%8E%A8%E8%8D%90/" rel="tag"><i class="fa fa-tag"></i> 应用推荐</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/lazy-customer/" rel="prev" title="“懒惰”的客户">
+                  <i class="fa fa-angle-left"></i> “懒惰”的客户
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/the-application-s-cookie-and-cache/" rel="next" title="我该不该清除电脑中的“垃圾”">
+                  我该不该清除电脑中的“垃圾” <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

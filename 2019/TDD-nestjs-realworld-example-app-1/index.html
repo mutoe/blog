@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="emmm, 最近计划着学习后端，本来想从 Java 开始，奈何新的知识点一股脑涌进来，只知道教程怎么做，而不说为什么，很是迷茫。 于是想从熟悉的技术栈开始，结合最近学习的知识（TDD、Docker、GitHub Actions）和想学的知识（NestJS、Postgres、Swagger）一步一步巩固和学习。 顺便记录下来沉淀和输出自己的知识，也希望能帮到大家少走一些弯路，告别 2019，迎接 2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手把手带你实践 TDD Nestjs Realworld 项目 - 1. 环境搭建篇">
+<meta property="og:url" content="https://blog.mutoe.com/2019/TDD-nestjs-realworld-example-app-1/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="emmm, 最近计划着学习后端，本来想从 Java 开始，奈何新的知识点一股脑涌进来，只知道教程怎么做，而不说为什么，很是迷茫。 于是想从熟悉的技术栈开始，结合最近学习的知识（TDD、Docker、GitHub Actions）和想学的知识（NestJS、Postgres、Swagger）一步一步巩固和学习。 顺便记录下来沉淀和输出自己的知识，也希望能帮到大家少走一些弯路，告别 2019，迎接 2">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/github-secrets.png">
+<meta property="og:image" content="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/after-action-triggered.png">
+<meta property="article:published_time" content="2019-12-30T05:27:04.000Z">
+<meta property="article:modified_time" content="2019-12-30T05:27:04.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Nestjs">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Postgres">
+<meta property="article:tag" content="TypeORM">
+<meta property="article:tag" content="TDD">
+<meta property="article:tag" content="Jest">
+<meta property="article:tag" content="GitHub Actions">
+<meta property="article:tag" content="Swagger">
+<meta property="article:tag" content="ESLint">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/github-secrets.png">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2019/TDD-nestjs-realworld-example-app-1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2019/TDD-nestjs-realworld-example-app-1/","path":"/2019/TDD-nestjs-realworld-example-app-1/","title":"手把手带你实践 TDD Nestjs Realworld 项目 - 1. 环境搭建篇"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>手把手带你实践 TDD Nestjs Realworld 项目 - 1. 环境搭建篇 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-%E5%86%85%E5%AE%B9%E9%A2%84%E5%91%8A"><span class="nav-text">0. 内容预告</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">1. 开发环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%89%8D%E7%BD%AE%E5%86%85%E5%AE%B9%E5%87%86%E5%A4%87"><span class="nav-text">1.1 前置内容准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%88%9B%E5%BB%BA-NestJS-%E9%A1%B9%E7%9B%AE"><span class="nav-text">1.2 创建 NestJS 项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E4%BF%AE%E6%94%B9-Lint-%E5%B7%A5%E5%85%B7"><span class="nav-text">1.3 修改 Lint 工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Docker-%E9%95%9C%E5%83%8F%E7%94%9F%E6%88%90"><span class="nav-text">2. Docker 镜像生成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E7%BC%96%E5%86%99-Dockerfile"><span class="nav-text">2.1 编写 Dockerfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%89%93%E5%8C%85%E9%95%9C%E5%83%8F"><span class="nav-text">2.2 打包镜像</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Pipeline-%E6%90%AD%E5%BB%BA"><span class="nav-text">3. Pipeline 搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0"><span class="nav-text">3.1 基本功能实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%A2%9E%E5%8A%A0%E6%9E%84%E5%BB%BA%E7%BC%93%E5%AD%98"><span class="nav-text">3.2 增加构建缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E8%87%AA%E5%8A%A8%E6%9E%84%E5%BB%BA%E5%B9%B6%E5%8F%91%E5%B8%83-Docker-%E9%95%9C%E5%83%8F"><span class="nav-text">3.3 自动构建并发布 Docker 镜像</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2019/TDD-nestjs-realworld-example-app-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="手把手带你实践 TDD Nestjs Realworld 项目 - 1. 环境搭建篇 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          手把手带你实践 TDD Nestjs Realworld 项目 - 1. 环境搭建篇<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/TDD-nestjs-realworld-example-app-1.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-12-30 13:27:04" itemprop="dateCreated datePublished" datetime="2019-12-30T13:27:04+08:00">2019-12-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>emmm, 最近计划着学习后端，本来想从 Java 开始，奈何新的知识点一股脑涌进来，只知道教程怎么做，而不说为什么，很是迷茫。</p>
+<p>于是想从熟悉的技术栈开始，结合最近学习的知识（TDD、Docker、GitHub Actions）和想学的知识（NestJS、Postgres、Swagger）一步一步巩固和学习。</p>
+<p>顺便记录下来沉淀和输出自己的知识，也希望能帮到大家少走一些弯路，告别 2019，迎接 2020！</p>
+<h1 id="0-内容预告"><a href="#0-内容预告" class="headerlink" title="0. 内容预告">0. 内容预告</a></h1><p>我们这次将要实现的系统是 <a target="_blank" rel="noopener" href="https://preact-realworld.mutoe.com/">Conduit</a> 的 API 部分，前些时间我已经 TDD 实践实现了 <a target="_blank" rel="noopener" href="https://github.com/mutoe/preact-realworld-example-app">Conduit 的前端部分</a>，技术栈选择了 Preact.</p>
+<p>Conduit 是什么，这是一个基于 <a target="_blank" rel="noopener" href="https://github.com/gothinkster/realworld">Realworld</a> 的示例项目。Realworld 集合了现今大部分的前后端框架，他们用不同的语言和技术展实现了同一个系统，也就是我们这次要做的 Conduit。</p>
+<p>当然，Realworld 现在也有 NestJS 的实现，不过既然是结合自己的知识点来学，当然不能照抄啦，假装网友们还没用 NestJS 实现它好啦，[偷笑][偷笑]</p>
+<p>这次用到的技术栈有：<code>Nestjs</code> <code>TypeScript</code> <code>Postgres</code> <code>Jest</code> <code>Docker</code> <code>Github Actions</code> <code>Swagger</code> <code>ESLint</code> , 然后我们会以 TDD 的方式进行开发，遵循“红-绿-重构”的方式一步一步的完成我们的项目。</p>
+<p>好，话不多说，赶紧进入实战演练吧！</p>
+<span id="more"></span>
+
+<h1 id="1-开发环境搭建"><a href="#1-开发环境搭建" class="headerlink" title="1. 开发环境搭建">1. 开发环境搭建</a></h1><h2 id="1-1-前置内容准备"><a href="#1-1-前置内容准备" class="headerlink" title="1.1 前置内容准备">1.1 前置内容准备</a></h2><p>在教程开始前，我们假定你已经安装了以下环境并且了解这些环境的基本知识。</p>
+<ul>
+<li>Nodejs</li>
+<li>Yarn</li>
+<li>Docker</li>
+<li>Postgres</li>
+<li>GitHub 仓库</li>
+<li>一个趁手的编辑器</li>
+</ul>
+<blockquote>
+<p>其中 Docker 是可选的，不懂或者不想用也没关系，跟着做或跳过就好。</p>
+</blockquote>
+<h2 id="1-2-创建-NestJS-项目"><a href="#1-2-创建-NestJS-项目" class="headerlink" title="1.2 创建 NestJS 项目">1.2 创建 NestJS 项目</a></h2><p>打开命令行，进入到项目目录，输入以下命令全局安装 nestjs 命令行工具并且创建一个新的 nestjs 项目</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn global add @nestjs/cli</span><br><span class="line">nest new nestjs-realworld-example-app</span><br></pre></td></tr></table></figure>
+
+<p>出现 <code>Which package manager would you to use</code> 时，选择 <code>yarn</code></p>
+<p>稍等一会你会得到这样一个目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">./nestjs-realworld-example-app</span><br><span class="line">├── .gitignore</span><br><span class="line">├── .prettierrc</span><br><span class="line">├── README.md</span><br><span class="line">├── nest-cli.json</span><br><span class="line">├── package.json</span><br><span class="line">├── src</span><br><span class="line">│   ├── app.controller.spec.ts</span><br><span class="line">│   ├── app.controller.ts</span><br><span class="line">│   ├── app.module.ts</span><br><span class="line">│   ├── app.service.ts</span><br><span class="line">│   └── main.ts</span><br><span class="line">├── test</span><br><span class="line">│   ├── app.e2e-spec.ts</span><br><span class="line">│   └── jest-e2e.json</span><br><span class="line">├── tsconfig.build.json</span><br><span class="line">├── tsconfig.json</span><br><span class="line">├── tslint.json</span><br><span class="line">└── yarn.lock</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3-修改-Lint-工具"><a href="#1-3-修改-Lint-工具" class="headerlink" title="1.3 修改 Lint 工具">1.3 修改 Lint 工具</a></h2><p>我们把 nestjs cli 默认生成的 <code>prettier</code> 和 <code>tslint</code> 移除，用 <code>typescript-eslint</code> 和 <code>standard</code> 代替</p>
+<blockquote>
+<p>WHY?</p>
+<p>TypeScript 官方已经放弃了 TSLint 的支持，选用了 ESLint 作为下一代的语法风格检查工具，<a target="_blank" rel="noopener" href="https://github.com/palantir/tslint#tslint">参考这里</a></p>
+</blockquote>
+<p>执行以下命令安装 ESLint 相关依赖</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> nestjs-realworld-example-app</span><br><span class="line">yarn add -D eslint eslint-plugin-jest @typescript-eslint/parser @typescript-eslint/eslint-plugin</span><br></pre></td></tr></table></figure>
+
+<p>然后安装 standard 相关的依赖</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add -D eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-plugin-standard</span><br></pre></td></tr></table></figure>
+
+<p>然后删除 tslint 和 prettier 相关文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -f .prettierrc tslint.json</span><br></pre></td></tr></table></figure>
+
+<p>修改 <code>package.json</code></p>
+<blockquote>
+<p>请注意，下面示例的内容为 diff 格式，为了方便比较修改的内容，红色代表被移除的行，绿色代表新增的行，本系列文章不再赘述。</p>
+</blockquote>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">  ...</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    ...</span><br><span class="line"><span class="deletion">-   &quot;format&quot;: &quot;prettier --write \&quot;src/**/*.ts\&quot; \&quot;test/**/*.ts\&quot;&quot;,</span></span><br><span class="line">    ...</span><br><span class="line"><span class="deletion">-   &quot;lint&quot;: &quot;tslint -p tsconfig.json -c tslint.json&quot;,</span></span><br><span class="line"><span class="addition">+   &quot;lint&quot;: &quot;eslint &#x27;**/*.ts&#x27;&quot;,</span></span><br><span class="line">    ...</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    ...</span><br><span class="line">    &quot;jest&quot;: &quot;^24.9.0&quot;,</span><br><span class="line"><span class="deletion">-   &quot;prettier&quot;: &quot;^1.18.2&quot;,</span></span><br><span class="line">    &quot;supertest&quot;: &quot;^4.0.2&quot;,</span><br><span class="line">    &quot;ts-jest&quot;: &quot;^24.1.0&quot;,</span><br><span class="line">    &quot;ts-loader&quot;: &quot;^6.1.1&quot;,</span><br><span class="line">    &quot;ts-node&quot;: &quot;^8.4.1&quot;,</span><br><span class="line">    &quot;tsconfig-paths&quot;: &quot;^3.9.0&quot;,</span><br><span class="line"><span class="deletion">-   &quot;tslint&quot;: &quot;^5.20.0&quot;,</span></span><br><span class="line">    &quot;typescript&quot;: &quot;^3.6.3&quot;</span><br><span class="line">  &#125;,</span><br><span class="line"><span class="addition">+ &quot;eslintConfig&quot;: &#123;</span></span><br><span class="line"><span class="addition">+   &quot;root&quot;: true,</span></span><br><span class="line"><span class="addition">+   &quot;parser&quot;: &quot;@typescript-eslint/parser&quot;,</span></span><br><span class="line"><span class="addition">+   &quot;parserOptions&quot;: &#123;</span></span><br><span class="line"><span class="addition">+     &quot;project&quot;: &quot;./tsconfig.json&quot;,</span></span><br><span class="line"><span class="addition">+     &quot;tsconfigRootDir&quot;: &quot;./&quot;</span></span><br><span class="line"><span class="addition">+   &#125;,</span></span><br><span class="line"><span class="addition">+   &quot;plugins&quot;: [</span></span><br><span class="line"><span class="addition">+     &quot;@typescript-eslint&quot;,</span></span><br><span class="line"><span class="addition">+     &quot;jest&quot;</span></span><br><span class="line"><span class="addition">+   ],</span></span><br><span class="line"><span class="addition">+   &quot;extends&quot;: [</span></span><br><span class="line"><span class="addition">+     &quot;plugin:@typescript-eslint/recommended&quot;,</span></span><br><span class="line"><span class="addition">+     &quot;plugin:jest/recommended&quot;,</span></span><br><span class="line"><span class="addition">+     &quot;standard&quot;</span></span><br><span class="line"><span class="addition">+   ],</span></span><br><span class="line"><span class="addition">+   &quot;rules&quot;: &#123;</span></span><br><span class="line"><span class="addition">+     &quot;comma-dangle&quot;: [</span></span><br><span class="line"><span class="addition">+       &quot;error&quot;,</span></span><br><span class="line"><span class="addition">+       &quot;always-multiple&quot;</span></span><br><span class="line"><span class="addition">+     ],</span></span><br><span class="line"><span class="addition">+     &quot;@typescript-eslint/explicit-function-return-type&quot;: &quot;off&quot;,</span></span><br><span class="line"><span class="addition">+     &quot;jest/expect-expect&quot;: &quot;off&quot;</span></span><br><span class="line"><span class="addition">+   &#125;</span></span><br><span class="line"><span class="addition">+ &#125;,</span></span><br><span class="line"><span class="addition">+ &quot;eslintIgnore&quot;: [</span></span><br><span class="line"><span class="addition">+   &quot;node_modules&quot;,</span></span><br><span class="line"><span class="addition">+   &quot;dist&quot;,</span></span><br><span class="line"><span class="addition">+   &quot;coverage&quot;</span></span><br><span class="line"><span class="addition">+ ],</span></span><br><span class="line">  &quot;jest&quot;: &#123;</span><br><span class="line">    &quot;moduleFileExtensions&quot;: [</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>这一步执行完成之后，我们执行下面的命令来自动格式化我们的代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn lint --fix</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果你使用的 IDE 是 Intellij 家族的，那么还会自动弹出提示框来读取 eslint 配置</p>
+</blockquote>
+<p>到这里，我们的本地开发准备工作就完成啦，你可以运行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn start</span><br></pre></td></tr></table></figure>
+
+<p>访问 3000 端口，如果出现了 “Hello world” 说明我们到这一步就没问题了</p>
+<h1 id="2-Docker-镜像生成"><a href="#2-Docker-镜像生成" class="headerlink" title="2. Docker 镜像生成">2. Docker 镜像生成</a></h1><p>为了保证部署与开发环境统一，我们使用 Docker 作为我们的容器</p>
+<h2 id="2-1-编写-Dockerfile"><a href="#2-1-编写-Dockerfile" class="headerlink" title="2.1 编写 Dockerfile">2.1 编写 Dockerfile</a></h2><p>我们在根目录下创建一个 <code>.dockerignore</code> 文件，内容如下</p>
+<figure class="highlight plaintext"><figcaption><span>.dockerignore</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">node_modules</span><br><span class="line">.git</span><br><span class="line">.idea</span><br><span class="line">.vscode</span><br><span class="line">/coverage</span><br></pre></td></tr></table></figure>
+
+<p>然后我们在根目录继续创建一个 <code>Dockerfile</code> 文件，内容如下</p>
+<figure class="highlight dockerfile"><figcaption><span>Dockerfile</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> node:<span class="number">12</span>-alpine AS dependencies</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /usr/src/app</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> package.json yarn.lock ./</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> yarn install --production</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">FROM</span> node:<span class="number">12</span>-alpine</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /usr/src/app</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> package.json dist ./</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> --from=dependencies /usr/src/app/node_modules ./node_modules</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">3000</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [ <span class="string">&quot;node&quot;</span>, <span class="string">&quot;dist/main&quot;</span> ]</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>为了避免镜像中打包冗余的文件，我们使用多阶段构建镜像</p>
+</blockquote>
+<h2 id="2-2-打包镜像"><a href="#2-2-打包镜像" class="headerlink" title="2.2 打包镜像">2.2 打包镜像</a></h2><blockquote>
+<p>在此步骤之前,请确认你本地已经登录了 docker 账号</p>
+</blockquote>
+<p>为了方便我们对镜像版本管理，我们在 <code>package.json</code> 中新建一个脚本来打包镜像</p>
+<figure class="highlight diff"><figcaption><span>package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  ...</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;prebuild&quot;: &quot;rimraf dist&quot;,</span><br><span class="line">    &quot;build&quot;: &quot;nest build&quot;,</span><br><span class="line"><span class="addition">+   &quot;build:docker&quot;: &quot;yarn build &amp;&amp; docker build -t mutoe/$npm_package_name:latest . &amp;&amp; docker push mutoe/$npm_package_name:latest&quot;,</span></span><br><span class="line">    &quot;start&quot;: &quot;nest start&quot;,</span><br><span class="line">    &quot;start:dev&quot;: &quot;nest start --watch&quot;,</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>需要注意的是，我们在本地 build 好 dist 目录后，在 docker 中下载了生产环境所需要的依赖，然后一并进行打包。这样就可以避免我们在 docker 中全量下载依赖了，有效的节约了构建镜像的时间。<br>但是这种做法必须保证你进行打包的 node 环境和 docker 中的 node 版本一致，否则有可能打包出来的是不可用的，这样就失去了使用 docker 的意义。</p>
+</blockquote>
+<p>然后执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn build:docker</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，我们用多阶段构建的方法打包出来的镜像有 92M</p>
+<pre><code>$ docker images
+REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
+mutoe/nestjs-realworld-example-app   latest              b7cedde8299d        5 seconds ago       92.2MB
+</code></pre>
+<p>然后登录 <a target="_blank" rel="noopener" href="https://hub.docker.com/repositories">docker hub</a>, 最终压缩后的 <a target="_blank" rel="noopener" href="https://hub.docker.com/layers/mutoe/nestjs-realworld-example-app/0.1.0/images/sha256-c5e4a523f383751c2eb69a377801039995f206ad3b7e10f565b2880fa032837e">docker 镜像</a>大小只有 28M</p>
+<h1 id="3-Pipeline-搭建"><a href="#3-Pipeline-搭建" class="headerlink" title="3. Pipeline 搭建">3. Pipeline 搭建</a></h1><h2 id="3-1-基本功能实现"><a href="#3-1-基本功能实现" class="headerlink" title="3.1 基本功能实现">3.1 基本功能实现</a></h2><p>我们选用 github 新出的功能 GitHub Actions 来作为我们项目的 Pipeline 工具。</p>
+<p>我们在根目录下创建以下目录结构</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> .</span><br><span class="line"> ├── .dockerignore</span><br><span class="line"><span class="addition">+├── .github</span></span><br><span class="line"><span class="addition">+│   └── workflows</span></span><br><span class="line"><span class="addition">+│       └── nodejs.yml</span></span><br><span class="line"> ├── .gitignore</span><br><span class="line"> ...</span><br></pre></td></tr></table></figure>
+
+<p>编辑 <code>nodejs.yml</code></p>
+<figure class="highlight yml"><figcaption><span>nodejs.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Node</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span> [<span class="string">push</span>]</span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">env:</span></span><br><span class="line">      <span class="attr">CI:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v1</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">Nodejs</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="number">12</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">dependencies</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">yarn</span> <span class="string">install</span> <span class="string">--skip-integrity-check</span> <span class="string">--non-interactive</span> <span class="string">--no-progress</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Lint</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">yarn</span> <span class="string">lint</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Test</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">yarn</span> <span class="string">test</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其中 “Install dependencies” 部分,我们给 <code>yarn install</code> 添加了一些参数，他们是用来在 CI 环境下移除掉一些需要交互的内容。</p>
+</blockquote>
+<p>上面就配置了一个最简单的 workflow，你每次推代码的时候，就会自动触发 github actions，来 lint 和 test 你的代码。</p>
+<h2 id="3-2-增加构建缓存"><a href="#3-2-增加构建缓存" class="headerlink" title="3.2 增加构建缓存">3.2 增加构建缓存</a></h2><p>不过你会发现，我们每次推代码都会重新安装依赖，这会花费很长时间。</p>
+<p>不过没关系，github actions 市场上有这样一个插件 <code>actions/cache</code> 这个可以用来缓存每次运行 CI 的产物。</p>
+<p>我们安装依赖前添加一些内容以缓存 yarn 的依赖</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">      - name: Setup Nodejs</span><br><span class="line">        uses: actions/setup-node@v1</span><br><span class="line">        with:</span><br><span class="line">          node-version: 12</span><br><span class="line"></span><br><span class="line"><span class="addition">+     - name: Get yarn cache</span></span><br><span class="line"><span class="addition">+       id: yarn-cache</span></span><br><span class="line"><span class="addition">+       run: echo &quot;::set-output name=dir::$(yarn cache dir)&quot;</span></span><br><span class="line"><span class="addition">+</span></span><br><span class="line"><span class="addition">+     - uses: actions/cache@v1</span></span><br><span class="line"><span class="addition">+       with:</span></span><br><span class="line"><span class="addition">+         path: $&#123;&#123; steps.yarn-cache.outputs.dir &#125;&#125;</span></span><br><span class="line"><span class="addition">+         key: $&#123;&#123; runner.os &#125;&#125;-yarn-$&#123;&#123; hashFiles(&#x27;**/yarn.lock&#x27;) &#125;&#125;</span></span><br><span class="line"><span class="addition">+         restore-keys: |</span></span><br><span class="line"><span class="addition">+           $&#123;&#123; runner.os &#125;&#125;-yarn-</span></span><br><span class="line"><span class="addition">+</span></span><br><span class="line">      - name: Install dependencies</span><br><span class="line">        run: yarn install --skip-integrity-check --non-interactive --no-progress</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>重新提交几次代码，你会发现后面的步骤会跳过耗时很长的安装依赖步骤，这很 Nice！</p>
+<h2 id="3-3-自动构建并发布-Docker-镜像"><a href="#3-3-自动构建并发布-Docker-镜像" class="headerlink" title="3.3 自动构建并发布 Docker 镜像">3.3 自动构建并发布 Docker 镜像</a></h2><p>为了在 GitHub Actions 里发布 docker 镜像, 我们需要使用 GitHub 市场中的 <a target="_blank" rel="noopener" href="https://github.com/marketplace/actions/docker-login">Docker Login</a> 插件,
+打开我们刚才的 action 配置文件, 在文件末尾追加下面两段</p>
+<figure class="highlight diff"><figcaption><span>nodejs.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">      - name: Lint</span><br><span class="line">        run: yarn lint</span><br><span class="line"></span><br><span class="line">      - name: Test</span><br><span class="line">        run: yarn test</span><br><span class="line"></span><br><span class="line"><span class="addition">+     - uses: azure/docker-login@v1</span></span><br><span class="line"><span class="addition">+       with:</span></span><br><span class="line"><span class="addition">+         username: $&#123;&#123; secrets.DOCKER_USERNAME &#125;&#125;</span></span><br><span class="line"><span class="addition">+         password: $&#123;&#123; secrets.DOCKER_PASSWORD &#125;&#125;</span></span><br><span class="line"><span class="addition">+</span></span><br><span class="line"><span class="addition">+     - name: Build docker image</span></span><br><span class="line"><span class="addition">+       run: yarn build:docker</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来我们需要在 GitHub 中设置我们的 secrets</p>
+<p>在 github 中打开我们的项目,然后点击 <code>Settings</code>,在左侧选择 <code>Secrets</code>, 然后点击 <code>Add a new secret</code> 分别添加我们的 docker 账号和密码, secret key 和上面设置的是一样的哦 (<code>DOCKER_USERNAME</code> <code>DOCKER_PASSWORD</code>)</p>
+<p><img src="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/github-secrets.png" alt="github secrets"></p>
+<p>设置完毕后,推代码, 然后进入 github actions 页面观察我们的构建, 最后会是这个样子</p>
+<p><img src="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/after-action-triggered.png" alt="after action triggered"></p>
+<!-- TODO: 增加 Postgres 环境 -->
+
+<p>如果你看到上面这个画面, 恭喜你, 我们的 Pipeline 部署成功啦!</p>
+<p>所有步骤完成之后, 最终我们的项目应该长<a target="_blank" rel="noopener" href="https://github.com/mutoe/nestjs-realworld-example-app/tree/2a7c8da63e6c0d62902ea510dd0eca98507ec7e8">这个样子</a>. (这是项目当前的快照, 你可以在任何时候查看它)</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料">参考资料</a></h1><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.nestjs.com/first-steps">First steps - NestJS Document</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/palantir/tslint-in-2019-1a144c2317a9">TSLint in 2019</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.to/itmayziii/typescript-eslint-and-standardjs-5hmd">Typescript + ESLint and StandardJS </a></li>
+<li><a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn/docs/guides/nodejs-docker-webapp/">把一个 Node.js web 应用程序给 Docker 化</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5cada976f265da035e210bf8">Nodejs Docker 镜像体积优化实践</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+              <a href="/tags/Nestjs/" rel="tag"><i class="fa fa-tag"></i> Nestjs</a>
+              <a href="/tags/TypeScript/" rel="tag"><i class="fa fa-tag"></i> TypeScript</a>
+              <a href="/tags/Postgres/" rel="tag"><i class="fa fa-tag"></i> Postgres</a>
+              <a href="/tags/TypeORM/" rel="tag"><i class="fa fa-tag"></i> TypeORM</a>
+              <a href="/tags/TDD/" rel="tag"><i class="fa fa-tag"></i> TDD</a>
+              <a href="/tags/Jest/" rel="tag"><i class="fa fa-tag"></i> Jest</a>
+              <a href="/tags/GitHub-Actions/" rel="tag"><i class="fa fa-tag"></i> GitHub Actions</a>
+              <a href="/tags/Swagger/" rel="tag"><i class="fa fa-tag"></i> Swagger</a>
+              <a href="/tags/ESLint/" rel="tag"><i class="fa fa-tag"></i> ESLint</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/docker-study-note/" rel="prev" title="Docker 学习心得">
+                  <i class="fa fa-angle-left"></i> Docker 学习心得
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/TDD-nestjs-realworld-example-app-2/" rel="next" title="手把手带你实践 TDD Nestjs Realworld 项目 - 2. 数据库连接">
+                  手把手带你实践 TDD Nestjs Realworld 项目 - 2. 数据库连接 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

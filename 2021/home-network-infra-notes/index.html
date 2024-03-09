@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="最近把家里的网络折腾了一下，整体用下来感觉还不错，这里记录下来分享给大家，大家一起学习交流~  痛点：  科学上网。现在家里的网络总是觉得有些不尽人意，本人最大的爱好就是周末宅在家里搞搞开源、打打游戏。遇到问题了 Google &#x2F; StackOverflow 效率是比 Baidu 高，而每个设备自己科学上网比较繁琐，需要各自管理白名单，太麻烦… NAS 访问慢。和爱人出去玩偶尔会拍一些照">
+<meta property="og:type" content="article">
+<meta property="og:title" content="家庭网络折腾记">
+<meta property="og:url" content="https://blog.mutoe.com/2021/home-network-infra-notes/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="最近把家里的网络折腾了一下，整体用下来感觉还不错，这里记录下来分享给大家，大家一起学习交流~  痛点：  科学上网。现在家里的网络总是觉得有些不尽人意，本人最大的爱好就是周末宅在家里搞搞开源、打打游戏。遇到问题了 Google &#x2F; StackOverflow 效率是比 Baidu 高，而每个设备自己科学上网比较繁琐，需要各自管理白名单，太麻烦… NAS 访问慢。和爱人出去玩偶尔会拍一些照">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/infra.png">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/router.png">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/openwrt.png">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/wan-dial-up.png">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/dhcp-static-address.png">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/ap-settings.png">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/ssr.png">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/ddns.png">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/ipsec.png">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/android-vpn.jpg">
+<meta property="og:image" content="https://static.mutoe.com/2024/home-network-infra-notes/setup-openvpn.png">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/qnap-lan-settings.png">
+<meta property="og:image" content="https://static.mutoe.com/2021/home-network-infra-notes/idea-docker.png">
+<meta property="article:published_time" content="2021-04-11T08:12:26.000Z">
+<meta property="article:modified_time" content="2021-04-11T08:12:26.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="家庭网络">
+<meta property="article:tag" content="Openwrt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.mutoe.com/2021/home-network-infra-notes/infra.png">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2021/home-network-infra-notes/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2021/home-network-infra-notes/","path":"/2021/home-network-infra-notes/","title":"家庭网络折腾记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>家庭网络折腾记 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BD%AF%E8%B7%AF%E7%94%B1"><span class="nav-text">软路由</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Openwrt"><span class="nav-text">Openwrt</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#WAN-%E5%8F%A3"><span class="nav-text">WAN 口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LAN"><span class="nav-text">LAN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AP"><span class="nav-text">AP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%B8%E9%85%B8%E4%B9%B3"><span class="nav-text">酸酸乳</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DDNS"><span class="nav-text">DDNS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E5%85%A8"><span class="nav-text">安全</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NAS"><span class="nav-text">NAS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker"><span class="nav-text">Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#zsh"><span class="nav-text">zsh</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2021/home-network-infra-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="家庭网络折腾记 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          家庭网络折腾记<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/home-network-infra-notes.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-11 16:12:26" itemprop="dateCreated datePublished" datetime="2021-04-11T16:12:26+08:00">2021-04-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>最近把家里的网络折腾了一下，整体用下来感觉还不错，这里记录下来分享给大家，大家一起学习交流~</p>
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/infra.png" alt="Infrastructure"></p>
+<p>痛点：</p>
+<ul>
+<li>科学上网。现在家里的网络总是觉得有些不尽人意，本人最大的爱好就是周末宅在家里搞搞开源、打打游戏。遇到问题了 Google &#x2F; StackOverflow 效率是比 Baidu 高，而每个设备自己科学上网比较繁琐，需要各自管理白名单，太麻烦…</li>
+<li>NAS 访问慢。和爱人出去玩偶尔会拍一些照片和 Vlog，这些都是美好珍贵的记忆，目前存在自己的私有云上，想看了拿出来看看，照片列表加载缓慢，视频进度拖拉卡顿…</li>
+<li>WIFI 信号。之前路由器是放在客厅，信号到卧室床头比较曲折，有时关门后甚至断网，网络体验极差…</li>
+</ul>
+<p>折腾后：</p>
+<ul>
+<li>全屋设备科学上网。在软路由里根据 IP 地址分流，国外 IP 走代理，国内直连。终端无需单独开软件，无需在意是否国内外网站。</li>
+<li>广告过滤。同上。</li>
+<li>内网全千兆访问。访问 NAS 资源、各设备之间文件互传速度大幅提升，堪比本地访问。</li>
+<li>Docker。开发时如果需要容器资源，内外网都可使用路由器的 Docker，节约开发机资源，目前资源是 4C8G。</li>
+<li>数据安全。之前 NAS 是直接暴露在公网的，且没有开启 HTTP，现在公网访问内网设备需要 VPN，访问 NAS 强制 HTTPS。</li>
+<li>扩大 WIFI 信号覆盖。未来搬去新家后智能设备增多，WIFI6 是必不可少的。出于成本考虑，WIFI6 AP 放在客厅，现有垃圾 AP 放在卧室。</li>
+</ul>
+<p>硬件改造成本共 1135 元</p>
+<ul>
+<li>软路由： J4105，8G DDR4 + 64G SATA固态 咸鱼 750 元</li>
+<li>交换机： 水星SG108C 塑料8口 JD 69元</li>
+<li>AP： 华为AX3Pro 咸鱼 295 元</li>
+<li>网线： 绿联6类线 0.5m x3 JD 21元</li>
+</ul>
+<blockquote>
+<p>哭，现在设备各种涨价， ax3pro 暴涨 150 元，蹲了二周才蹲到低于 300 元的 AP，J4105 也涨了 100 多，不知道是不是受了这一波矿潮影响…</p>
+</blockquote>
+<p>总之，想把网络环境做好，最大的变化就是没有变化，让用户感觉不到就成功了，只需要默默地提供稳定的服务就好~</p>
+<span id="more"></span>
+
+<h1 id="软路由"><a href="#软路由" class="headerlink" title="软路由">软路由</a></h1><p>首先科普一下软路由，和普通的路由器有什么区别呢？</p>
+<p>一般家庭宽带入户都是光纤，这个光信号是不能直接用来接入一般路由器或电脑的（特殊网卡除外），所以需要一台机器将光信号转化为电信号，这个机器就是 <strong>调制解调器</strong> 啦，俗称光猫。</p>
+<p>光猫接入光信号，输出弱电信号（通常是 RJ45 端口）。</p>
+<p>IPTV 的网口的设置一般也会在光猫中内置的路由中设置。装网的师傅也会在光猫里帮你设置好拨号，那么你的设备只需要将网线插入光猫的 LAN 口即可上网。</p>
+<p>如果你不是用的光猫作为 WIFI 发射器，那么你还会买入一个 WIFI 路由器（我们简称硬路由），将它的 WAN 或 LAN 口和光猫的 LAN 口相连，设置一下 WIFI 密码，你的手机也可以无线上网了。</p>
+<p>到这里为止，宽带师傅就收钱（设备调试费）跑了。那么我们得到一张下面的图</p>
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/router.png" alt="Router"></p>
+<p>他们承担了以下 4 项工作</p>
+<ul>
+<li>调制解调器：Modem，负责光电信号转换</li>
+<li>路由器： Router，负责对数据进行分发</li>
+<li>交换机： Switch，负责设备之间的数据交换</li>
+<li>AP： Access Point，把有线网络转化为无线网络</li>
+</ul>
+<p>有同学就会问了，那光猫不是把这四件事都做了，还需要路由器做什么？是因为光猫为了成本考虑，只有一个千兆 LAN 端口，其他 LAN 口都是百兆，并且自带的 AP 接入点只是用来做设备调试的，实际使用卡到爆。所以你才需要一个额外的路由器。</p>
+<p>那我为什么还需要软路由呢？因为路由器提供的功能不满足个人需求使用，比如科学上网等，软路由相当于购入一台微型电脑，路由只是它其中一项功能。性能好的硬路由成本太高（Ax86u说你呢），所以我们采用分体设计的方案。</p>
+<p>交换机实现内网数据交换，不消耗路由器资源。当然如果你有线设备不多，也可以省去交换机，直接使用千兆无线路由器即可。</p>
+<h1 id="Openwrt"><a href="#Openwrt" class="headerlink" title="Openwrt">Openwrt</a></h1><p>我使用的软路由机器是 J4105 (以下简称这台机器为软路由)，机器购入后，由于是咸鱼二手，测试了一下硬件什么的，没问题后开始刷机，系统是 <a target="_blank" rel="noopener" href="https://openwrt.club/dl">openwrt.club</a> 的精品小包。本来想刷高大全版的，连上后一直找不到 wan 口，遂放弃。</p>
+<p>刷机参考 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1w541157Uo">B站 BraveRu</a> 的视频，非常详细。刷机成功后进入管理页面，看到 4C8G 和 2个千兆端口，啊，舒服</p>
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/openwrt.png" alt="OpenWrt"></p>
+<h2 id="WAN-口"><a href="#WAN-口" class="headerlink" title="WAN 口">WAN 口</a></h2><p>如果你装了宽带，并且是光纤入户的话（或者电话线入户），需要有一台机器将光信号转化为电信号，这个就是光猫啦，学名调制解调器。</p>
+<p>首先登入光猫管理页面，将千兆网口连接方式改为桥接（如果有 IPTV 的话可以保留其他端口），之后这个千兆网口接入软路由。</p>
+<p>然后登录 OpenWrt 管理页面，找到 网络-接口-WAN，协议修改为 PPPOE，填入宽带帐号密码。如果不知道的话就打电话问装宽带的人。</p>
+<blockquote>
+<p>宽带用户名密码我是直接从光猫管理页面的 HTML 里扒出来的，可怕。。</p>
+</blockquote>
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/wan-dial-up.png" alt="Dial-up"></p>
+<h2 id="LAN"><a href="#LAN" class="headerlink" title="LAN">LAN</a></h2><p>LAN 口没什么可设置的，就用了 OpenWrt 默认的 <code>192.168.5.1/24</code> 网段，开启 DHCP，修改了下 DHCP 租期为 7 天。</p>
+<p>默认设备分配 100-250 地址（100 以下想保留给固定设备，比如 NAS、AP 管理页面等）</p>
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/dhcp-static-address.png" alt="DHCP static address"></p>
+<h2 id="AP"><a href="#AP" class="headerlink" title="AP">AP</a></h2><p>然后登录原来的路由器管理页面（以下简称这台机器为AP），找到 LAN 口设置，关闭 DHCP，我们只用软路由分配 IP 地址。</p>
+<p>关闭 DHCP 后，我们需要手动指定一下这台路由器的 IP 地址，按照上图设置为保留的 <code>192.168.5.3</code>, 掩码 <code>255.255.255.0</code>，这台路由器我们就制作为 AP 使用啦。</p>
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/ap-settings.png" alt="AP Settings"></p>
+<p>未来如果想要修改 WIFI 密码什么的，可以登录 <code>192.168.5.3</code> 或静态地址分配里设置的主机名 <code>tplink.lan</code> 访问这个 AP</p>
+<h1 id="酸酸乳"><a href="#酸酸乳" class="headerlink" title="酸酸乳">酸酸乳</a></h1><p>这里就不过多介绍了。。小命要紧，小命要紧，就一张图。前段时间华为云活动，领了个香港机器做备用节点，是蛮快的，平时还是走自己的韩国节点。</p>
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/ssr.png" alt="酸酸乳"></p>
+<p>运行模式设置为绕过大陆 IP 模式，这样就可以实现全屋设备上网啦~</p>
+<p>其他的广告过滤和解锁网易云都可以用，还可以代理 Netflix，不过我的节点不支持，我也不太需要就算咯。</p>
+<h1 id="DDNS"><a href="#DDNS" class="headerlink" title="DDNS">DDNS</a></h1><p>那么如果身处外网，想要访问家里的设备怎么办呢？如果你的宽带有公网 IP，那么你就可以通过家里的公网 IP 地址，然后直接访问路由器中的服务。</p>
+<p>但是这个 IP 地址是动态的，每隔一段时间就会变，所以我们需要一个动态 DNS 服务来将一个固定的域名解析到我们 IP 随时会发生变化的路由器上，这个服务就叫做 DDNS。</p>
+<p>成都联通有一点比较好的是入户默认开了公网 IP，让外网访问变得简单了许多，不过缺点就是封锁了 80 端口，不过没关系，我的核心业务还是在云上的，毕竟可靠一点，家里的机器就做些边缘的事情就好。</p>
+<p>如果你是移动用户的话，基本不可能申请到公网 IP，因为移动本身就没有多少可用的 IP 地址，这时候就需要使用内网穿透技术了，这里不做过多介绍，可以自行搜索。</p>
+<p>有了公网 IP，接下来就需要设置一个动态 DNS 解析的机制了，毕竟公网 IP 三天一小变，五天一大变。我的域名是放在 Aliyun 解析的，创建子账户后分配好 DNS 权限，交给 OpenWrt 去做就好，比较省心。</p>
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/ddns.png" alt="DDNS"></p>
+<h1 id="安全"><a href="#安全" class="headerlink" title="安全">安全</a></h1><p>由于内网有 NAS 和摄像头，数据可不能随便被弄出去了，数据安全是非常重要的，检查下 网络-防火墙 设置。端口转发和规则都在这里设置，只保留需要的端口即可。</p>
+<p>由于本人技术垃圾，不想直接将端口暴露在公网，太危险了，鬼知道什么妖魔鬼怪进来安装个勒索程序或者挖矿脚本什么的。所以如果想在外面访问家里内网的话，连接 VPN 即可回家。</p>
+<p>Update: 2024-01-21 随着时代进步，第一代 VPN-IPSec 技术已经无法在现代的手机上使用，但是第二代我不知道为什么一直设置不成功，所以这里不再推荐使用 VPN-IPSec 技术，而是使用 OpenVPN 服务器。</p>
+<details>
+<summary>点击展开 IPSec VPN 第一代教程 (不推荐)</summary> 
+找到 "VPN-IPSec VPN 服务器" 点击启用，设置好地址、用户名密码即可，然后 Android 或 iOS 使用系统自带的 VPN 功能即可回家。
+
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/ipsec.png" alt="IPSec"></p>
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/android-vpn.jpg" alt="Android VPN"></p>
+</details>
+
+<p><img src="https://static.mutoe.com/2024/home-network-infra-notes/setup-openvpn.png"></p>
+<p>其中 DDNS 域名是上面提到的 DDNS 服务中你设置的域名。</p>
+<p>按照此步骤设置 OpenVPN 服务器，然后下载 OpenVPN 客户端，导入配置文件即可，这里就不做过多介绍了。 </p>
+<h1 id="NAS"><a href="#NAS" class="headerlink" title="NAS">NAS</a></h1><p>前面我们在路由表里为 NAS 设置了静态路由，现在需要进入到 NAS 里将 IP 地址固定下来</p>
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/qnap-lan-settings.png" alt="QNAP LAN settings"></p>
+<p>然后把 Container Station 和各种服务关了，之后就专注存储吧。</p>
+<p>经朋友提醒，想实现内网全千兆的话还需要 NAS 硬盘支持千兆读写，看了一下我这款红盘速度还可以，平均 150MB&#x2F;s 读写，勉强打到千兆水平。</p>
+<p>现有方案是单硬盘 + 每天归档存储至 Aliyun 对象存储，后续可以组 RAID0 稍微提一提速。。。可能不是很有必要，其他设施得要 2.5Gbps 支持了</p>
+<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker">Docker</a></h1><p>话说这个机器性能完全过剩了啊，根据国外大佬的测评，千兆网速 Vmess 跑满也才 50% 负载，二话不说，上 Docker。</p>
+<p>由于 OpenWrt 内置的 Docker 没有开启远程访问，我们需要修改 Docker daemon 的启动参数以支持远程访问。</p>
+<p>先远程联入系统，然后找到 <code>/etc/config/dockerd</code> 文件, 修改启动参数 hosts</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh root@openwrt.lan</span><br><span class="line">vim /etc/config/dockerd</span><br></pre></td></tr></table></figure>
+
+<p>找到 <code>config globals &#39;globals&#39;</code> 加入下面一行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list hosts &#x27;tcp://0.0.0.0:2375&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>然后重启 Docker daemon 即可远程接入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/dockerd restart</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/idea-docker.png" alt="IDEA Docker"></p>
+<h2 id="zsh"><a href="#zsh" class="headerlink" title="zsh">zsh</a></h2><p>能终端接入的话不说了 Zsh、Zinit 安排起来。</p>
+<p>在 OpenWrt 上折腾可以参考这篇帖子，<a target="_blank" rel="noopener" href="https://itcao.com/2020/06031516.html">在openwrt中最小化安装oh-my-zsh</a>。</p>
+<blockquote>
+<p>我遇到了一个奇怪的问题，使用非默认 sh 的时候（OpenWrt 默认为 ash），按退格会变成空格，网上找了一番，在 <code>.zshrc</code> 中设置如下配置即可，可能是我用 Tmux 时设置了 TERM 的原因</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export TERM=vt100</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>好啦，这就是本篇博客的所有内容啦，欢迎大家分享自己的家庭网络架构，一起学习一起折腾~</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+              <a href="/tags/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C/" rel="tag"><i class="fa fa-tag"></i> 家庭网络</a>
+              <a href="/tags/Openwrt/" rel="tag"><i class="fa fa-tag"></i> Openwrt</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/react-vite-migration/" rel="prev" title="React Vite 迁移指南">
+                  <i class="fa fa-angle-left"></i> React Vite 迁移指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/frontend-test-optimize-diary/" rel="next" title="换了M1后，我的前端测试提速了10倍！">
+                  换了M1后，我的前端测试提速了10倍！ <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

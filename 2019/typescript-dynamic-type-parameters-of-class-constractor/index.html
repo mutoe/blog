@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前段时间听说 Vue3.x 要使用 TypeScript 重构了, 本来一直都想研究一下 Vue 的源码, 这次带着夙愿来从头编写一个简单的、现代化的 Vue.  搭建好 TypeScript 开发环境后, 开始了一段 TypeScript 与 Vue 源码的探索之旅. 背景我使用 ES6 class 创建了一个 Vue 类, 为了实现数据监听, 我使用了 ES2015 中的 proxy 方法来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript 进阶：Class 中的动态类型参数">
+<meta property="og:url" content="https://blog.mutoe.com/2019/typescript-dynamic-type-parameters-of-class-constractor/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="前段时间听说 Vue3.x 要使用 TypeScript 重构了, 本来一直都想研究一下 Vue 的源码, 这次带着夙愿来从头编写一个简单的、现代化的 Vue.  搭建好 TypeScript 开发环境后, 开始了一段 TypeScript 与 Vue 源码的探索之旅. 背景我使用 ES6 class 创建了一个 Vue 类, 为了实现数据监听, 我使用了 ES2015 中的 proxy 方法来">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-24T16:24:57.000Z">
+<meta property="article:modified_time" content="2019-04-24T16:24:57.000Z">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="Vue">
+<meta property="article:tag" content="TypeScript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/2019/typescript-dynamic-type-parameters-of-class-constractor/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.mutoe.com/2019/typescript-dynamic-type-parameters-of-class-constractor/","path":"/2019/typescript-dynamic-type-parameters-of-class-constractor/","title":"TypeScript 进阶：Class 中的动态类型参数"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>TypeScript 进阶：Class 中的动态类型参数 | 木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">木头的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Proxy"><span class="nav-text">Proxy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B"><span class="nav-text">泛型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%B1%BB%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC%E7%B1%BB%E5%9E%8B"><span class="nav-text">修改类的返回值类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%B1%BB"><span class="nav-text">1. 不使用构造函数实例化类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%AF%B9%E7%B1%BB%E4%BD%BF%E7%94%A8%E5%8D%95%E7%8B%AC%E7%9A%84%E7%AD%BE%E5%90%8D"><span class="nav-text">2. 对类使用单独的签名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-text">参考链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2019/typescript-dynamic-type-parameters-of-class-constractor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="TypeScript 进阶：Class 中的动态类型参数 | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TypeScript 进阶：Class 中的动态类型参数<a href="https://github.com/mutoe/mutoe.github.io/tree/master/source/_posts/typescript-dynamic-type-parameters-of-class-constractor.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-25 00:24:57" itemprop="dateCreated datePublished" datetime="2019-04-25T00:24:57+08:00">2019-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>前段时间听说 Vue3.x 要使用 TypeScript 重构了, 本来一直都想研究一下 Vue 的源码, 这次带着夙愿来从头编写一个简单的、现代化的 Vue.</p>
+</blockquote>
+<p>搭建好 TypeScript 开发环境后, 开始了一段 TypeScript 与 Vue 源码的探索之旅.</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景">背景</a></h1><p>我使用 ES6 <code>class</code> 创建了一个 Vue 类, 为了实现数据监听, 我使用了 ES2015 中的 <code>proxy</code> 方法来对数据进行封装, 
+并且将这个 <code>proxy</code> 返回给类的构造方法, 以便于获取 <code>vm</code> 实例.</p>
+<p>代码如下</p>
+<details>
+<summary>查看源代码</summary>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">IOptions</span> &#123;</span><br><span class="line">  <span class="attr">data</span>: <span class="function">() =&gt;</span> <span class="title class_">Record</span>&lt;<span class="built_in">string</span>, <span class="built_in">any</span>&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Vue</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">$options</span>: <span class="title class_">IOptions</span> = &#123;</span><br><span class="line">    <span class="attr">data</span>: <span class="function">() =&gt;</span> (&#123;&#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">options: IOptions</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">$options</span> = options</span><br><span class="line">    <span class="keyword">const</span> proxy = <span class="variable language_">this</span>.<span class="title function_">initProxy</span>()</span><br><span class="line">    <span class="keyword">return</span> proxy</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">initProxy</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> data = <span class="variable language_">this</span>.<span class="property">$options</span>.<span class="property">data</span> ? <span class="variable language_">this</span>.<span class="property">$options</span>.<span class="title function_">data</span>() : &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Proxy</span>(<span class="variable language_">this</span>, &#123;</span><br><span class="line">      <span class="title function_">set</span>(<span class="params">_, key: <span class="built_in">string</span>, value</span>) &#123;</span><br><span class="line">        data[key] = value</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="title function_">get</span>(<span class="params">_, key: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> data[key]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> vm = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">a</span>: <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">vm.<span class="property">a</span> = <span class="number">2</span></span><br><span class="line"><span class="comment">// ^ Property &#x27;a&#x27; does not exist on type &#x27;Vue&#x27;.</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(vm.<span class="property">a</span>) <span class="comment">// =&gt; 2</span></span><br><span class="line"><span class="comment">//             ^ Property &#x27;a&#x27; does not exist on type &#x27;Vue&#x27;.</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</details>
+
+<details open>
+<summary>在线版本</summary>
+
+<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-kh4zmn?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor"></iframe>
+</details>
+
+
+<p>如果你查看了在线版本, 可以看到, 我们在使用实例属性 <code>vm.a</code> 时报了一个 TS 错误 <code>Property &#39;a&#39; does not exist on type &#39;Vue&#39;</code>, 
+意思是说 <code>vm</code> 实例上不存在属性 <code>a</code>.</p>
+<span id="more"></span>
+
+<p>虽然这段代码可以正常执行, 但是静态类型检查没有通过呀.</p>
+<p>没关系, 万物皆 Any, 我们这样</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">vm</span>: <span class="built_in">any</span> = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">a</span>: <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">vm.<span class="property">a</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(vm.<span class="property">a</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Everything is any!</p>
+<p>看起来还不错, 代码正常运行了, 静态类型检查也通过了. But …</p>
+<p>但是我们使用 TypeScript 的初衷呢? 我们不就是为了类型安全吗, 现在编辑器也不提示 <code>vm</code> 上有哪些属性了, 
+就算用了 <code>vm.b</code> 也不报错了 [掀桌.jpg]</p>
+<p>不行, 我们不能这样.</p>
+<hr>
+
+<p>经过一番思考与探索, 最终我选择求助 overstackflow 上的网友, 在提出我的
+<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/55826350/how-to-dynamically-declare-an-instance-property-of-a-class-from-a-constructor-in">问题</a>
+后的短短 1 个小时内, 竟然获得了三个回答</p>
+<p>其中有个网友提到, TypeScript 并不能知道 Proxy 上可能出现的属性, 必须在运行时才能知道.</p>
+<p>但是我的观点是, 我并没有等到运行时才声明才会出现的属性, 而是在类声明之后的调用中声明属性, 我认为这仍然处于编译时的阶段.</p>
+<p>不久之后看到了一个新的回答, 他说道这个问题需要两个步骤, </p>
+<p>第一个步骤是正确处理 <code>initProxy</code> 的返回值, 它将包含实例中动态声明的属性.</p>
+<p>第二步是让类的返回值中也包含这个动态类型和类本身.</p>
+<h1 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy">Proxy</a></h1><p>在 Proxy 的初始化方法 <code>initProxy()</code> 中, 我们将 <code>target</code> 绑定到了类的 <code>this</code> 中, 以便与我们使用 <code>vm.a</code> 来访问这个 proxy, 
+它的返回值就是类本身</p>
+<p>在构造函数 <code>constractor</code> 中我们将这个 proxy 返回给类, 试图让类的实例也获得 proxy 中声明的类型, 但是上面我们知道了, 这样行不通,</p>
+<p>虽然这个实例确实获得了 proxy 的指向, 但是类型并没有被一并获得.</p>
+<h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型">泛型</a></h1><p>根据 <a target="_blank" rel="noopener" href="https://stackoverflow.com/a/55827723/7736393">@Titian Cernicova-Dragomir 的回答</a> 我们需要对这种动态的类型使用泛型变量</p>
+<p>首先我们需要正确的获取 initProxy() 的返回值类型</p>
+<details>
+<summary>查看源代码</summary>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">IOptions</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">data</span>: <span class="function">() =&gt;</span> T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Vue</span>&lt;T = &#123;&#125;&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">$options</span>: <span class="title class_">IOptions</span>&lt;T&gt; = &#123;</span><br><span class="line">    <span class="attr">data</span>: <span class="function">() =&gt;</span> (&#123;&#125;)</span><br><span class="line">  &#125; <span class="keyword">as</span> <span class="title class_">IOptions</span>&lt;T&gt;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">options: IOptions&lt;T&gt;</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">$options</span> = options</span><br><span class="line">    <span class="keyword">const</span> proxy = <span class="variable language_">this</span>.<span class="title function_">initProxy</span>()</span><br><span class="line">    <span class="keyword">return</span> proxy</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">initProxy</span>(): T &amp; <span class="title class_">Vue</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> data = <span class="variable language_">this</span>.<span class="property">$options</span>.<span class="property">data</span> ? <span class="variable language_">this</span>.<span class="property">$options</span>.<span class="title function_">data</span>() : &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Proxy</span>(<span class="variable language_">this</span> <span class="keyword">as</span> <span class="built_in">unknown</span> <span class="keyword">as</span> T &amp; <span class="title class_">Vue</span>&lt;T&gt;, &#123;</span><br><span class="line">      <span class="title function_">set</span>(<span class="params">_, key: <span class="built_in">string</span>, value</span>) &#123;</span><br><span class="line">        data[key] = value</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="title function_">get</span>(<span class="params">_, key: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> data[key]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> vm = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">a</span>: <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">vm.<span class="title function_">initProxy</span>().<span class="property">a</span> <span class="comment">// ok now</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</details>
+
+<details open>
+<summary>在线版本</summary>
+
+<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-wc52zd?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor"></iframe>
+</details>
+
+<p>我们使用泛型变量 <code>T</code> 来告诉 TypeScript 我们即将要声明的 <code>data</code> 的类型, 这个类型变量将会用于声明:</p>
+<ul>
+<li><p>接口 <code>IOptions</code> 的 <code>data</code> 属性的类型</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">IOptions</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">data</span>: <span class="function">() =&gt;</span> T</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>proxy</code> 的返回值类型</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Proxy</span>(<span class="variable language_">this</span> <span class="keyword">as</span> <span class="built_in">unknown</span> <span class="keyword">as</span> T &amp; <span class="title class_">Vue</span>&lt;T&gt;, &#123;<span class="comment">/* ... */</span>&#125;) </span><br><span class="line"><span class="comment">// Proxy 会返回第一个参数的类型</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><code>IOptions&lt;T&gt;</code> 这个接口在构造函数中进行了声明, 实例化类时就会获得泛型变量 <code>T</code> 的实际类型</p>
+<p>而 <code>proxy</code> 的返回值类型中我们使用到了 TS 中的交叉类型 (Intersection Types), 它会返回这两个类型的所有属性.</p>
+<h1 id="修改类的返回值类型"><a href="#修改类的返回值类型" class="headerlink" title="修改类的返回值类型">修改类的返回值类型</a></h1><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/a/55827723/7736393">@Titian Cernicova-Dragomir</a> 还指出, 
+即使 TypeScript 允许我们指定 constractor 的返回值, 我们也无力改变这个类的返回值的<strong>类型</strong>, 所以</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vm.<span class="title function_">initProxy</span>().<span class="property">a</span> <span class="comment">// It&#x27;s ok</span></span><br><span class="line"></span><br><span class="line">vm.<span class="property">a</span> <span class="comment">// Error: Property &#x27;a&#x27; does not exist on type &#x27;Vue&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们有两个办法来克服这个限制:</p>
+<h2 id="1-不使用构造函数实例化类"><a href="#1-不使用构造函数实例化类" class="headerlink" title="1. 不使用构造函数实例化类">1. 不使用构造函数实例化类</a></h2><p>我们将构造函数私有化, 并且声明一个静态方法来实例话这个类, 在这个静态方法中返回类的类型和泛型 T</p>
+<details>
+<summary>查看源代码</summary>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">IOptions</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">data</span>: <span class="function">() =&gt;</span> T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Vue</span>&lt;T = &#123;&#125;&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">$options</span>: <span class="title class_">IOptions</span>&lt;T&gt; = &#123;</span><br><span class="line">    <span class="attr">data</span>: <span class="function">() =&gt;</span> (&#123;&#125;)</span><br><span class="line">  &#125; <span class="keyword">as</span> <span class="title class_">IOptions</span>&lt;T&gt;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="title function_">constructor</span>(<span class="params">options: IOptions&lt;T&gt;</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">$options</span> = options</span><br><span class="line">    <span class="keyword">const</span> proxy = <span class="variable language_">this</span>.<span class="title function_">initProxy</span>()</span><br><span class="line">    <span class="keyword">return</span> proxy</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">static</span> create&lt;T&gt;(<span class="attr">data</span>: <span class="title class_">IOptions</span>&lt;T&gt;): <span class="title class_">Vue</span>&lt;T&gt; &amp; T &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Vue</span>&lt;T&gt;(data) <span class="keyword">as</span> <span class="built_in">unknown</span> <span class="keyword">as</span> <span class="title class_">Vue</span>&lt;T&gt; &amp; T</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">initProxy</span>(): T &amp; <span class="title class_">Vue</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> data = <span class="variable language_">this</span>.<span class="property">$options</span>.<span class="property">data</span> ? <span class="variable language_">this</span>.<span class="property">$options</span>.<span class="title function_">data</span>() : &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Proxy</span>(<span class="variable language_">this</span> <span class="keyword">as</span> <span class="built_in">unknown</span> <span class="keyword">as</span> T &amp; <span class="title class_">Vue</span>&lt;T&gt;, &#123;</span><br><span class="line">      <span class="title function_">set</span>(<span class="params">_, key: <span class="built_in">string</span>, value</span>) &#123;</span><br><span class="line">        data[key] = value</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="title function_">get</span>(<span class="params">_, key: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> data[key]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> vm = <span class="title class_">Vue</span>.<span class="title function_">create</span>(&#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">a</span>: <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">vm.<span class="property">a</span> = <span class="number">2</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</details>
+
+<details open>
+<summary>在线版本</summary>
+
+<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-eyrsb8?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor"></iframe>
+</details>
+
+<p>这种办法解决了我们的问题, 但是不完美. 我们实例话 Vue 类的时候, 需要这样写</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vm = <span class="title class_">Vue</span>.<span class="title function_">create</span>(&#123;<span class="comment">/* ... */</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这一点都不 OOP ~ [掀桌.jpg]x2</p>
+<h2 id="2-对类使用单独的签名"><a href="#2-对类使用单独的签名" class="headerlink" title="2. 对类使用单独的签名">2. 对类使用单独的签名</a></h2><details>
+<summary>查看源代码</summary>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">IOptions</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">data</span>: <span class="function">() =&gt;</span> T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">_Vue</span>&lt;T = &#123;&#125;&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">$options</span>: <span class="title class_">IOptions</span>&lt;T&gt; = &#123;</span><br><span class="line">    <span class="attr">data</span>: <span class="function">() =&gt;</span> (&#123;&#125;)</span><br><span class="line">  &#125; <span class="keyword">as</span> <span class="title class_">IOptions</span>&lt;T&gt;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="title function_">constructor</span>(<span class="params">options: IOptions&lt;T&gt;</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">$options</span> = options</span><br><span class="line">    <span class="keyword">const</span> proxy = <span class="variable language_">this</span>.<span class="title function_">initProxy</span>()</span><br><span class="line">    <span class="keyword">return</span> proxy</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">initProxy</span>(): <span class="title class_">Vue</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> data = <span class="variable language_">this</span>.<span class="property">$options</span>.<span class="property">data</span> ? <span class="variable language_">this</span>.<span class="property">$options</span>.<span class="title function_">data</span>() : &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Proxy</span>(<span class="variable language_">this</span> <span class="keyword">as</span> <span class="built_in">unknown</span> <span class="keyword">as</span> <span class="title class_">Vue</span>&lt;T&gt;, &#123;</span><br><span class="line">      <span class="title function_">set</span>(<span class="params">_, key: <span class="built_in">string</span>, value</span>) &#123;</span><br><span class="line">        data[key] = value</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="title function_">get</span>(<span class="params">_, key: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> data[key]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Vue</span>&lt;T&gt; = _Vue&lt;T&gt; &amp; T</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Vue</span>: <span class="keyword">new</span> &lt;T&gt;<span class="function">(<span class="params">data: IOptions&lt;T&gt;</span>) =&gt;</span> <span class="title class_">Vue</span>&lt;T&gt; = _Vue <span class="keyword">as</span> <span class="built_in">any</span> <span class="comment">// 这很 any</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> vm = <span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">a</span>: <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">vm.<span class="property">a</span> = <span class="number">2</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</details>
+
+<details open>
+<summary>在线版本</summary>
+
+<iframe class="stackblitz" src="https://stackblitz.com/edit/typescript-9mhvbb?ctl=1&embed=1&file=index.ts&hideExplorer=1&hideNavigation=1&view=editor"></iframe>
+</details>
+
+<p>完美的解决了我们的问题, 虽然这个办法需要声明一个额外的类型, 但是由于我们使用的是封装的高阶方法, 只要不影响使用就行啦!</p>
+<p>再次感谢 <a target="_blank" rel="noopener" href="https://stackoverflow.com/users/125734/titian-cernicova-dragomir">@Titian Cernicova-Dragomir</a> !</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接">参考链接</a></h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/zzz945/write-vue3-from-scratch">zzz945&#x2F;write-vue3-from-scratch</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tslang.cn/docs/handbook/advanced-types.html">Advanced Types - TypeScript</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/55826350/how-to-dynamically-declare-an-instance-property-of-a-class-from-a-constructor-in">How to dynamically declare an instance property of a class from a constructor in TypeScript? - @Titian Cernicova-Dragomir</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Vue/" rel="tag"><i class="fa fa-tag"></i> Vue</a>
+              <a href="/tags/TypeScript/" rel="tag"><i class="fa fa-tag"></i> TypeScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/copy-content-to-clipboard-in-javascript/" rel="prev" title="用 Javascript 将内容复制到剪贴板">
+                  <i class="fa fa-angle-left"></i> 用 Javascript 将内容复制到剪贴板
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/javascript-regexp/" rel="next" title="玩转 javascript 正则表达式">
+                  玩转 javascript 正则表达式 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

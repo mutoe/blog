@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.mutoe.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.19.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"utterances","storage":true,"lazyload":false,"nav":null,"activeClass":"utterances"},"stickytabs":false,"motion":{"enable":true,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="木头, 全学工程师">
+<meta property="og:type" content="website">
+<meta property="og:title" content="木头的博客">
+<meta property="og:url" content="https://blog.mutoe.com/">
+<meta property="og:site_name" content="木头的博客">
+<meta property="og:description" content="木头, 全学工程师">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="mutoe">
+<meta property="article:tag" content="木头 前端 程序员 mutoe Coder 博客 木头的博客">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.mutoe.com/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>木头的博客</title>
+  
+
+
+
+
+
+
+
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="木头的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">木头的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">我是木头 有些想法 有点精力</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="mutoe"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">mutoe</p>
+  <div class="site-description" itemprop="description">木头, 全学工程师</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mutoe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mutoe" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:imutoe@gmail.com" title="E-Mail → mailto:imutoe@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2024/install-docker-compose-v2-in-macos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/install-docker-compose-v2-in-macos/" class="post-title-link" itemprop="url">在 macOS 上安装 Docker Compose v2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-02-28 20:00:42" itemprop="dateCreated datePublished" datetime="2024-02-28T20:00:42+08:00">2024-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在 macOS 上很久了都没有用上 <code>docker compose</code> 这个子命令，今天终于把它解决了特此记录一下以备后续之需。</p>
+<h2 id="1-找到适合你系统架构的镜像"><a href="#1-找到适合你系统架构的镜像" class="headerlink" title="1. 找到适合你系统架构的镜像">1. 找到适合你系统架构的镜像</a></h2><p>前往 Docker compose 官方仓库的 Release 页面，找到适合你系统架构的镜像下载地址，复制下载链接。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/docker/compose/releases">https://github.com/docker/compose/releases</a></p>
+<p>macOS 系统架构为 <code>darwin</code>, 如果你是 M 系列芯片的 Mac，那么你需要下载 <code>darwin-aarch64</code> 版本的镜像。否则下载 <code>darwin-x86_64</code> 版本的镜像。</p>
+<h2 id="2-下载并安装"><a href="#2-下载并安装" class="headerlink" title="2. 下载并安装">2. 下载并安装</a></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DOCKER_CONFIG=$&#123;DOCKER_CONFIG:-$HOME/.docker&#125;</span><br><span class="line">mkdir -p $DOCKER_CONFIG/cli-plugins</span><br><span class="line">curl -SL [粘贴你复制的链接] -o $DOCKER_CONFIG/cli-plugins/docker-compose</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-添加执行权限"><a href="#3-添加执行权限" class="headerlink" title="3. 添加执行权限">3. 添加执行权限</a></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-验证安装"><a href="#4-验证安装" class="headerlink" title="4. 验证安装">4. 验证安装</a></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose version</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料">参考资料</a></h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/compose/install/linux/#install-the-plugin-manually">Install the plugin manually - Docker</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2024/setup-domain-and-remove-port-for-nas-app/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/setup-domain-and-remove-port-for-nas-app/" class="post-title-link" itemprop="url">给 NAS 上的应用配置域名并去除端口号</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-01-21 23:56:25" itemprop="dateCreated datePublished" datetime="2024-01-21T23:56:25+08:00">2024-01-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在上一篇文章 <a href="/2024/deploy-gitea-on-nas/">在 NAS 上部署 Gitea</a> 中，我教大家如何在内网中部署 Gitea 服务。但是，我们在内网中访问 Gitea 时，需要使用 <code>http://192.168.5.5:4000</code> 这样的地址，这样的地址不仅不美观，而且还需要记住端口号，不方便，甚至它还不是 HTTPS 的，也不安全。</p>
+<p>那有没有什么办法可以让我们在内网中访问 Gitea 时，使用 <code>https://gitea.lan</code> 这样的地址呢？答案是肯定的，我们可以使用 DNS 和反向代理来实现这个功能。</p>
+<h1 id="1-什么是-DNS"><a href="#1-什么是-DNS" class="headerlink" title="1. 什么是 DNS"></a>1. 什么是 DNS</h1><p>DNS 是 Domain Name System 的缩写，即域名系统。它的作用是将域名解析为 IP 地址，这样我们就可以通过域名访问网站了。</p>
+<p>我们首先要做的一件事就是在 DNS 服务器中添加一条记录，将 <code>gitea.lan</code> 解析到 <code>192.168.5.5</code> 这个 IP 地址上。这样当我们访问这个域名时，就会将请求转发到我们的 NAS 服务器上对应的端口了。 </p>
+<p>DNS 服务器是一个树形结构，当你输入一个域名时，DNS 服务器会从最底层的节点向上查找，直到根节点，然后返回对应的 IP 地址。每个节点都缓存有一堆域名和与其对应的 IP 地址。</p>
+<p>例如，当我们访问 <code>https://gitea.lan</code> 时，DNS 服务器会：</p>
+<ol>
+<li>先从浏览器中尝试获取缓存的 IP 地址</li>
+<li>如果没有缓存，就会向本机的 DNS 服务器发起请求尝试获取缓存的 IP 地址</li>
+<li>如果本机的 DNS 服务器没有缓存，就会尝试向路由器发起请求尝试获取缓存的 IP 地址</li>
+<li>如果路由器没有缓存，就会向上级 DNS 服务器（通常是运营商，如中国电信）发起请求尝试获取缓存的 IP 地址</li>
+<li>… 以此类推，直到根 DNS 节点</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/setup-domain-and-remove-port-for-nas-app/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2024/deploy-gitea-on-nas/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/deploy-gitea-on-nas/" class="post-title-link" itemprop="url">在 NAS 上部署 Gitea</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-01-21 16:11:25" itemprop="dateCreated datePublished" datetime="2024-01-21T16:11:25+08:00">2024-01-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>处于某种原因，需要自己部署一个 Git 仓库管理工具来管理和部署一些奇怪的家庭服务，虽然 GitHub private repository 也可以用，但因为这些平台都中心化的，会受制于人，速度可可靠性也不太理想，在外网做家庭服务的持续部署也比较麻烦，所以就想到了自己部署一个 Git 仓库管理工具，想怎么玩就怎么玩。 </p>
+<p>为什么不选择装 GitLab 而是 Gitea，因为 GitLab 的硬件要求太高了，而且我只是想要一个简单的 Git 仓库管理工具，不需要多人协作也不需要很多复杂的功能，Gitea 足够了，最低只需要 1 核和 2G 内存，所以选择了 Gitea。</p>
+<p>虽然群辉 NAS 自带了 Gitea 的社区套件，之前也一直在用。但是它的版本已经落后于官方好几个版本了，所以这里选择自己用 Docker 部署一个最新版的 Gitea，也方便后续升级和折腾。</p>
+<p>注：以下教程图示是群辉 NAS 的安装界面。如果你是其他 NAS 品牌的用户，可以参考自己对应品牌的 Docker 安装界面或是直接使用命令行或 <a target="_blank" rel="noopener" href="https://docs.gitea.com/zh-cn/installation/install-with-docker">使用 Gitea 的官方 docker compose</a> 进行安装，也可以参考我安装的思路。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/deploy-gitea-on-nas/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2023/ai-economic-crisis-privacy-and-us/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/ai-economic-crisis-privacy-and-us/" class="post-title-link" itemprop="url">人工智能、经济危机、隐私和我们</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-08-30 21:10:55" itemprop="dateCreated datePublished" datetime="2023-08-30T21:10:55+08:00">2023-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>注：本文不会涉及任何算法，只通俗地分享自己的感悟，若有事实错误请直接批评指正，感谢大家。</p>
+<h1 id="0-序"><a href="#0-序" class="headerlink" title="0. 序"></a>0. 序</h1><p>最近深度体验了 AI 绘图 Stable Diffusion，结合正在发生的经济危机&#x2F;裁员&#x2F;通缩，我产生了一些思考：AI 大模型时代的到来，到底会淘汰哪些人？哪些领域会受到影响？AI 带来哪些隐私、道德和安全问题？作为受到直接影响的底层程序员&#x2F;设计师&#x2F;画师&#x2F;写手，我们真的只能坐以待毙吗？</p>
+<p>我的结论是：第三产业大部分领域都会受到影响 (实体产业影响较小)。</p>
+<blockquote>
+<p>第一产业是指农、林、牧、渔业。</p>
+<p>第二产业是指采矿业，制造业，电力、燃气及水的生产和供应业，建筑业。</p>
+<p>第三产业是指除第一、二产业以外的其他行业。第三产业包括：交通运输、仓储和邮政业，信息传输、计算机服务和软件业，批发和零售业，住宿和餐饮业，金融业，房地产业，租赁和商务服务业，科学研究、技术服务和地质勘查业，水利、环境和公共设施管理业，居民服务和其他服务业，教育，卫生、社会保障和社会福利业，文化、体育和娱乐业，公共管理和社会组织，国际组织。</p>
+</blockquote>
+<h1 id="1-AI-绘图现在发展到什么程度了？"><a href="#1-AI-绘图现在发展到什么程度了？" class="headerlink" title="1. AI 绘图现在发展到什么程度了？"></a>1. AI 绘图现在发展到什么程度了？</h1><p>其实半年前（2023年3月左右）我就接触了 Stable Diffusion (一个开源的 AI 绘图项目)，那时候基于扩散模型的 AI 绘图才刚发展起来，对我有一定的冲击，毕竟这种通过文字转化为图像的方式是革命性的。
+但受限于显卡，只画了一些简单的内容，画出来的人也是比较挫。</p>
+<figure>
+  <img width="360" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/sd1.5model.jpg">
+  <figcaption style="font-style: italic">早期的 AI 绘图模型 (来自 Stable Diffusion 1.5 大模型)</figcaption>
+</figure>
+
+
+<p>随着时间推移，各种 Chat 类应用，Code 补全类的 AI 工具层出不穷，我意识到 AI 时代已经来临，于是向老婆申请购买了一张二手的 3090 显卡，这张卡的优势在于有 24G 大显存，玩过 AI 绘图的小伙伴应该知道，显存越大，能画出来的原始图像分辨率就越高，训练时每一次迭代也可以同时训练更多图像。</p>
+<p>拿到显卡后，我就陆续开始了对 AI 绘图的探索，先是沉溺与画各种漂亮妹子，然后绘制各种风格的图像，比如幻想风格、像素画风、游戏素材等图像。</p>
+<figure>
+  <img width="360" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/majicmixRealistic.jpeg" alt="真实系漂亮妹子">
+  <figcaption style="font-style: italic">真实系风格 (来自 majicmix realistic 大模型)</figcaption>
+</figure>
+
+<figure>
+  <img width="360" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/majicmixLux.jpeg">
+  <figcaption style="font-style: italic">奇幻风格 (来自 majicmix lux 大模型)</figcaption>
+</figure>
+
+<figure>
+  <img width="360" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/pixelArt.jpeg">
+  <figcaption style="font-style: italic">像素风格 (来自 Pixel Art LoRa 模型)</figcaption>
+</figure>
+
+<figure>
+  <img width="640" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/game-resource.jpg">
+  <figcaption style="font-style: italic">游戏素材 (左：Game Icon Research LoRa 模型 / 右：Character Design Sheet LoRa 模型)</figcaption>
+</figure>
+
+<p>后来不满足于画各种乱七八糟的东西，开始去各大网站搜罗 SD 应用方面的教程，陆续学习了照片高清放大、照片动漫化、AI 艺术字、光影重绘、换脸换装等各种应用。</p>
+<figure>
+  <img width="640" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/upscale.jpg">
+  <figcaption style="font-style: italic">AI 高清放大 (SD 高清重绘)</figcaption>
+</figure>
+
+<figure>
+  <img width="" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/repaint-disney.jpg">
+  <figcaption style="font-style: italic">真人转动漫风格 (Disney 大模型重绘)</figcaption>
+</figure>
+
+<figure>
+  <img width="480" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/ai-art-font.jpg">
+  <figcaption style="font-style: italic">AI 艺术字 (ControlNet Depth 模型)</figcaption>
+</figure>
+
+<figure>
+  <img width="480" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/qrcode.jpg">
+  <figcaption style="font-style: italic">创意二维码 (ControlNet QRCodeMonster 模型)</figcaption>
+</figure> 
+
+<figure>
+  <img width="640" src="https://static.mutoe.com/2023/challenges-and-opportunities-with-ai/change-light.jpg">
+  <figcaption style="font-style: italic">光影重绘 (ControlNet Tile 模型)</figcaption>
+</figure>
+
+<p>再后来又用爱人的照片做数据集，训练她自己的真人模型，效果也相当不错，她本人看到都惊叹于其相似度。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/ai-economic-crisis-privacy-and-us/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2023/shell-script-study-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/shell-script-study-notes/" class="post-title-link" itemprop="url">Shell Script 学习笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-04-24 16:33:59" itemprop="dateCreated datePublished" datetime="2023-04-24T16:33:59+08:00">2023-04-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>这里记录了一些个人学习 Shell Script 时遇到的一些问题, 可以作为避免踩坑和速查手册. 如有疑问欢迎留言.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/shell-script-study-notes/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2022/frontend-test-optimize-diary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/frontend-test-optimize-diary/" class="post-title-link" itemprop="url">换了M1后，我的前端测试提速了10倍！</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-18 09:30:00" itemprop="dateCreated datePublished" datetime="2022-04-18T09:30:00+08:00">2022-04-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>标题党，勿全信；<br>这是一篇关于前端单元测试的优化心得，讲述了一个中型团队坎坷的痛与泪的故事；<br>长文预警，建议当短篇小说看；<br>干货在末尾。  </p>
+</blockquote>
+<p>就在前几天，我拿到了心心念念的 MacBook M1 Pro，上手第一件事就是跑一下项目上的前端测试，期待着久仰大名的 M1 处理器一显神威。</p>
+<p>为什么这么着急用 M1 跑测试？这个故事要从半年前说起。</p>
+<h2 id="1-越来越痛的测试"><a href="#1-越来越痛的测试" class="headerlink" title="1. 越来越痛的测试"></a>1. 越来越痛的测试</h2><p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/1-slowly-tests.png">
+小半年前，项目规模越来越大，随着十几轮冲刺后，我们有两个前端库的代码量和测试也越来越多，于是出现了上面的对话</p>
+<p>不知从什么时候开始，项目代码里的测试成了我们的痛点，推代码时会触发全量的测试，而在这推代码的10多分钟里，我是什么都做不了的，电脑卡的要命，不得不站起来去接杯水或上个厕所。</p>
+<p>从某种角度来说，也挺好，能时不时的提醒我站起来活动活动，放松一下肩颈和眼睛，看看博客摸摸鱼（不是）。</p>
+<p>但问题是 Pipeline 上的速度也是稳定慢，从开始 Build 到 Deploy to Dev，更是达到了离谱的 30 分钟左右，Pipeline 甚至还触发了客户设定的 300 小时&#x2F;月的限流。</p>
+<h2 id="2-法外狂徒"><a href="#2-法外狂徒" class="headerlink" title="2. 法外狂徒"></a>2. 法外狂徒</h2><p><img src="https://static.mutoe.com/2022/frontend-test-optimize-diary/2-git-push-no-verify.png"></p>
+<p><code>git push --no-verify</code> 成了我们项目的常态。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/frontend-test-optimize-diary/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2021/home-network-infra-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/home-network-infra-notes/" class="post-title-link" itemprop="url">家庭网络折腾记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-11 16:12:26" itemprop="dateCreated datePublished" datetime="2021-04-11T16:12:26+08:00">2021-04-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>最近把家里的网络折腾了一下，整体用下来感觉还不错，这里记录下来分享给大家，大家一起学习交流~</p>
+<p><img src="https://static.mutoe.com/2021/home-network-infra-notes/infra.png" alt="Infrastructure"></p>
+<p>痛点：</p>
+<ul>
+<li>科学上网。现在家里的网络总是觉得有些不尽人意，本人最大的爱好就是周末宅在家里搞搞开源、打打游戏。遇到问题了 Google &#x2F; StackOverflow 效率是比 Baidu 高，而每个设备自己科学上网比较繁琐，需要各自管理白名单，太麻烦…</li>
+<li>NAS 访问慢。和爱人出去玩偶尔会拍一些照片和 Vlog，这些都是美好珍贵的记忆，目前存在自己的私有云上，想看了拿出来看看，照片列表加载缓慢，视频进度拖拉卡顿…</li>
+<li>WIFI 信号。之前路由器是放在客厅，信号到卧室床头比较曲折，有时关门后甚至断网，网络体验极差…</li>
+</ul>
+<p>折腾后：</p>
+<ul>
+<li>全屋设备科学上网。在软路由里根据 IP 地址分流，国外 IP 走代理，国内直连。终端无需单独开软件，无需在意是否国内外网站。</li>
+<li>广告过滤。同上。</li>
+<li>内网全千兆访问。访问 NAS 资源、各设备之间文件互传速度大幅提升，堪比本地访问。</li>
+<li>Docker。开发时如果需要容器资源，内外网都可使用路由器的 Docker，节约开发机资源，目前资源是 4C8G。</li>
+<li>数据安全。之前 NAS 是直接暴露在公网的，且没有开启 HTTP，现在公网访问内网设备需要 VPN，访问 NAS 强制 HTTPS。</li>
+<li>扩大 WIFI 信号覆盖。未来搬去新家后智能设备增多，WIFI6 是必不可少的。出于成本考虑，WIFI6 AP 放在客厅，现有垃圾 AP 放在卧室。</li>
+</ul>
+<p>硬件改造成本共 1135 元</p>
+<ul>
+<li>软路由： J4105，8G DDR4 + 64G SATA固态 咸鱼 750 元</li>
+<li>交换机： 水星SG108C 塑料8口 JD 69元</li>
+<li>AP： 华为AX3Pro 咸鱼 295 元</li>
+<li>网线： 绿联6类线 0.5m x3 JD 21元</li>
+</ul>
+<blockquote>
+<p>哭，现在设备各种涨价， ax3pro 暴涨 150 元，蹲了二周才蹲到低于 300 元的 AP，J4105 也涨了 100 多，不知道是不是受了这一波矿潮影响…</p>
+</blockquote>
+<p>总之，想把网络环境做好，最大的变化就是没有变化，让用户感觉不到就成功了，只需要默默地提供稳定的服务就好~</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/home-network-infra-notes/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2021/react-vite-migration/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/react-vite-migration/" class="post-title-link" itemprop="url">React Vite 迁移指南</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-06 22:12:53" itemprop="dateCreated datePublished" datetime="2021-03-06T22:12:53+08:00">2021-03-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Vite2 发布有一段时间了，其内部使用了 ESBuild 进行打包，ESBuild 有着相对 Webpack 惊人的打包速度。</p>
+<p><img src="https://static.mutoe.com/2021/react-vite-migration/esbuild-benchmark.svg" alt="esbuild benchmark">
+<em><a target="_blank" rel="noopener" href="https://github.com/evanw/esbuild#why">数据来自 github.com&#x2F;evanw&#x2F;esbuild</a></em></p>
+<p>React 用户表示令人羡慕，不过 Vite 野心比较大，不止可以用来开发 Vue 项目，类似 Rollup，Vite2 可以使用插件来支持 React 项目。</p>
+<p>这就巧了，手上刚好有一个 React 练习项目，使用 Create React App 创建并且进行过 Eject。接下来我们就用这个 React 项目来练练手吧，享受一下飞一般的构建速度！</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/react-vite-migration/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2020/bash-shell-study-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/bash-shell-study-notes/" class="post-title-link" itemprop="url">Bash Shell 学习笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-06-16 23:44:01" itemprop="dateCreated datePublished" datetime="2020-06-16T23:44:01+08:00">2020-06-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>这里记录了一些个人学习 Bash Shell 时遇到的一些问题, 可以作为避免踩坑和速查手册. 如有疑问欢迎留言.</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/bash-shell-study-notes/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.mutoe.com/2020/TDD-nestjs-realworld-example-app-6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="mutoe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木头的博客">
+      <meta itemprop="description" content="木头, 全学工程师">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 木头的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/TDD-nestjs-realworld-example-app-6/" class="post-title-link" itemprop="url">手把手带你实践 TDD Nestjs Realworld 项目 - 6. 编写 API 集成测试</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-04 12:16:42" itemprop="dateCreated datePublished" datetime="2020-05-04T12:16:42+08:00">2020-05-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>第二章我们简单的介绍了下如何连接测试数据库，这篇我们将结合 TDD 来完整的实现注册和登录功能。（如果接下来我写的内容你已经做过，可以跳过该步）</p>
+<h1 id="1-编写第一个集成测试"><a href="#1-编写第一个集成测试" class="headerlink" title="1. 编写第一个集成测试"></a>1. 编写第一个集成测试</h1><p>按照 Nest 提供的示例 E2E 测试， 位于 <code>test/app.e2e-spec.ts</code> 应该长这样</p>
+<figure class="highlight ts"><figcaption><span>test/app.e2e-spec.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Test</span>, <span class="title class_">TestingModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/testing&#x27;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> request <span class="keyword">from</span> <span class="string">&#x27;supertest&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./../src/app.module&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;AppController (e2e)&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> app</span><br><span class="line"></span><br><span class="line">  <span class="title function_">beforeEach</span>(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="attr">moduleFixture</span>: <span class="title class_">TestingModule</span> = <span class="keyword">await</span> <span class="title class_">Test</span>.<span class="title function_">createTestingModule</span>(&#123;</span><br><span class="line">      <span class="attr">imports</span>: [<span class="title class_">AppModule</span>],</span><br><span class="line">    &#125;).<span class="title function_">compile</span>()</span><br><span class="line"></span><br><span class="line">    app = moduleFixture.<span class="title function_">createNestApplication</span>()</span><br><span class="line">    <span class="keyword">await</span> app.<span class="title function_">init</span>()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;/ (GET)&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">request</span>(app.<span class="title function_">getHttpServer</span>())</span><br><span class="line">      .<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">      .<span class="title function_">expect</span>(<span class="number">200</span>)</span><br><span class="line">      .<span class="title function_">expect</span>(<span class="string">&#x27;Hello World!&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>现在是运行不了的，不过没关系，我们稍稍改造一下</p>
+<p>首先我们测试一个用于检查健康的接口 <code>/hello</code>, 无需导入整个 <code>AppModule</code>, 只需导入 <code>AppController</code> ，改造为下列的样子</p>
+<figure class="highlight ts"><figcaption><span>app.e2e-spec.ts</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Test</span>, <span class="title class_">TestingModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/testing&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppController</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;app.controller&#x27;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> request <span class="keyword">from</span> <span class="string">&#x27;supertest&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&#x27;app module&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> app</span><br><span class="line"></span><br><span class="line">  <span class="title function_">beforeAll</span>(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="attr">moduleFixture</span>: <span class="title class_">TestingModule</span> = <span class="keyword">await</span> <span class="title class_">Test</span>.<span class="title function_">createTestingModule</span>(&#123;</span><br><span class="line">      <span class="attr">controllers</span>: [<span class="title class_">AppController</span>],</span><br><span class="line">    &#125;).<span class="title function_">compile</span>()</span><br><span class="line"></span><br><span class="line">    app = moduleFixture.<span class="title function_">createNestApplication</span>()</span><br><span class="line">    <span class="keyword">await</span> app.<span class="title function_">init</span>()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="title function_">afterAll</span>(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">await</span> app.<span class="title function_">close</span>()</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&#x27;/hello (GET)&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">request</span>(app.<span class="title function_">getHttpServer</span>())</span><br><span class="line">      .<span class="title function_">get</span>(<span class="string">&#x27;/hello?name=world&#x27;</span>)</span><br><span class="line">      .<span class="title function_">expect</span>(<span class="number">200</span>)</span><br><span class="line">      .<span class="title function_">expect</span>(<span class="string">&#x27;Hello world!&#x27;</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>然后执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn <span class="built_in">test</span>:e2e</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://static.mutoe.com/2020/TDD-nestjs-realworld-example-app/yarn-e2e-test.png" alt="yarn e2e test"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/TDD-nestjs-realworld-example-app-6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2015 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">mutoe</span>
+  </div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div><div class="external-link">
+  <!--  <a href="/sponsor">拥抱开源</a>-->
+  <a target="_blank" rel="noopener" href="https://lintao-index.pages.dev/docs/intro">Lintao's Blog</a>
+  <a href="/quick">学习资料导航</a>
+  <a href="/npm">常用 npm 包</a>
+  <a href="/cheatsheet/good-hash-table-primes">哈希函数质数速查表</a>
+</div>
+
+<script>
+  function setUtteranceToDark(dark) {
+    const message = {
+      type: 'set-theme',
+      theme: dark ? 'github-dark-orange' : 'github-light',
+    };
+    const utterances = document.querySelector('iframe.utterances-frame').contentWindow; // try event.source instead
+    utterances.postMessage(message, 'https://utteranc.es');
+  }
+
+  const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
+  darkThemeMq.addEventListener('change', e => setUtteranceToDark(e.matches));
+
+  // dynamic change utterance theme
+  addEventListener('message', event => {
+    if (event.origin !== 'https://utteranc.es') return;
+    setUtteranceToDark(darkThemeMq.matches)
+  });
+</script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/mutoe" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"mutoe/blog","issue_term":"title","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>
