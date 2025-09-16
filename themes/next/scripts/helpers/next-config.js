@@ -18,8 +18,8 @@ hexo.extend.helper.register('next_config', function() {
     version   : this.next_version,
     exturl    : theme.exturl,
     sidebar   : theme.sidebar,
-    copycode  : theme.codeblock.copy_button,
-    fold      : theme.codeblock.fold,
+    hljswrap  : theme.highlight.enable && config.highlight.wrap,
+    codeblock : theme.codeblock,
     bookmark  : theme.bookmark,
     mediumzoom: theme.mediumzoom,
     lazyload  : theme.lazyload,
@@ -35,7 +35,7 @@ hexo.extend.helper.register('next_config', function() {
       hits       : __('search.hits', '${hits}')
     }
   };
-  if (config.algolia && theme.algolia_search && theme.algolia_search.enable) {
+  if (config.algolia && theme.algolia_search?.enable) {
     exportConfig.algolia = {
       appID    : config.algolia.applicationID || config.algolia.appId,
       apiKey   : config.algolia.apiKey,
@@ -43,7 +43,7 @@ hexo.extend.helper.register('next_config', function() {
       hits     : theme.algolia_search.hits
     };
   }
-  if (config.search && theme.local_search && theme.local_search.enable) {
+  if (config.search && theme.local_search?.enable) {
     exportConfig.path = url_for(config.search.path);
     exportConfig.localsearch = theme.local_search;
   }

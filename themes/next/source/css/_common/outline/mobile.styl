@@ -1,10 +1,3 @@
-/*
-// < 767px
-+mobile() {
-
-}
-*/
-
 if (hexo-config('mobile_layout_economy')) {
   +mobile-small() {
     // For Pisces & Gemini schemes only wider width (remove main blocks in Gemini).
@@ -57,7 +50,7 @@ if (hexo-config('mobile_layout_economy')) {
       }
 
       // Fix issue #641
-      img + figcaption, .fancybox + figcaption {
+      figure:not(.highlight) figcaption {
         margin: -5px auto 15px !important;
       }
 
@@ -86,9 +79,3 @@ if (hexo-config('mobile_layout_economy')) {
     }
   }
 }
-/*
-// < 413px
-+mobile-smallest() {
-
-}
-*/

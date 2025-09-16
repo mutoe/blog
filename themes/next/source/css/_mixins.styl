@@ -52,6 +52,16 @@ desktop-largest() {
   }
 }
 
+sidebar() {
+  if (($scheme == 'Muse') or ($scheme == 'Mist')) {
+    {block}
+  } else {
+    +tablet-mobile() {
+      {block}
+    }
+  }
+}
+
 random-color($min, $max) {
   return floor(math(0, 'random') * ($max - $min + 1) + $min);
 }
@@ -61,24 +71,17 @@ word-wrap() {
 }
 
 disable-user-select() {
-  -moz-user-select: none;
-  -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
 }
 
 sidebar-inline-links-item() {
-  margin: 5px 0 0;
-
-  a {
-    box-sizing: border-box;
-    display: inline-block;
-    max-width: 100%;
-    overflow: hidden;
-    padding: 0 5px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  box-sizing: border-box;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 flex-wrap() {
@@ -103,7 +106,7 @@ font-family-icons($icon = '') {
   if ($icon) {
     content: $icon;
   }
-  font-family: 'Font Awesome 6 Free';
+  font-family: 'Font Awesome 7 Free';
   font-weight: 900;
 }
 
@@ -124,16 +127,9 @@ main-container() {
   }
 }
 
-sidebar-toggle-alignment($reverse) {
-  $condition = hexo-config('sidebar.position') == 'right';
-  if (($scheme == 'Muse') or ($scheme == 'Mist')) {
-    $condition = $condition == $reverse;
-  }
-  return $condition ? ('left' 'right') : ('right' 'left');
-}
-
 sidebar-toggle-position($reverse) {
-  $alignment = sidebar-toggle-alignment($reverse)[0];
+  $condition = ($sidebar-toggle-alignment == 'right') == $reverse;
+  $alignment = $condition ? 'left' : 'right';
   {$alignment}: $b2t-position-right;
   +tablet-mobile() {
     {$alignment}: $b2t-position-right-mobile;
@@ -271,4 +267,24 @@ gemini-block-not-first() {
   +mobile() {
     margin-top: $content-mobile-padding;
   }
+}
+
+menu-item-row() {
+  display: flex;
+  align-items: center;
+
+  .badge {
+    margin-left: auto;
+  }
+}
+
+badge() {
+  background: $badge-background;
+  border-radius: $badge-border-radius;
+  color: $badge-color;
+  font-weight: bold;
+  line-height: 1;
+  margin-left: .35em;
+  padding: $badge-padding;
+  text-shadow: $badge-text-shadow;
 }
