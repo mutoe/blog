@@ -7,7 +7,7 @@
   "dependencies": {
     "gulp": "^4.0.2",
     "gulp-htmlmin": "^5.0.1",
-    "hexo": "^6.0.0",
+    "hexo": "^6.3.0",
     "hexo-browsersync": "^0.3.0",
     "hexo-deployer-git": "^3.0.0",
     "hexo-generator-archive": "^2.0.0",
