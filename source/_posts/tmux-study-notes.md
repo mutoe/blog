@@ -90,6 +90,8 @@ Tmux 的所有快捷键都需要先按下**前缀键** <kbd>Ctrl-b</kbd>，然�
 | `Prefix Alt-{方向键}` | 以 5 个单元格为步长调整大小 |
 | `Prefix Ctrl-{方向键}` | 以 1 个单元格为步长调整大小 |
 
+> 开启鼠标模式（`set -g mouse on`）后，可以直接拖拽窗格边框来调整大小，比快捷键直观很多。
+
 # 复制模式
 
 默认情况下 tmux 使用 emacs 风格的按键，可以设置为 vi 风格（见下文配置）。以下按键基于 vi 模式。
@@ -355,7 +357,15 @@ set -s extended-keys on
 set -as terminal-features 'xterm*:extkeys'
 ```
 
-不加这个的话只能用 <kbd>Ctrl+J</kbd> 或 `\` + <kbd>Enter</kbd> 来换行，不太顺手。
+如果你用的是 iTerm2 + tmux 的组合，加了上面的配置可能还是不行。还需要在 iTerm2 中开启 CSI u 模式：Preferences → Profiles → Keys → General → 把 Report modifiers using CSI u 设置为 **All keys**。
+
+不加这些的话只能用 <kbd>Ctrl+J</kbd> 或 `\` + <kbd>Enter</kbd> 来换行，不太顺手。
+
+### Cmd+V 粘贴图片不生效
+
+在 macOS 上，Claude Code 支持用 <kbd>Cmd+V</kbd> 粘贴剪贴板中的图片，但在 tmux 中这个功能不生效。tmux 拦截了粘贴事件，只会把剪贴板当成纯文本处理。
+
+替代方案：用 <kbd>Ctrl+V</kbd> 代替，Claude Code 也绑定了这个快捷键来粘贴图片，在 tmux 中可以正常使用。
 
 ### 防止画面闪烁
 
