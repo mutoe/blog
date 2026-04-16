@@ -2,7 +2,7 @@
   "name": "mutoe-blog",
   "private": true,
   "hexo": {
-    "version": "8.0.0"
+    "version": "8.1.1"
   },
   "scripts": {
     "dev": "hexo server",
@@ -12,20 +12,20 @@
   "dependencies": {
     "gulp": "^5.0.1",
     "gulp-htmlmin": "^5.0.1",
-    "hexo": "^8.0.0",
+    "hexo": "^8.1.1",
     "hexo-browsersync": "^0.3.0",
     "hexo-deployer-git": "^4.0.0",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-baidu-sitemap": "^0.1.9",
     "hexo-generator-category": "^2.0.0",
-    "hexo-generator-feed": "^3.0.0",
+    "hexo-generator-feed": "^4.0.0",
     "hexo-generator-index": "^4.0.0",
     "hexo-generator-searchdb": "^1.5.0",
     "hexo-generator-sitemap": "^3.0.1",
     "hexo-generator-tag": "^2.0.0",
     "hexo-renderer-ejs": "^2.0.0",
-    "hexo-renderer-marked": "^6.3.0",
-    "hexo-renderer-stylus": "^2.1.0",
+    "hexo-renderer-marked": "^7.0.1",
+    "hexo-renderer-stylus": "^3.0.1",
     "hexo-server": "^3.0.0"
   }
 }
